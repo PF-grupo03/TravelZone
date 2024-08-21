@@ -34,7 +34,7 @@ export class CategoriesRepository {
       );
       return 'Categorías Agregadas Correctamente';
     } catch (error) {
-      throw new InternalServerErrorException('Error adding categories to the database.');
+      throw new InternalServerErrorException('Error adding categories to the database');
     }
   }
 }
