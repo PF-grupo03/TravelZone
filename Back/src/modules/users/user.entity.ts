@@ -4,7 +4,7 @@ import { OrderEntity } from "../orders/order.entity";
 @Entity('users')
 export class UserEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column()
     username: string;
@@ -19,10 +19,10 @@ export class UserEntity {
     password: string;
 
     @Column()
-    dni: Number;
+    dni: number;
 
     @Column()
-    phone: Number;
+    phone: number;
 
     @Column()
     address: string;
