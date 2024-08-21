@@ -10,9 +10,9 @@ export class CategoryEntity {
   @Column()
   name: string;
 
-  @OneToMany(() => ProductEntity, (product) => product.category)
+  @OneToMany(() => ProductEntity, (product) => product.categories)
   products: ProductEntity[];
 
-  @OneToMany(() => ExpertEntity, (expert) => expert.category)
+  @OneToMany(() => ExpertEntity, (expert) => expert.categories)
   expert: ExpertEntity[];
 }

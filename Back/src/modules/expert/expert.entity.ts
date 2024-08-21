@@ -16,5 +16,5 @@ export class ExpertEntity {
   categoryId: string;
 
   @ManyToOne(() => CategoryEntity, (category) => category.expert)
-  category: CategoryEntity;
+  categories: CategoryEntity[];
 }

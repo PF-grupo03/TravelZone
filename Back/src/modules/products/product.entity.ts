@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryEntity } from '../categories/category.entity';
 import { OrderDetailsEntity } from '../orders/orderDetails.entity';
 
@@ -31,8 +25,8 @@ export class ProductEntity {
   @Column()
   categoryId: string;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products)
-  category: CategoryEntity;
+  @ManyToMany(() => CategoryEntity, (category) => category.products)
+  categories: CategoryEntity[];
 
   @ManyToMany(() => OrderDetailsEntity, (orderDetails) => orderDetails.product)
   orderDetails: OrderDetailsEntity[];
