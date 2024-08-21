@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { FiltersUsersDto } from './user.dto';
 
@@ -10,4 +10,10 @@ export class UsersController {
     getUsers(@Query() params?: FiltersUsersDto) {
         return this.userService.getUsers(params);
     }
+
+    @Get(':email')
+    getUserByEmail(@Param('email') email: string) {
+        return this.userService.getUserByEmail(email);
+    }
+
 }

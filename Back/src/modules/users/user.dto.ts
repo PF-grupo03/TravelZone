@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsDate,
@@ -62,4 +63,10 @@ export class FiltersUsersDto {
   @IsOptional()
   email: string | undefined;
 }
+
+
+export class LoginUserDto extends PickType(CreateUserDto, [
+  'email',
+  'password'
+]) {}
 

@@ -1,5 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('file-upload')
 export class FileUploadController {
@@ -22,7 +25,7 @@ export class FileUploadController {
             }
         }
     })
-    //* Extraer imagen dede el Formulario del Body del Request:
+    
     @UseInterceptors(FileInterceptor('file'))
     uploadImage(
         @Param('id') productId: string,
