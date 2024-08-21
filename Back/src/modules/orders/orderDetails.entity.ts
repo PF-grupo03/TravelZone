@@ -1,21 +1,27 @@
-import { Column, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { OrderEntity } from "./order.entity";
-import { ProductEntity } from "../products/product.entity";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { OrderEntity } from './order.entity';
+import { ProductEntity } from '../products/product.entity';
 
 @Entity('OrderDetails')
 export class OrderDetailsEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    price: number;
+  @Column()
+  price: number;
 
-    @Column()
-    orderId: string;
+  @Column()
+  orderId: string;
 
-    @OneToOne(() => OrderEntity, (order) => order.orderDetails)
-    order: OrderEntity;
+  @OneToOne(() => OrderEntity, (order) => order.orderDetails)
+  order: OrderEntity;
 
-    @ManyToMany(() => ProductEntity, (product) => product.orderDetails)
-    product: ProductEntity[];
+  @ManyToMany(() => ProductEntity, (product) => product.orderDetails)
+  product: ProductEntity[];
 }
