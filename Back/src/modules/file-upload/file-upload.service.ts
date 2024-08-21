@@ -2,13 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { FileUploadRepository } from './file-upload.repository';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProductEntity } from '../products/product.entity';
 
 @Injectable()
 export class FileUploadService {
     constructor(
         private readonly fileUploadRepository: FileUploadRepository,
-        @InjectRepository(Products) 
-            private readonly productsRepository: Repository<Products>, 
+        @InjectRepository(ProductEntity) 
+            private readonly productsRepository: Repository<ProductEntity>, 
     ) {}
 
     async uploadImage(file: Express.Multer.File, productId: string) {
