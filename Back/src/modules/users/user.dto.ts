@@ -6,7 +6,10 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsPositive,
+  Min,
 } from 'class-validator';
+
 export class CreateUserDto {
   @IsString()
   username: string;
@@ -45,7 +48,25 @@ export class CreateUserDto {
 
 export class UpdateUserDto extends CreateUserDto {}
 
+export class FiltersUsersDto {
+  @IsOptional()
+  @IsPositive()
+  limit: number | undefined;
+
+  @IsOptional()
+  @Min(0)
+  offset: number | undefined;
+
+  @IsOptional()
+  name: string | undefined;
+
+  @IsOptional()
+  email: string | undefined;
+}
+
+
 export class LoginUserDto extends PickType(CreateUserDto, [
   'email',
   'password'
 ]) {}
+
