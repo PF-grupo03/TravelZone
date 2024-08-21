@@ -43,4 +43,3 @@ export class UserEntity {
   @OneToMany(() => OrderEntity, (order) => order.user)
   order?: OrderEntity[];
 }
-
