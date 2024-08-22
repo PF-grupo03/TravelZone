@@ -13,7 +13,9 @@ export class CategoriesRepository {
 
   async getCategories() {
     try {
-      return this.categoriesRepository.find();
+      const categories = this.categoriesRepository.find();
+      const activeCategories = (await categories).filter(category => category.isActive);
+      return activeCategories
     } catch (error) {
       throw new InternalServerErrorException('Error fetching categories from the database.');
     }
@@ -37,4 +39,33 @@ export class CategoriesRepository {
       throw new InternalServerErrorException('Error adding categories to the database');
     }
   }
+
+  async updateCategory(id: string, data: CreateCategoryDto) {
+    try {
+      await this.categoriesRepository
+        .createQueryBuilder()
+        .update(CategoryEntity)
+        .set({ name: data.category })
+        .where({ id })
+        .execute();
+      return 'Categoría actualizada correctamente';
+    } catch (error) {
+      throw new InternalServerErrorException('Error updating category in the database');
+    }
+  }
+
+  async desactivateCategory(id: string) {
+    try {
+      await this.categoriesRepository
+        .createQueryBuilder()
+        .update(CategoryEntity)
+        .set({ isActive: false })
+        .where({ id })
+        .execute();
+      return 'Categoría desactivada correctamente';
+    } catch (error) {
+      throw new InternalServerErrorException('Error desactivating category in the database');
+    }
+}
+
 }

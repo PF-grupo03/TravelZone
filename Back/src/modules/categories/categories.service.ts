@@ -25,4 +25,20 @@ export class CategoriesService {
       throw new InternalServerErrorException('Error adding categories.');
     }
   }
+
+  async updateCategory(id: string, data: CreateCategoryDto) {
+    try {
+      return await this.categoriesRepository.updateCategory(id, data);
+    } catch (error) {
+      throw new InternalServerErrorException('Error updating category.');
+    }
+  }
+
+  async desactivateCategory(id: string) {
+    try {
+      return await this.categoriesRepository.desactivateCategory(id);
+    } catch (error) {
+      throw new InternalServerErrorException('Error desactivating category.');
+    }
+  }
 }

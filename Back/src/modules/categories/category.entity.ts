@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductEntity } from '../products/product.entity';
@@ -16,9 +15,12 @@ export class CategoryEntity {
   @Column()
   name: string;
 
+  @Column()
+  isActive: boolean;
+
   @ManyToMany(() => ProductEntity, (product) => product.categories)
   products: ProductEntity[];
 
-  @OneToMany(() => ExpertEntity, (expert) => expert.categories)
+  @ManyToMany(() => ExpertEntity, (expert) => expert.categories)
   expert: ExpertEntity[];
 }

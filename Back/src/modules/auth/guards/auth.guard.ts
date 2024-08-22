@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     if(!token) throw new UnauthorizedException('Se necesita token');
 
     try {
-      
+
       const secret = process.env.JWT_SECRET;
       const user = this.jwtService.verify(token, { secret });
       if(!user) {
@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
 
       user.exp = new Date(user.exp * 1000);
       user.roles = user.isAdmin? [Role.Admin] : [Role.User];
-      
+
       request.user = user;
 
       return true;
