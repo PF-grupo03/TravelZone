@@ -59,7 +59,7 @@ export class UsersRepository {
       };
     } catch (error) {
       throw new InternalServerErrorException('Error obteniendo usuarios');
-    }
+    } 
   }
 
   async deleteUser(id: string) {

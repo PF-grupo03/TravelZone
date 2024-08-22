@@ -14,13 +14,12 @@ export class UsersService {
     return this.usersRepository.getUserById(id);
   }
 
-  async updateUser(id: string, userBody: UpdateUserDto) {
-    return await this.usersRepository.updateUser(id, userBody);
+  updateUser(id: string, userBody: UpdateUserDto) {
+    return this.usersRepository.updateUser(id, userBody);
   }
 
-  async deleteUser(id: string) {
-    return await this.usersRepository.deleteUser(id);
-    
+  deleteUser(id: string) {
+    return this.usersRepository.deleteUser(id);
   }
 
   getUserByEmail(email: string) {
