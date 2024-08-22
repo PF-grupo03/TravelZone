@@ -1,14 +1,15 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from '../users/user.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService) {}
 
-    @ApiOperation({ summary: 'Obtener información de autenticación', description: 'Obtiene información general sobre la autenticación.' })    
+    @ApiOperation({ summary: 'Obtener información de autenticación', description: 'Obtiene información general sobre la autenticación.' })
     @Get()
     getAuth() {
         return this.authService.getAuth();

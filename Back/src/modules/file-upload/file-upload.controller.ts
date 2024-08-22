@@ -1,9 +1,10 @@
 import { Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
+@ApiTags('file-upload')
 @Controller('file-upload')
 export class FileUploadController {
     constructor(private readonly fileUploadService: FileUploadService) {}
@@ -25,7 +26,7 @@ export class FileUploadController {
             }
         }
     })
-    
+
     @UseInterceptors(FileInterceptor('file'))
     uploadImage(
         @Param('id') productId: string,

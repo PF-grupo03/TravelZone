@@ -10,7 +10,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { FiltersUsersDto, UpdateUserDto } from './user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
