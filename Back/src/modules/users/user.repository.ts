@@ -1,8 +1,13 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto, FiltersUsersDto } from './user.dto';
+import { CreateUserDto, FiltersUsersDto, UpdateUserDto } from './user.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -12,48 +17,101 @@ export class UsersRepository {
   ) {}
 
   async getUsers(params?: FiltersUsersDto) {
-    const { limit, offset, name, email } = params;
-    return await this.usersRepository.find({
-      where: {
-        name: name || undefined,
-        email: email || undefined,
-      },
-      take: limit,
-      skip: offset,
-    });
+    const { limit, page, name, email } = params;
+    try {
+      return await this.usersRepository.find({
+        where: {
+          name: name || undefined,
+          email: email || undefined,
+          isActive: true,
+        },
+        take: limit || undefined,
+        skip: page || undefined,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Error obteniendo usuarios');
+    }
+  }
+
+  async getUserById(id: string) {
+    try {
+      const userById = await this.usersRepository.findOne({
+        where: { id, isActive: true },
+      });
+      if (!userById) {
+        throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+      }
+      return userById;
+    } catch (error) {
+      throw new InternalServerErrorException('Error obteniendo usuarios');
+    }
+  }
+
+  async updateUser(id: string, userBody: UpdateUserDto) {
+    try {
+      await this.usersRepository.update(id, userBody);
+      const userById = await this.usersRepository.findOne({
+        where: { id, isActive: true },
+      });
+      return userById;
+    } catch (error) {
+      throw new InternalServerErrorException('Error obteniendo usuarios');
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const userById = await this.usersRepository.findOne({
+        where: { id, isActive: true },
+      });
+      if (!userById) {
+        throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+      }
+      userById.isActive = false;
+      await this.usersRepository.save(userById);
+    } catch (error) {
+      throw new InternalServerErrorException('Error obteniendo usuarios');
+    }
   }
 
   async getUserByEmail(email: string): Promise<UserEntity> {
     try {
       const userByEmail = await this.usersRepository.findOneBy({ email });
-        if (!userByEmail) throw new NotFoundException('Usuario no encontrado');
-        return userByEmail;
+      if (!userByEmail) throw new NotFoundException('Usuario no encontrado');
+      return userByEmail;
     } catch (error) {
-        if (error instanceof NotFoundException) {
-             throw error; // Propaga el error NotFoundException
-        }
-        throw new InternalServerErrorException('Error al obtener el usuario por email: ' + error.message);
+      if (error instanceof NotFoundException) {
+        throw error; // Propaga el error NotFoundException
+      }
+      throw new InternalServerErrorException(
+        'Error al obtener el usuario por email: ' + error.message,
+      );
     }
   }
 
   async addUser(user: CreateUserDto): Promise<Partial<UserEntity>> {
     try {
+      const existingUser = await this.usersRepository.findOneBy({
+        email: user.email,
+      });
+      if (existingUser) {
+        throw new BadRequestException('El usuario con este email ya existe');
+      }
 
-        const existingUser = await this.usersRepository.findOneBy({ email: user.email });
-        if (existingUser) {
-            throw new BadRequestException('El usuario con este email ya existe');
-        }
-        
-        const newUser = await this.usersRepository.save(user);
+      const newUser = await this.usersRepository.save(user);
 
-        const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
-        if (!dbUser) throw new InternalServerErrorException(`Error al recuperar el usuario recién creado con id ${newUser.id}`);
+      const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
+      if (!dbUser)
+        throw new InternalServerErrorException(
+          `Error al recuperar el usuario recién creado con id ${newUser.id}`,
+        );
 
-        const { password, IsAdmin, ...userNoPassword } = dbUser;
-        return userNoPassword;
-        
+      const { password, IsAdmin, ...userNoPassword } = dbUser;
+      return userNoPassword;
     } catch (error) {
-        throw new BadRequestException('Error al agregar el usuario: ' + error.message);
+      throw new BadRequestException(
+        'Error al agregar el usuario: ' + error.message,
+      );
     }
   }
 }
