@@ -15,7 +15,9 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({
+    select: false,
+  })
   password: string;
 
   @Column()
@@ -34,11 +36,17 @@ export class UserEntity {
   city: string;
 
   @Column()
-  birthday: Date;
+  birthday: string;
 
-  @Column()
+  @Column({
+    default: true,
+  })
+  isActive: boolean;
+
+  @Column({
+    default: false,
+  })
   IsAdmin: boolean;
-  default = false;
 
   @OneToMany(() => OrderEntity, (order) => order.user)
   order?: OrderEntity[];

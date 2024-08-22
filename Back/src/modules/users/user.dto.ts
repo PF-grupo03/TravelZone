@@ -1,13 +1,13 @@
 import { PickType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
-  IsBoolean,
-  IsDate,
   IsEmail,
   IsNumber,
   IsOptional,
   IsString,
   IsPositive,
   Min,
+  IsEmpty,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -38,24 +38,64 @@ export class CreateUserDto {
   @IsString()
   city: string;
 
-  @IsDate()
-  birthday: Date;
+  @IsString()
+  birthday: string;
 
-  @IsBoolean()
-  @IsOptional()
-  IsAdmin?: boolean = false;
+  @IsEmpty()
+  isActive?: boolean;
+
+  @IsEmpty()
+  IsAdmin?: boolean;
 }
 
-export class UpdateUserDto extends CreateUserDto {}
+export class UpdateUserDto {
+  @IsOptional()
+  username?: string;
+
+  @IsOptional()
+  name?: string;
+
+  @IsOptional()
+  email?: string;
+
+  @IsOptional()
+  password?: string;
+
+  @IsOptional()
+  dni?: number;
+
+  @IsOptional()
+  phone?: number;
+
+  @IsOptional()
+  address?: string;
+
+  @IsOptional()
+  country?: string;
+
+  @IsOptional()
+  city?: string;
+
+  @IsOptional()
+  birthday?: string;
+
+  @IsEmpty()
+  isActive?: boolean;
+
+  @IsEmpty()
+  IsAdmin?: boolean;
+}
 
 export class FiltersUsersDto {
   @IsOptional()
+  @Type(() => Number)
   @IsPositive()
   limit: number | undefined;
 
   @IsOptional()
+  @Type(() => Number)
   @Min(0)
-  offset: number | undefined;
+  page: number | undefined;
 
   @IsOptional()
   name: string | undefined;
