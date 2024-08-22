@@ -1,4 +1,5 @@
 import Carousel from "@/components/Carrousel/index";
+import Footer from "@/components/Footer";
 import Pulpo from "@/components/pulpo";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <>
       <Pulpo />
       <Carousel />
+      <Footer />
     </>
   );
 }
