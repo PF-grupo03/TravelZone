@@ -28,6 +28,11 @@ export class ProductEntity {
   @Column()
   imgUrl: string;
 
+  @Column({
+    default: true,
+  })
+  isActive: boolean;
+
   @ManyToMany(() => CategoryEntity, (category) => category.products)
   @JoinColumn({ name: 'category__id' })
   categories: CategoryEntity[];
