@@ -5,19 +5,19 @@ export default function Footer() {
   return (
     <div
       className="bg-cover bg-center w-full h-64 flex"
-      style={{ backgroundImage: 'url("https://e1.pxfuel.com/desktop-wallpaper/273/302/desktop-wallpaper-travel-group-traveling.jpg")' }}
+      style={{ backgroundImage: 'url("/Imagenes Pulpo/Fondo3.jpeg")' }}
     >
       <div className="flex items-center justify-center w-1/4 h-full pl-4">
-        <h1 className="transform rotate-90 text-3xl font-bold text-black leading-tight">
+        <h1 className="transform rotate-90 text-3xl font-bold text-white leading-tight">
           Travel beyond your imagination, with our Travel Agency!
         </h1>
       </div>
       <div className="flex flex-col justify-center items-center space-y-2 w-2/4 h-full">
-        <h2 className="font-bold text-black">Address</h2>
-        <p className="text-black">1080 Bicrest Ave</p>
-        <p className="text-black">Miami - Florida</p>
-        <p className="text-black">U.S. of America</p>
-        <div className="flex space-x-4 text-black">
+        <h2 className="font-bold text-white">Address</h2>
+        <p className="text-white">1080 Bicrest Ave</p>
+        <p className="text-white">Miami - Florida</p>
+        <p className="text-white">U.S. of America</p>
+        <div className="flex space-x-4 text-white">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-facebook"></i>
           </a>
@@ -33,14 +33,14 @@ export default function Footer() {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center space-y-2 w-1/4 h-full">
-        <h2 className="font-bold text-black">Contact</h2>
+        <h2 className="font-bold text-white">Contact</h2>
         <a
           href="mailto:info@travel.com"
           className="bg-orange-600 text-white px-4 py-2 rounded-full inline-block"
         >
           info@travel.com
         </a>
-        <p className="text-black">+01 483 593 284</p>
+        <p className="text-white">+01 483 593 284</p>
       </div>
     </div>
   );
