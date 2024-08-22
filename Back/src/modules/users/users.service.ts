@@ -15,18 +15,12 @@ export class UsersService {
   }
 
   async updateUser(id: string, userBody: UpdateUserDto) {
-    const userUpdated = await this.usersRepository.updateUser(id, userBody);
-    return {
-      message: 'Usuario actualizado correctamente',
-      userUpdated,
-    };
+    return await this.usersRepository.updateUser(id, userBody);
   }
 
   async deleteUser(id: string) {
-    await this.usersRepository.deleteUser(id);
-    return {
-      message: 'Usuario eliminado correctamente',
-    };
+    return await this.usersRepository.deleteUser(id);
+    
   }
 
   getUserByEmail(email: string) {
