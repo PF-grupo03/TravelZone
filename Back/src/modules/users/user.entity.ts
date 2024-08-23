@@ -35,9 +35,6 @@ export class UserEntity {
   @Column()
   city: string;
 
-  @Column()
-  birthday: string;
-
   @Column({
     default: true,
   })

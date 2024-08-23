@@ -1,7 +1,7 @@
 import { Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
 @ApiTags('file-upload')
@@ -9,8 +9,11 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 export class FileUploadController {
     constructor(private readonly fileUploadService: FileUploadService) {}
 
-    @ApiOperation({ summary: 'Subir imagen para un producto', description: 'Sube una imagen para un producto específico identificado por su ID.' })
     @Post('uploadImage/:id')
+    @ApiOperation({ summary: 'Upload image for a product', description: 'Upload an image for a specific product identified by its ID' })
+    @ApiResponse({ status: 200, description: 'Image uploaded successfully' })
+    @ApiResponse({ status: 400, description: 'Bad request' })
+    @ApiResponse({ status: 500, description: 'Internal server error' })
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @ApiConsumes('multipart/form-data')
