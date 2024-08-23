@@ -63,13 +63,15 @@ export class ProductsRepository {
           isActive: true,
         },
       });
-      const category = categories.find(
-        (category) => category.name === product.categories,
-      );
-      if (!category) throw new Error('Categoria no encontrada');
+      const categoryMatch = categories.filter((category) => {
+        product.categories.includes(category.name)
+      })
+      if (categoryMatch.length !== product.categories.length) {
+        throw new BadRequestException('Categorías no fueron encontradas');
+      }
       const newProduct = this.productsRepository.create({
         ...product,
-        categories,
+        categories: categoryMatch,
       });
       return await this.productsRepository.save(newProduct);
     } catch (error) {

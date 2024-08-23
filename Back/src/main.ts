@@ -11,14 +11,16 @@ async function bootstrap() {
     .setDescription('Proyecto Final Grupo03 Travel Zone')
     .setVersion('1.0.0')
     .addBearerAuth()
-    .build()
+    .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist:true,
-  }));
-  await app.listen(3006);
-  console.log(`Application is running good`);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
+  await app.listen(3000);
+  console.log('connection to the server succesful');
 }
 bootstrap();
