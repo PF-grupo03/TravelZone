@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductEntity } from '../products/product.entity';
-import { ExpertEntity } from '../expert/expert.entity';
+
 
 @Entity('categories')
 export class CategoryEntity {
@@ -21,6 +21,4 @@ export class CategoryEntity {
   @ManyToMany(() => ProductEntity, (product) => product.categories)
   products: ProductEntity[];
 
-  @ManyToMany(() => ExpertEntity, (expert) => expert.categories)
-  expert: ExpertEntity[];
 }
