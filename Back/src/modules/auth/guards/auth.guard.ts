@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { Role } from 'src/modules/users/roles.enum';
 
@@ -11,7 +10,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    //* Obtenemos el contexto de ejecucion:
+    
     const request = context.switchToHttp().getRequest();
 
     const token = request.headers.authorization?.split(' ')[1];

@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { log } from 'console';
-const PORT = process.env.DB_PORT || 3000;
+
+
 
 
 async function bootstrap() {
@@ -21,7 +21,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist:true,
   }));
-  await app.listen(PORT);
+  await app.listen(3000);
   console.log('connection to the server succesful');
   
 }
