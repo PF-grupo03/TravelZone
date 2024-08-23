@@ -53,10 +53,13 @@ export class UsersRepository {
       const userById = await this.usersRepository.findOne({
         where: { id, isActive: true },
       });
-      return userById;
+      return {
+        message: 'Usuario actualizado correctamente',
+        userById,
+      };
     } catch (error) {
       throw new InternalServerErrorException('Error obteniendo usuarios');
-    }
+    } 
   }
 
   async deleteUser(id: string) {
@@ -69,6 +72,9 @@ export class UsersRepository {
       }
       userById.isActive = false;
       await this.usersRepository.save(userById);
+      return {
+        message: 'Usuario eliminado correctamente', 
+      };
     } catch (error) {
       throw new InternalServerErrorException('Error obteniendo usuarios');
     }

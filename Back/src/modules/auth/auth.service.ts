@@ -16,6 +16,16 @@ export class AuthService {
         return "Autenticación...";
     }
 
+    async findUserByEmail(email: string) {
+        // Implementa la lógica para encontrar un usuario por su email
+        return this.usersRepository.getUserByEmail(email);
+    }
+
+    async generateJwt(user: any) {
+        const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin };
+        return this.jwtService.sign(payload);
+    }
+    
     async signIn(email: string, password: string) {
         
         
