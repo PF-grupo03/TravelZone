@@ -27,7 +27,7 @@ const Login = () => {
 			<div className="w-full max-w-md  flex flex-col bg-white p-8 shadow-lg rounded-l-lg">
 				<h2 className="text-3xl font-bold mb-4 text-center">Login</h2>
 				<p className="text-gray-600 text-center mb-8">
-					Login to access your Tavel Zone account
+					Login to access your Travel Zone account
 				</p>
 				<form>
 					<div className="mb-4">
