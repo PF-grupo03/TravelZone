@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsEmpty, IsOptional, IsPositive, Min } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsEmpty,
+  IsOptional,
+  IsPositive,
+  Min,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -18,10 +25,39 @@ export class CreateProductDto {
   imgUrl: string;
 
   @IsEmpty()
-  isActive: boolean;
+  isActive?: boolean;
+
+  @IsString()
+  categories: string;
 }
 
-export class UpdateProductDto extends CreateProductDto {}
+export class UpdateProductDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsNumber()
+  price?: number;
+
+  @IsOptional()
+  @IsNumber()
+  stock?: number;
+
+  @IsOptional()
+  @IsString()
+  imgUrl?: string;
+
+  @IsEmpty()
+  isActive?: boolean;
+
+  @IsEmpty()
+  categories?: string;
+}
 
 export class FiltersProductsDto {
   @IsOptional()
