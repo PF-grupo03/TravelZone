@@ -27,8 +27,8 @@ export class CreateProductDto {
   @IsEmpty()
   isActive?: boolean;
 
-  @IsString()
-  categories: string;
+  @IsEmpty()
+  categories?: string;
 }
 
 export class UpdateProductDto {
@@ -54,9 +54,6 @@ export class UpdateProductDto {
 
   @IsEmpty()
   isActive?: boolean;
-
-  @IsEmpty()
-  categories?: string;
 }
 
 export class FiltersProductsDto {

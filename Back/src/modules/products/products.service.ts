@@ -15,10 +15,14 @@ export class ProductsService {
   }
 
   createProduct(product: CreateProductDto) {
-    return this.productsRepository.createProduct(product)
+    return this.productsRepository.createProduct(product);
   }
 
   updateProduct(id: string, product: UpdateProductDto) {
     return this.productsRepository.updateProduct(id, product);
+  } 
+
+  deleteProduct(id: string) {
+    return this.productsRepository.deleteProduct(id);
   }
 }

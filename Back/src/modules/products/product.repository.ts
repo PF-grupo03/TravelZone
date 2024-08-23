@@ -88,9 +88,34 @@ export class ProductsRepository {
       if (!productById) {
         throw new Error('Id de producto inexistente');
       }
-      return await this.productsRepository.update(id, product)
+      await this.productsRepository.update(id, product);
+      return await this.productsRepository.findOne({
+        where: { id, isActive: true },
+        relations: {
+          categories: true,
+        },
+      });
     } catch (error) {
-      throw new InternalServerErrorException('Error obteniendo el producto');
+      throw new InternalServerErrorException('Error actualizando el producto');
+    }
+  }
+
+  async deleteProduct(id: string) {
+    try {
+      const productById = await this.productsRepository.findOne({
+        where: { id, isActive: true },
+        relations: {
+          categories: true,
+        },
+      });
+      if (!productById) {
+        throw new Error('Id de producto inexistente');
+      }
+      productById.isActive = false;
+      await this.productsRepository.save(productById);
+      return 'Producto eliminado correctamente';
+    } catch (error) {
+      throw new InternalServerErrorException('Error eliminando el producto');
     }
   }
 }
