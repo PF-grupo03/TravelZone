@@ -12,16 +12,19 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const config = {
   type: 'postgres',
   host: DB_HOST,
-  port: DB_PORT as unknown as number,
+  port: Number(DB_PORT),
   username: DB_USERNAME,
-  password: DB_PASSWORD,
+  password: String(DB_PASSWORD),
   database: DB_NAME,
   entities: ['dist/**/*.entity{.ts,.js}'],
   autoLoadEntities: true,
   migrations: ['dist/migrations/*{.ts,.js}'],
-  logging: ['error'],
-  dropSchema: false,
+  logging: false,
+  dropSchema: true,
   synchronize: true,
+  ssl:{
+    rejectUnauthorized: false,
+  },
 };
 export const typeOrmConfig = registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);

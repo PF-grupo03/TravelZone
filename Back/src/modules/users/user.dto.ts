@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import {Type} from 'class-transformer';
 import {
   IsEmail,
   IsNumber,
