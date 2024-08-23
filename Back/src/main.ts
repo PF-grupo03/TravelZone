@@ -20,5 +20,6 @@ async function bootstrap() {
     whitelist:true,
   }));
   await app.listen(3000);
+  console.log('connection to the server successful')
 }
 bootstrap();
