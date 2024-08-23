@@ -6,29 +6,40 @@ import {
   IsOptional,
   IsPositive,
   Min,
+  IsArray,
+  ValidateNested,
+  IsNotEmpty,
 } from 'class-validator';
+import { CategoryEntity } from '../categories/category.entity';
 
 export class CreateProductDto {
+  @IsNotEmpty()
   @IsString()
   name: string;
 
+  @IsNotEmpty()
   @IsString()
   description: string;
 
+  @IsNotEmpty()
   @IsNumber()
   price: number;
 
+  @IsNotEmpty()
   @IsNumber()
   stock: number;
 
+  @IsNotEmpty()
   @IsString()
   imgUrl: string;
 
   @IsEmpty()
   isActive?: boolean;
 
-  @IsEmpty()
-  categories?: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CategoryEntity)
+  categories: string[];
 }
 
 export class UpdateProductDto {
@@ -54,6 +65,9 @@ export class UpdateProductDto {
 
   @IsEmpty()
   isActive?: boolean;
+
+  @IsEmpty()
+  categories?: CategoryEntity[];
 }
 
 export class FiltersProductsDto {
