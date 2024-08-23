@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from '../users/user.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -39,6 +39,11 @@ export class AuthController {
         // console.log(req.user);
 
         const {user} = req;
+
+        if (user instanceof BadRequestException && user.message === 'Usuario no encontrado') {
+            // Redirigir a la ruta de registro
+            return res.redirect('/auth/signup');
+          }
 
         if (!user) {
             return res.status(400).send('No se pudo autenticar el usuario');
