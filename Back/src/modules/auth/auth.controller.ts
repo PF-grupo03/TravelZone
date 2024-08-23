@@ -21,7 +21,7 @@ export class AuthController {
 
     }
 
-    @Get('auth/google/callback')
+    @Get('google/callback')
     @UseGuards(AuthGuard('google'))
     async callback(@Req() req, @Res() res) {
         const jwt = await this.authService.signIn(req.user.email, req.user.password);

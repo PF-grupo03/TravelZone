@@ -9,8 +9,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy){
         super({
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_SECRET,
-            callbackURL: 'http//localhost:3000/auth/google/callback',
-            Scope: ['email', 'profile']
+            callbackURL: 'http://localhost:3000/auth/google/callback',
+            scope: ['email', 'profile']
         })
     }
 
