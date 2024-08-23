@@ -1,10 +1,7 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { ProductsService } from './products.service';
-<<<<<<< HEAD
 import { ApiTags } from '@nestjs/swagger';
-=======
 import { CreateProductDto, UpdateProductDto } from './product.dto';
->>>>>>> 68bd0ca9e415285698abae8b0e5b1008b0423431
 
 @ApiTags('products')
 @Controller('products')

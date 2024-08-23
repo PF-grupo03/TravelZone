@@ -10,7 +10,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { FileUploadModule } from './modules/file-upload/file-upload.module';
 import { OrdersModule } from './modules/orders/orders.module';
-import { ExpertModule } from './modules/expert/expert.module';
 
 @Module({
   imports: [
@@ -33,7 +32,6 @@ import { ExpertModule } from './modules/expert/expert.module';
     CategoriesModule,
     FileUploadModule,
     OrdersModule,
-    ExpertModule,
   ],
 })
 export class AppModule {}
