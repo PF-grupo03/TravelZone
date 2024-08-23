@@ -14,4 +14,6 @@ export class ProductsController {
   getProductById(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.getProductById(id);
   }
+
+  
 }
