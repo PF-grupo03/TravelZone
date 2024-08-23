@@ -24,9 +24,19 @@ export class AuthController {
     @Get('google/callback')
     @UseGuards(AuthGuard('google'))
     async callback(@Req() req, @Res() res) {
-        const jwt = await this.authService.signIn(req.user.email, req.user.password);
-        res.set('authorization', jwt.token)
-        res.json(req.user);
+        // console.log(req.user);
+        
+        const {user} = req;
+
+        if (!user) {
+            return res.status(400).send('No se pudo autenticar el usuario');
+        }
+
+        res.setHeader('Authorization', `Bearer ${user.token}`);
+        res.json(user)
+        // const jwt = await this.authService.signIn(req.user.email, req.user.password);
+        // res.set('authorization', jwt.token)
+        // res.json(req.user);
     }
 
     @Get('test')
