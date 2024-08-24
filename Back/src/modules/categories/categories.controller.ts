@@ -34,7 +34,6 @@ export class CategoriesController {
   @ApiOperation({ summary: 'Add category', description: 'Add new category' })
   @ApiResponse({ status: 200, description: 'Category added successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 404, description: 'Category not found' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
   @ApiBody({ type: [CreateCategoryDto] })
   @UseGuards(RolesGuard)

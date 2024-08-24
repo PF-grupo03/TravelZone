@@ -15,40 +15,40 @@ import { CategoryEntity } from '../categories/category.entity';
 
 export class CreateProductDto {
   @ApiProperty({
-    description: 'Name of the product',
-    example: 'Laptop',
+    description: 'Nombre del paquete de viaje',
+    example: 'Medellín + San Andrés: puesta de sol urbana e isla desierta',
   })
   @IsNotEmpty()
   @IsString()
   name: string;
 
   @ApiProperty({
-    description: 'Description of the product',
-    example: 'High-performance laptop with 16GB RAM',
+    description: 'Descripción detallada del paquete de viaje',
+    example: 'Paquete de 6 días y 5 noches que incluye visitas a Medellín y San Andrés, con tours a la Piedra del Peñón y excursiones en bote a los cayos.',
   })
   @IsNotEmpty()
   @IsString()
   description: string;
 
   @ApiProperty({
-    description: 'Price of the product',
-    example: 1200,
+    description: 'Precio del paquete de viaje',
+    example: 1250,
   })
   @IsNotEmpty()
   @IsNumber()
   price: number;
 
   @ApiProperty({
-    description: 'Stock quantity of the product',
-    example: 50,
+    description: 'Cantidad de paquetes disponibles',
+    example: 20,
   })
   @IsNotEmpty()
   @IsNumber()
   stock: number;
 
   @ApiProperty({
-    description: 'Image URL of the product',
-    example: 'https://example.com/laptop.jpg',
+    description: 'URL de la imagen del paquete de viaje',
+    example: 'https://example.com/medellin-sanandres.jpg',
   })
   @IsNotEmpty()
   @IsString()
@@ -59,51 +59,50 @@ export class CreateProductDto {
   isActive?: boolean;
 
   @ApiProperty({
-    description: 'Categories associated with the product',
-    example: ['Electronics', 'Computers'],
+    description: 'Categorías asociadas al paquete de viaje',
+    example: ['adventure', 'relax'],
   })
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CategoryEntity)
+  @IsString({ each: true })
   categories: string[];
 }
 
 export class UpdateProductDto {
   @ApiPropertyOptional({
-    description: 'Name of the product',
-    example: 'Laptop',
+    description: 'Nombre del paquete de viaje',
+    example: 'Medellín + San Andrés: puesta de sol urbana e isla desierta',
   })
   @IsOptional()
   @IsString()
   name?: string;
 
   @ApiPropertyOptional({
-    description: 'Description of the product',
-    example: 'High-performance laptop with 16GB RAM',
+    description: 'Descripción detallada del paquete de viaje',
+    example: 'Paquete de 6 días y 5 noches que incluye visitas a Medellín y San Andrés, con tours a la Piedra del Peñón y excursiones en bote a los cayos.',
   })
   @IsOptional()
   @IsString()
   description?: string;
 
   @ApiPropertyOptional({
-    description: 'Price of the product',
-    example: 1200,
+    description: 'Precio del paquete de viaje',
+    example: 1250,
   })
   @IsOptional()
   @IsNumber()
   price?: number;
 
   @ApiPropertyOptional({
-    description: 'Stock quantity of the product',
-    example: 50,
+    description: 'Cantidad de paquetes disponibles',
+    example: 20,
   })
   @IsOptional()
   @IsNumber()
   stock?: number;
 
   @ApiPropertyOptional({
-    description: 'Image URL of the product',
-    example: 'https://example.com/laptop.jpg',
+    description: 'URL de la imagen del paquete de viaje',
+    example: 'https://example.com/medellin-sanandres.jpg',
   })
   @IsOptional()
   @IsString()
@@ -120,7 +119,7 @@ export class UpdateProductDto {
 
 export class FiltersProductsDto {
   @ApiPropertyOptional({
-    description: 'Limit the number of results',
+    description: 'Limitar el número de resultados',
     example: 10,
   })
   @IsOptional()
@@ -129,7 +128,7 @@ export class FiltersProductsDto {
   limit?: number;
 
   @ApiPropertyOptional({
-    description: 'Page number for pagination',
+    description: 'Número de página para la paginación',
     example: 1,
   })
   @IsOptional()
@@ -138,16 +137,16 @@ export class FiltersProductsDto {
   page?: number;
 
   @ApiPropertyOptional({
-    description: 'Filter by name',
-    example: 'Laptop',
+    description: 'Filtrar por nombre del paquete de viaje',
+    example: 'Medellín + San Andrés',
   })
   @IsOptional()
   @IsString()
   name?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by price',
-    example: 1200,
+    description: 'Filtrar por precio',
+    example: 1250,
   })
   @IsOptional()
   @Type(() => Number)
