@@ -1,5 +1,5 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean, IsEmpty } from 'class-validator';
 
 export class CreateCategoryDto {
   @ApiProperty({
@@ -8,12 +8,11 @@ export class CreateCategoryDto {
   })
   @IsString()
   @IsNotEmpty()
-  category: string;
+  name: string;
 
   @ApiHideProperty()
-  @IsBoolean()
-  @IsNotEmpty()
-  isActive: boolean = true;
+  @IsEmpty()
+  isActive?: boolean;
 }
 
 export class UpdateCategoryDto {
@@ -28,5 +27,5 @@ export class UpdateCategoryDto {
   @ApiHideProperty()
   @IsBoolean()
   @IsNotEmpty()
-  isActive: boolean = true;
+  isActive: boolean;
 }

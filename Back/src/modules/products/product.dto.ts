@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional, ApiHideProperty } from '@nestjs/swagger';
 import {
   IsString,
@@ -35,6 +35,7 @@ export class CreateProductDto {
     example: 1250,
   })
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
   price: number;
 
@@ -43,6 +44,7 @@ export class CreateProductDto {
     example: 20,
   })
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
   stock: number;
 
@@ -50,8 +52,7 @@ export class CreateProductDto {
     description: 'URL de la imagen del paquete de viaje',
     example: 'https://example.com/medellin-sanandres.jpg',
   })
-  @IsNotEmpty()
-  @IsString()
+  @IsEmpty()
   imgUrl: string;
 
   @ApiHideProperty()
@@ -63,7 +64,20 @@ export class CreateProductDto {
     example: ['adventure', 'relax'],
   })
   @IsArray()
+  @IsNotEmpty({ each: true })
   @IsString({ each: true })
+  @Transform(({ value }) => {
+    // Intenta convertir el string a un array
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        // Si no se puede convertir, retorna un array vacío o lanza un error
+        return [];
+      }
+    }
+    return value; // Si ya es un array, lo devuelve tal cual
+  })
   categories: string[];
 }
 
@@ -104,8 +118,7 @@ export class UpdateProductDto {
     description: 'URL de la imagen del paquete de viaje',
     example: 'https://example.com/medellin-sanandres.jpg',
   })
-  @IsOptional()
-  @IsString()
+  @IsEmpty()
   imgUrl?: string;
 
   @ApiHideProperty()
