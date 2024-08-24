@@ -7,7 +7,6 @@ import { UserEntity } from "../users/user.entity";
 import { OrderEntity } from "./order.entity";
 import { OrderDetailsEntity } from "./orderDetails.entity";
 
-
 @Injectable()
 export class OrdersRepository {
     constructor(
@@ -26,11 +25,9 @@ export class OrdersRepository {
     async addOrder(userId: string, products: CreateOrderDto['products']) {
         let total = 0;
         let order: OrderEntity;
-        let productsArray: ProductEntity[] = [];
-        const productIds = new Set<string>();
-
-        
+        const productsArray: ProductEntity[] = [];
         const productIdsInOrder = new Set<string>();
+
         for (const element of products) {
             if (productIdsInOrder.has(element.id)) {
                 throw new BadRequestException(`No se pueden comprar dos productos iguales: Producto con id ${element.id} repetido`);
@@ -39,8 +36,8 @@ export class OrdersRepository {
         }
 
         await this.entityManager.transaction(async (transactionalEntityManager) => {
-            
-            const user = await transactionalEntityManager.getRepository(UserEntity).findOneBy({ id: userId });
+
+            const user = await transactionalEntityManager.getRepository(UserEntity).findOne({ where: { id: userId } });
             if (!user) {
                 throw new NotFoundException(`Usuario con id ${userId} no encontrado`);
             }
@@ -51,16 +48,16 @@ export class OrdersRepository {
             const newOrder = await transactionalEntityManager.getRepository(OrderEntity).save(order);
 
             try {
-                
+
                 for (const element of products) {
-                    const product = await transactionalEntityManager.getRepository(ProductEntity).findOneBy({ id: element.id });
+                    const product = await transactionalEntityManager.getRepository(ProductEntity).findOne({ where: { id: element.id } });
                     if (!product) {
                         throw new BadRequestException(`Producto con id ${element.id} no encontrado`);
                     }
                     if (product.stock <= 0) {
                         throw new BadRequestException(`Producto con id ${element.id} no disponible en stock`);
                     }
-                    
+
                     total += Number(product.price);
                     product.stock -= 1;
                     productsArray.push(product);
@@ -69,7 +66,7 @@ export class OrdersRepository {
 
                 let finalTotal = total;
                 if (total > 200) {
-                    finalTotal = (total - 200) * 1.13 + 200; 
+                    finalTotal = (total - 200) * 1.13 + 200;
                 }
 
                 const orderDetail = new OrderDetailsEntity();
@@ -83,14 +80,13 @@ export class OrdersRepository {
 
             } catch (error) {
                 if (error instanceof BadRequestException) {
-                    throw error;  
+                    throw error;
                 }
                 throw new InternalServerErrorException('Error al procesar la orden: ' + error.message);
             }
-            
+
         });
 
-        
         const orderConStock = await this.ordersRepository.findOne({
             where: { id: order.id },
             relations: {
@@ -99,7 +95,7 @@ export class OrdersRepository {
                 },
             },
         });
-        
+
         const sanitizedOrder = {
             ...orderConStock,
             orderDetails: {
@@ -108,8 +104,6 @@ export class OrdersRepository {
             }
         };
         return sanitizedOrder;
-        
-        
     }
 
     async getOrder(id: string) {
@@ -135,5 +129,4 @@ export class OrdersRepository {
         };
         return sanitizedOrder;
     }
-
 }

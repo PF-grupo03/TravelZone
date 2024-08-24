@@ -35,26 +35,22 @@ export class AuthController {
     @ApiResponse({ status: 404, description: 'Google callback not found' })
     @ApiResponse({ status: 500, description: 'Internal server error' })
     @UseGuards(AuthGuard('google'))
+    
     async callback(@Req() req, @Res() res) {
-        // console.log(req.user);
-
-        const {user} = req;
-
-        if (user instanceof BadRequestException && user.message === 'Usuario no encontrado') {
-            // Redirigir a la ruta de registro
-            return res.redirect('/auth/signup');
-          }
-
+        const { user } = req;
+    
         if (!user) {
             return res.status(400).send('No se pudo autenticar el usuario');
         }
-
+    
+        if (user.message === 'Usuario no encontrado') {
+            return res.redirect('/auth/signup');
+        }
+    
         res.setHeader('Authorization', `Bearer ${user.token}`);
-        res.json(user)
-        // const jwt = await this.authService.signIn(req.user.email, req.user.password);
-        // res.set('authorization', jwt.token)
-        // res.json(req.user);
+        res.json(user);
     }
+    
 
     @Get('test')
     @ApiOperation({ summary: 'Get test', description: 'Get test' })
