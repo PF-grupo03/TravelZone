@@ -69,6 +69,8 @@ const MasVisitados = () => {
 				</div>
 			</div>
 		</div>
+
+		</div>
 	);
 };
 

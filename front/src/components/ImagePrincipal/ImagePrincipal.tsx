@@ -26,6 +26,7 @@ const ImagePrincipal = () => {
 				</div>
 			</div>
 		</div>
+	</div>
 	);
 };
 
