@@ -21,10 +21,18 @@ export class CategoriesRepository {
     }
   }
 
+  async getCategoryById(id: string) {
+    try {
+      return await this.categoriesRepository.findOne({ where: { id } });
+    } catch (error) {
+      throw new InternalServerErrorException('Error fetching category from the database.');
+    }
+  }
+
   async addCategories(data: CreateCategoryDto[]) {
     try {
       await Promise.all(
-        data.map(async (element) => {
+        data?.map(async (element) => {
           await this.categoriesRepository
             .createQueryBuilder()
             .insert()
@@ -67,5 +75,4 @@ export class CategoriesRepository {
       throw new InternalServerErrorException('Error desactivating category in the database');
     }
 }
-
 }

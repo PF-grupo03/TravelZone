@@ -8,8 +8,8 @@ import { ProductEntity } from '../products/product.entity';
 export class FileUploadService {
     constructor(
         private readonly fileUploadRepository: FileUploadRepository,
-        @InjectRepository(ProductEntity) 
-            private readonly productsRepository: Repository<ProductEntity>, 
+        @InjectRepository(ProductEntity)
+            private readonly productsRepository: Repository<ProductEntity>,
     ) {}
 
     async uploadImage(file: Express.Multer.File, productId: string) {
@@ -17,18 +17,18 @@ export class FileUploadService {
         const product = await this.productsRepository.findOneBy({id: productId});
         if(!product) {
             throw new NotFoundException('Producto no encontrado');
-        } 
+        }
 
-        
+
         const response = await this.fileUploadRepository.uploadImage(file);
         if(!response.secure_url) {
             throw new NotFoundException('Error al cargar imagen en Cloudinary');
         }
-        
+
         await this.productsRepository.update(productId, {
             imgUrl: response.secure_url,
         });
-        
+
         const updatedProduct = await this.productsRepository.findOneBy({id: productId});
 
         return updatedProduct;
