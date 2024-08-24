@@ -55,25 +55,11 @@ export class CreateUserDto {
   phone: number;
 
   @ApiProperty({
-    description: 'Address of the user',
-    example: '123 Main St',
+    description: 'Last name of the user',
+    example: 'Doe',
   })
   @IsString()
-  address: string;
-
-  @ApiProperty({
-    description: 'Country of the user',
-    example: 'Argentina',
-  })
-  @IsString()
-  country: string;
-
-  @ApiProperty({
-    description: 'City of the user',
-    example: 'Buenos Aires',
-  })
-  @IsString()
-  city: string;
+  lastName: string;
 
   @ApiHideProperty()
   @IsEmpty()
@@ -134,28 +120,12 @@ export class UpdateUserDto {
   phone?: number;
 
   @ApiPropertyOptional({
-    description: 'Address of the user',
-    example: '123 Main St',
+    description: 'Last name of the user',
+    example: 'Doe',
   })
   @IsOptional()
   @IsString()
-  address?: string;
-
-  @ApiPropertyOptional({
-    description: 'Country of the user',
-    example: 'Argentina',
-  })
-  @IsOptional()
-  @IsString()
-  country?: string;
-
-  @ApiPropertyOptional({
-    description: 'City of the user',
-    example: 'Buenos Aires',
-  })
-  @IsOptional()
-  @IsString()
-  city?: string;
+  lastName?: string;
 
   @ApiHideProperty()
   @IsEmpty()

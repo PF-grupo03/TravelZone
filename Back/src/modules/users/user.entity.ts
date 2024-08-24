@@ -27,13 +27,7 @@ export class UserEntity {
   phone: number;
 
   @Column()
-  address: string;
-
-  @Column()
-  country: string;
-
-  @Column()
-  city: string;
+  lastName: string;
 
   @Column({
     default: true,
