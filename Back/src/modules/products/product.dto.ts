@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsNumber,
@@ -22,23 +22,36 @@ export class CreateProductDto {
   description: string;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
   price: number;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
   stock: number;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsEmpty()
   imgUrl: string;
 
   @IsEmpty()
   isActive?: boolean;
 
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CategoryEntity)
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  @Transform(({ value }) => {
+    // Intenta convertir el string a un array
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        // Si no se puede convertir, retorna un array vacío o lanza un error
+        return [];
+      }
+    }
+    return value; // Si ya es un array, lo devuelve tal cual
+  })
   categories: string[];
 }
 
@@ -59,8 +72,7 @@ export class UpdateProductDto {
   @IsNumber()
   stock?: number;
 
-  @IsOptional()
-  @IsString()
+  @IsEmpty()
   imgUrl?: string;
 
   @IsEmpty()

@@ -21,6 +21,7 @@ async function bootstrap() {
     }),
   );
   await app.listen(3000);
+  
   console.log('connection to the server succesful');
 }
 bootstrap();
