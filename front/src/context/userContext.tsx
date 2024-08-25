@@ -42,16 +42,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (credentials: ILoginUser) => {
     try {
-      const data = await postSignin(credentials);
-      if (data.token) {
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("token", data.token);
-        return true;
+      const response = await postSignin(credentials);
+      if (response.token) {
+        setUser(response);
+        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("token", response.token);
+        return { success: true, message: "Login successful!" };
+      } else {
+        return { success: false, message: "Invalid credentials." };
       }
     } catch (error) {
-      console.error(error);
-      return false;
+      return {
+        success: false,
+        message: error.message || "An error occurred. Please try again.",
+      };
     }
   };
 

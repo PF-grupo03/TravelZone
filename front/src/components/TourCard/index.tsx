@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 const TourCard = ({ tour }) => {
+
 	return (
 		<div className="flex border border-gray-200 rounded-lg overflow-hidden shadow-lg">
 			<div className="relative w-8/24">
@@ -53,6 +54,7 @@ const TourCard = ({ tour }) => {
 			</div>
 		</div>
 	);
+
 };
 
 export default TourCard;
