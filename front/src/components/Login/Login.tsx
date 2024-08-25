@@ -27,7 +27,26 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const succes = await signIn(signinValues);
+    // Validate the form data
+    const errors = validatedateLoginForm(signinValues);
+    if (Object.keys(errors).length > 0) {
+      setErrorUser(errors);
+      alert("Please correct the errors in the form.");
+      return;
+    }
+
+    try {
+      const result = await signIn(signinValues);
+
+      if (result.success) {
+        alert(result.message); // Show success alert
+        router.push("/"); // Redirect to the home page or dashboard
+      } else {
+        alert(result.message); // Show error alert
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again."); // Show general error alert
+    }
   };
 
   return (

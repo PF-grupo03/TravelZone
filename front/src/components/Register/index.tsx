@@ -44,8 +44,8 @@ function Register() {
       username: signupValues.username,
       email: signupValues.email,
       password: signupValues.password,
-      phone: signupValues.phone,
-      dni: parseInt(signupValues.dni, 10),
+      phone: Number(signupValues.phone),
+      dni: Number(signupValues.dni),
     };
 
     const errors = validatedateRegisterForm(user);
@@ -55,13 +55,11 @@ function Register() {
       return;
     }
 
-    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const result = await signUp(user);
 
-      const success = await signUp(user);
-      if (success) {
-        setMessage("Registration successful!");
+      if (result.success) {
+        alert(result.message); // Show success alert
         setSignUpValues({
           name: "",
           username: "",
@@ -72,12 +70,10 @@ function Register() {
         });
         router.push("/");
       } else {
-        setMessage(
-          "Registration failed. Please check your info and try again."
-        );
+        alert(result.message); // Show error alert
       }
     } catch (error) {
-      setMessage("An error occurred. Please try again.");
+      alert("An error occurred. Please try again."); // Show general error alert
     } finally {
       setLoading(false);
     }
@@ -85,7 +81,7 @@ function Register() {
 
   return (
     <div className="flex justify-center mt-24 mb-32 items-start">
-      <div className="w-full max-w-md h-[105vh] flex flex-col bg-white p-4 rounded-lg shadow-lg">
+      <div className="w-full max-w-md h-[105vh] flex flex-col bg-white p-9 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
         <br />
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -227,7 +223,7 @@ function Register() {
       </div>
       <div className="w-1/3 h-full">
         <img
-          src="Imagenes Pulpo/Register.jpg"
+          src="/register.jpg"
           alt="Register"
           className="rounded-r-lg w-full h-screen"
         />

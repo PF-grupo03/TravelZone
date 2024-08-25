@@ -56,7 +56,7 @@ export interface IRegisterUser {
   name: string;
   username: string;
   password: string;
-  phone: string;
+  phone: number;
   dni: number;
   email: string;
 }
@@ -65,7 +65,7 @@ export interface IRegisterUserResponse {
   name: string;
   username: string;
   password: string;
-  phone: string;
+  phone: number;
   dni: number;
   email: string;
   role: string;
@@ -74,7 +74,7 @@ export interface IRegisterUserResponse {
 
 export interface RegisterPropsResponse {
   name: string;
-  phone: string;
+  phone: number;
   email: string;
   password: string;
   role: string;

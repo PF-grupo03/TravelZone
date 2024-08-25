@@ -23,7 +23,7 @@ const TourCard = ({ tour }) => {
         </div>
         <div className="flex items-center mt-4">
           <span className="text-yellow-500 text-lg"> {tour.rating}</span>
-          <span className="ml-2 text-gray-500 text-sm">({tour.reviews})</span>
+          <span className="ml-2 text-gray-500 text-sm">{tour.reviews}</span>
         </div>
         <div className="mt-4 flex justify-between">
           <span className="text-xs text-orange-500 font-semibold">
@@ -41,7 +41,7 @@ const TourCard = ({ tour }) => {
             {tour.oldPrice}
           </span>
           <span className="text-lg font-semibold text-red-600 ml-2">
-            From {tour.price}
+            From ${tour.price}
           </span>
         </div>
         <button className="bg-orange-500 text-white mt-4 py-2 px-6 rounded text-sm hover:bg-orange-600 transition duration-200">
