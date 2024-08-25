@@ -14,6 +14,14 @@ export class CategoriesService {
     }
   }
 
+  async getCategoryById(id: string) {
+    try {
+      return await this.categoriesRepository.getCategoryById(id);
+    } catch (error) {
+      throw new InternalServerErrorException('Error fetching category.');
+    }
+  }
+
   async addCategories(data: CreateCategoryDto[]) {
     if (!data.length) {
       throw new BadRequestException('No categories provided.');

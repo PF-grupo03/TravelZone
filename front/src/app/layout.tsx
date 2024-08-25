@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar/index";
+import { UserProvider } from "@/context/userContext";
 import "./globals.css";
 import Head from "./head";
 
@@ -19,9 +20,11 @@ export default function RootLayout({
         <Head />
       </head>
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <UserProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </UserProvider>
       </body>
     </html>
   );
