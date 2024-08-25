@@ -1,6 +1,7 @@
 import React from "react";
 
 const ImagePrincipal = () => {
+
   return (
     <div className=" h-[678px] bg-cover bg-center bg-[url('/Principal.png')] rounded-2xl  flex-col items-center justify-around flex w-[calc(100%+220px)] relative left-[-110px]">
       <div className="flex flex-col items-center mt-44">
