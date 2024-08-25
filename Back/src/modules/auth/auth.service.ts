@@ -30,8 +30,9 @@ export class AuthService {
         
         
         const user = await this.usersRepository.getUserByEmail(email);
+        console.log(user);
+        
         if(!user) throw new BadRequestException('Credenciales incorrectas');
-
         
         const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword) throw new BadRequestException('Credenciales Invalidas');
