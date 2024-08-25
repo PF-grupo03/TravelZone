@@ -57,10 +57,12 @@ export class AuthService {
             ...user,
             password: hashedPassword
         })
-
+        const payload = { id: newUser.id, email: newUser.email, isAdmin: newUser.IsAdmin};
+        const token = this.jwtService.sign(payload);
         return {
             message: 'Usuario registrado exitosamente',
             user: newUser,
+            token
         };
     
 

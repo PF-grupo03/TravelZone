@@ -74,9 +74,6 @@ export class ProductsRepository {
       const categoryMatch = categories.filter((category) => {
         return product.categories.includes(category.name);
       });
-      // console.log(categories)
-      // console.log(product.categories)
-      // console.log(categoryMatch)
       if (categoryMatch.length !== product.categories.length) {
         throw new BadRequestException('Categorías no fueron encontradas');
       }

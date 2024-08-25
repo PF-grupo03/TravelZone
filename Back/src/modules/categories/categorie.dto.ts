@@ -22,10 +22,9 @@ export class UpdateCategoryDto {
   })
   @IsString()
   @IsNotEmpty()
-  category: string;
+  name: string;
 
   @ApiHideProperty()
-  @IsBoolean()
-  @IsNotEmpty()
+  @IsEmpty()
   isActive: boolean;
 }
