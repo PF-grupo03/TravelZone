@@ -1,6 +1,7 @@
 import React from "react";
 
 const MasVisitados = () => {
+
 	return (
 		<div className="bg-stone-200 h-[500px] w-full">
 			<div className="bg-stone-200 h-[500px] w-[calc(100%+220px)] relative left-[-110px]">
@@ -50,6 +51,7 @@ const MasVisitados = () => {
 			</div>
 		</div>
 	);
+
 };
 
 export default MasVisitados;
