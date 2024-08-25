@@ -9,7 +9,7 @@ export class FileUploadRepository {
 ): Promise<UploadApiResponse> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream(
-        { resource_type: 'auto' },
+        { resource_type: 'auto', folder: 'travel_zone' },
         (error, result) => {
           if (error) {
             reject(error);

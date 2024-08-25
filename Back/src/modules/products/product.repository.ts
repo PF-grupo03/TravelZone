@@ -12,6 +12,8 @@ import {
   UpdateProductDto,
 } from './product.dto';
 import { CategoryEntity } from '../categories/category.entity';
+import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import toStream from 'buffer-to-stream';
 
 @Injectable()
 export class ProductsRepository {
@@ -33,9 +35,15 @@ export class ProductsRepository {
         },
         take: limit || undefined,
         skip: page || undefined,
+        relations: {
+          categories: true,
+        },
       });
     } catch (error) {
-      throw new InternalServerErrorException('Error obteniendo productos');
+      console.log(error);
+      throw new InternalServerErrorException(
+        `Error obteniendo productos ${error}`,
+      );
     }
   }
 
@@ -56,23 +64,45 @@ export class ProductsRepository {
     }
   }
 
-  async createProduct(product: CreateProductDto) {
+  async createProduct(product: CreateProductDto, file: Express.Multer.File) {
     try {
       const categories = await this.categoriesRepository.find({
         where: {
           isActive: true,
         },
       });
-      const category = categories.find(
-        (category) => category.name === product.categories,
+      const categoryMatch = categories.filter((category) => {
+        return product.categories.includes(category.name);
+      });
+      // console.log(categories)
+      // console.log(product.categories)
+      // console.log(categoryMatch)
+      if (categoryMatch.length !== product.categories.length) {
+        throw new BadRequestException('Categorías no fueron encontradas');
+      }
+      const response: UploadApiResponse = await new Promise(
+        (resolve, reject) => {
+          const upload = cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'travel_zone' },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result as UploadApiResponse);
+              }
+            },
+          );
+          toStream(file.buffer).pipe(upload);
+        },
       );
-      if (!category) throw new Error('Categoria no encontrada');
       const newProduct = this.productsRepository.create({
         ...product,
-        categories,
+        categories: categoryMatch,
+        imgUrl: response.secure_url,
       });
       return await this.productsRepository.save(newProduct);
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException('Error obteniendo el producto');
     }
   }
@@ -110,6 +140,15 @@ export class ProductsRepository {
       });
       if (!productById) {
         throw new Error('Id de producto inexistente');
+      }
+      if (
+        productById.imgUrl &&
+        productById.imgUrl.includes('res.cloudinary.com')
+      ) {
+        const publicId = productById.imgUrl.split('/').pop()?.split('.')[0];
+        if (publicId) {
+          await cloudinary.uploader.destroy(`travel_zone/${publicId}`);
+        }
       }
       productById.isActive = false;
       await this.productsRepository.save(productById);

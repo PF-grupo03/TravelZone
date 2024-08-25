@@ -21,15 +21,23 @@ export class CategoriesRepository {
     }
   }
 
+  async getCategoryById(id: string) {
+    try {
+      return await this.categoriesRepository.findOne({ where: { id } });
+    } catch (error) {
+      throw new InternalServerErrorException('Error fetching category from the database.');
+    }
+  }
+
   async addCategories(data: CreateCategoryDto[]) {
     try {
       await Promise.all(
-        data.map(async (element) => {
+        data?.map(async (element) => {
           await this.categoriesRepository
             .createQueryBuilder()
             .insert()
             .into(CategoryEntity)
-            .values({ name: element.category })
+            .values({ name: element.name })
             .orIgnore()
             .execute();
         }),
@@ -45,7 +53,7 @@ export class CategoriesRepository {
       await this.categoriesRepository
         .createQueryBuilder()
         .update(CategoryEntity)
-        .set({ name: data.category })
+        .set({ name: data.name })
         .where({ id })
         .execute();
       return 'Categoría actualizada correctamente';
@@ -67,5 +75,4 @@ export class CategoriesRepository {
       throw new InternalServerErrorException('Error desactivating category in the database');
     }
 }
-
 }
