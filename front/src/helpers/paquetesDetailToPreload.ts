@@ -4,7 +4,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Colosseum/Colosseum1.jpg",
 		image2: "/Imagenes detalle Paquete/Colosseum/Colosseum2.jpg",
 		image3: "/Imagenes detalle Paquete/Colosseum/Colosseum3.jpg",
-		title: "Colosseum Guided Tour with Skip-the-Line",
+		title: "Colosseum Guided ",
 		description:
 			"Go behind the scenes at the world-famous Colosseum with a local guide.",
 		description2:
@@ -16,7 +16,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Statue of Liberty/Statue1.jpg",
 		image2: "/Imagenes detalle Paquete/Statue of Liberty/Statue2.jpg",
 		image3: "/Imagenes detalle Paquete/Statue of Liberty/Statue3.jpg",
-		title: "Statue of Liberty and Ellis Island Tour",
+		title: "Statue of Liberty ",
 		description:
 			"Experience breathtaking views of the Statue of Liberty and Ellis Island.",
 		description2:
@@ -28,7 +28,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/The big buddha/Buddha1.jpg",
 		image2: "/Imagenes detalle Paquete/The big buddha/Buddha2.jpg",
 		image3: "/Imagenes detalle Paquete/The big buddha/Buddha3.jpg",
-		title: "Fushimi Inari Taisha Shrine Morning Tour",
+		title: "Fushimi Inari ",
 		description:
 			"Avoid the long queues and enjoy a morning tour of Fushimi Inari Taisha Shrine.",
 		description2:
@@ -40,7 +40,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Sydney Opera/Sydney1.jpg",
 		image2: "/Imagenes detalle Paquete/Sydney Opera/Sydney2.jpg",
 		image3: "/Imagenes detalle Paquete/Sydney Opera/Sydney3.jpg",
-		title: "Sydney Opera House Guided Tour",
+		title: "Sydney Opera ",
 		description: "Explore the iconic Sydney Opera House with an expert guide.",
 		description2:
 			"Este recorrido guiado por la Ópera de Sídney te ofrece una mirada exclusiva a uno de los edificios más icónicos del mundo. Con acceso a áreas detrás de escena, tendrás la oportunidad de ver cómo funciona este impresionante centro cultural desde adentro. El guía te contará sobre la historia arquitectónica y las increíbles hazañas de ingeniería que hicieron posible su construcción. Además, conocerás detalles fascinantes sobre los famosos eventos y actuaciones que han tenido lugar aquí, lo que convierte a este tour en una experiencia imprescindible para cualquier amante del arte y la arquitectura.",
@@ -51,7 +51,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Christ the Redeemer/Christ1.jpg",
 		image2: "/Imagenes detalle Paquete/Christ the Redeemer/Christ2.jpg",
 		image3: "/Imagenes detalle Paquete/Christ the Redeemer/Christ3.jpg",
-		title: "Christ the Redeemer and Sugarloaf Mountain Tour",
+		title: "Christ the Redeemer ",
 		description:
 			"Walk along the iconic Christ the Redeemer and enjoy stunning views of Sugarloaf Mountain.",
 		description2:
@@ -63,7 +63,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Pyramids of Giza/Pyramids1.jpg",
 		image2: "/Imagenes detalle Paquete/Pyramids of Giza/Pyramids2.jpg",
 		image3: "/Imagenes detalle Paquete/Pyramids of Giza/Pyramids3.jpg",
-		title: "Pyramids of Giza and Sphinx Day Tour",
+		title: "Pyramids of Giza ",
 		description:
 			"Embark on an unforgettable day tour of the Pyramids of Giza and Sphinx.",
 		description2:
@@ -75,7 +75,7 @@ const paquetesDatailToPreload = [
 		image1: "/Imagenes detalle Paquete/Maui/Maui1.jpg",
 		image2: "/Imagenes detalle Paquete/Maui/Maui2.jpg",
 		image3: "/Imagenes detalle Paquete/Maui/Maui3.jpg",
-		title: "Maui Helicopter Tour with Ocean Views",
+		title: "Maui ",
 		description:
 			"Enjoy a thrilling helicopter tour of Maui with breathtaking ocean views.",
 		description2:
