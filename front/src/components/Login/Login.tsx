@@ -39,13 +39,13 @@ const Login = () => {
       const result = await signIn(signinValues);
 
       if (result.success) {
-        alert(result.message); // Show success alert
-        router.push("/"); // Redirect to the home page or dashboard
+        alert(result.message);
+        router.push("/");
       } else {
-        alert(result.message); // Show error alert
+        alert(result.message);
       }
     } catch (error) {
-      alert("An error occurred. Please try again."); // Show general error alert
+      alert("An error occurred. Please try again.");
     }
   };
 

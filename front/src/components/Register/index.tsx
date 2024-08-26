@@ -81,8 +81,8 @@ function Register() {
 
   return (
     <div className="flex justify-center mt-24 mb-32 items-start">
-      <div className="w-full max-w-md h-[105vh] flex flex-col bg-white p-9 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+      <div className="w-full max-w-md h-[100vh] flex flex-col bg-white p-9 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-1 text-center">Register</h1>
         <br />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -212,7 +212,7 @@ function Register() {
           </button>
         </form>
         {message && (
-          <p className="text-green-500 text-sm mt-4 text-center">{message}</p>
+          <p className="text-green-500 text-sm mt-2 text-center">{message}</p>
         )}
         <p className="text-center text-gray-700 mt-4">
           Already have an account?{" "}
@@ -221,7 +221,7 @@ function Register() {
           </a>
         </p>
       </div>
-      <div className="w-1/3 h-full">
+      <div className="w-1/3 h-full ">
         <img
           src="/register.jpg"
           alt="Register"
