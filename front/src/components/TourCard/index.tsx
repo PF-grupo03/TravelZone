@@ -27,7 +27,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
           </div>
         )}
         <img
-          src={tour.image1}
+          src={tour.image}
           alt={tour.title}
           className="w-[280px] h-[230px] object-cover"
         />
