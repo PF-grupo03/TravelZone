@@ -14,6 +14,10 @@ export default function Head() {
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
       />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
+        rel="stylesheet"
+      />
       {/* Flowbite Script */}
       <script src="/path/to/flowbite/dist/flowbite.min.js" async></script>
     </>

@@ -35,7 +35,9 @@ const CardGrid = () => {
 
   return (
     <div>
-      <h2 className="mt-24 mb-6">Servicios extras...</h2>
+      <h2 className="mt-24 mb-6 text-xl font-bold font-inter text-[#05073C]">
+        Servicios extras...
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
         {cardsData.map((card, index) => (
           <Card key={index} {...card} />
