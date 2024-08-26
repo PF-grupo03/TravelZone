@@ -129,7 +129,7 @@ export interface ICreateOrder {
 
 export interface PaqueteDetalleProps {
 	id: number;
-	image1: string;
+	image: string;
 	image2: string;
 	image3: string;
 	title: string;
