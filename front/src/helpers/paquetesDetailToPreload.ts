@@ -1,4 +1,5 @@
 const paquetesDatailToPreload = [
+
   {
     id: 1,
     image1: "/Imagenes detalle Paquete/Colosseum/Colosseum1.jpg",
