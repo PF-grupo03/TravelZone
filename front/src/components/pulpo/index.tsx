@@ -11,7 +11,7 @@ function Pulpo() {
 	}, []);
 
 	return (
-		<div className="min-h-screen flex justify-center bg-white ">
+		<div className="min-h-screen flex justify-center bg-white mb-40">
 			<div className="relative w-full max-w-4xl">
 				<div className="absolute inset-0 flex items-center justify-center">
 					<Image
