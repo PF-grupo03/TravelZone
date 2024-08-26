@@ -30,7 +30,7 @@ const Filters = ({ setFilters }) => {
 
     // Actualiza los filtros en el estado global
     setFilters({
-      continents: queryParams.get("continents")?.split(",") || [],
+      continents: queryParams.get("categories")?.split(",") || [],
       countries: queryParams.get("countries")?.split(",") || [],
       activities: queryParams.get("activities")?.split(",") || [],
       medicalServices: queryParams.get("medicalServices")?.split(",") || [],
@@ -83,7 +83,7 @@ const Filters = ({ setFilters }) => {
     África: ["Egipto"],
     América: ["Estados Unidos", "Brasil"],
     Europa: ["Italia"],
-    Oceanía: ["Australia", "Hawái"],
+    Oceanía: ["Australia", "Hawáii"],
   };
 
   const activities = ["Avistamiento de aves", "Pesca deportiva"];
