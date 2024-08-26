@@ -13,6 +13,9 @@ export async function fetchProductById(id: string): Promise<IProduct> {
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/products/${id}`
   );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
   const product = await response.json();
   return product;
 }
