@@ -12,6 +12,8 @@ const paquetesDatailToPreload = [
     price: 100,
     location: "Rome, Italy",
     duration: "1 Day",
+    stock: 5,
+    categories: ["diseño de sonrisa", "europa", "italia"],
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ const paquetesDatailToPreload = [
     price: 150,
     location: "New York, USA",
     duration: "Half Day",
+    stock: 5,
+    categories: ["américa", "estados unidos"],
   },
   {
     id: 3,
@@ -40,6 +44,8 @@ const paquetesDatailToPreload = [
     price: 80,
     location: "Kyoto, Japan",
     duration: "3 Hours",
+    stock: 5,
+    categories: ["asia", "japón"],
   },
   {
     id: 4,
@@ -53,6 +59,8 @@ const paquetesDatailToPreload = [
     price: 200,
     location: "Sydney, Australia",
     duration: "2 Hours",
+    stock: 5,
+    categories: ["oceanía", "australia"],
   },
   {
     id: 5,
@@ -67,6 +75,8 @@ const paquetesDatailToPreload = [
     price: 120,
     location: "Rio de Janeiro, Brazil",
     duration: "1 Day",
+    stock: 5,
+    categories: ["américa", "brasil"],
   },
   {
     id: 6,
@@ -81,6 +91,8 @@ const paquetesDatailToPreload = [
     price: 180,
     location: "Cairo, Egypt",
     duration: "1 Day",
+    stock: 5,
+    categories: ["áfrica", "egipto"],
   },
   {
     id: 7,
@@ -95,6 +107,8 @@ const paquetesDatailToPreload = [
     price: 250,
     location: "Maui, Hawaii",
     duration: "2 Hours",
+    stock: 5,
+    categories: ["oceanía", "hawái"],
   },
 ];
 

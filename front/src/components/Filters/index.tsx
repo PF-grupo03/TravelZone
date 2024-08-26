@@ -1,62 +1,89 @@
 "use client";
-"use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Filters = () => {
+const Filters = ({ setFilters }) => {
+  const router = useRouter();
   const [isContinentOpen, setIsContinentOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [isMedicalOpen, setIsMedicalOpen] = useState(false);
 
-  const [selectedContinents, setSelectedContinents] = useState([]);
-  const [selectedCountries, setSelectedCountries] = useState([]);
-  const [selectedActivities, setSelectedActivities] = useState([]);
-  const [selectedMedicalServices, setSelectedMedicalServices] = useState([]);
+  const [selectedContinents, setSelectedContinents] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
+  const [selectedMedicalServices, setSelectedMedicalServices] = useState<
+    string[]
+  >([]);
 
-  const toggleContinentDropdown = () => setIsContinentOpen(!isContinentOpen);
-  const toggleCountryDropdown = () => setIsCountryOpen(!isCountryOpen);
-  const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
-  const toggleMedicalDropdown = () => setIsMedicalOpen(!isMedicalOpen);
+  // Función para actualizar la URL y los filtros
+  const updateQueryParams = (params: Record<string, string[]>) => {
+    const queryParams = new URLSearchParams(window.location.search);
 
-  const handleContinentChange = (continent) => {
-    setSelectedContinents((prevSelected) =>
-      prevSelected.includes(continent)
-        ? prevSelected.filter((item) => item !== continent)
-        : [...prevSelected, continent]
-    );
-    setSelectedCountries([]);
+    for (const [key, values] of Object.entries(params)) {
+      if (values.length > 0) {
+        queryParams.set(key, values.join(","));
+      } else {
+        queryParams.delete(key);
+      }
+    }
+
+    // Actualiza los filtros en el estado global
+    setFilters({
+      continents: queryParams.get("continents")?.split(",") || [],
+      countries: queryParams.get("countries")?.split(",") || [],
+      activities: queryParams.get("activities")?.split(",") || [],
+      medicalServices: queryParams.get("medicalServices")?.split(",") || [],
+    });
+
+    router.push(`?${queryParams.toString()}`);
   };
 
-  const handleCountryChange = (country) => {
-    setSelectedCountries((prevSelected) =>
-      prevSelected.includes(country)
-        ? prevSelected.filter((item) => item !== country)
-        : [...prevSelected, country]
-    );
+  // Handlers para los cambios en los filtros
+  const handleContinentChange = (continent: string) => {
+    const newSelection = selectedContinents.includes(continent)
+      ? selectedContinents.filter((item) => item !== continent)
+      : [...selectedContinents, continent];
+
+    setSelectedContinents(newSelection);
+    setSelectedCountries([]); // Clear countries when continent changes
+    updateQueryParams({ continents: newSelection });
   };
 
-  const handleActivityChange = (activity) => {
-    setSelectedActivities((prevSelected) =>
-      prevSelected.includes(activity)
-        ? prevSelected.filter((item) => item !== activity)
-        : [...prevSelected, activity]
-    );
+  const handleCountryChange = (country: string) => {
+    const newSelection = selectedCountries.includes(country)
+      ? selectedCountries.filter((item) => item !== country)
+      : [...selectedCountries, country];
+
+    setSelectedCountries(newSelection);
+    updateQueryParams({ countries: newSelection });
   };
 
-  const handleMedicalServiceChange = (service) => {
-    setSelectedMedicalServices((prevSelected) =>
-      prevSelected.includes(service)
-        ? prevSelected.filter((item) => item !== service)
-        : [...prevSelected, service]
-    );
+  const handleActivityChange = (activity: string) => {
+    const newSelection = selectedActivities.includes(activity)
+      ? selectedActivities.filter((item) => item !== activity)
+      : [...selectedActivities, activity];
+
+    setSelectedActivities(newSelection);
+    updateQueryParams({ activities: newSelection });
   };
 
+  const handleMedicalServiceChange = (service: string) => {
+    const newSelection = selectedMedicalServices.includes(service)
+      ? selectedMedicalServices.filter((item) => item !== service)
+      : [...selectedMedicalServices, service];
+
+    setSelectedMedicalServices(newSelection);
+    updateQueryParams({ medicalServices: newSelection });
+  };
+
+  // Mapa de continentes y países
   const continentCountryMap = {
-    Asia: ["India", "China", "Japón", "Tailandia"],
-    África: ["Egipto", "Sudáfrica", "Nigeria", "Kenia"],
-    América: ["Estados Unidos", "México", "Brasil", "Argentina"],
-    Europa: ["Francia", "Alemania", "España", "Italia"],
-    Oceanía: ["Australia", "Nueva Zelanda", "Fiyi", "Papúa Nueva Guinea"],
+    Asia: ["Japón"],
+    África: ["Egipto"],
+    América: ["Estados Unidos", "Brasil"],
+    Europa: ["Italia"],
+    Oceanía: ["Australia", "Hawái"],
   };
 
   const activities = ["Avistamiento de aves", "Pesca deportiva"];
@@ -66,10 +93,16 @@ const Filters = () => {
     (continent) => continentCountryMap[continent] || []
   );
 
-  const dropdownArrowClass = (isOpen) =>
+  const dropdownArrowClass = (isOpen: boolean) =>
     `transition-transform transform ${
       isOpen ? "rotate-180" : "rotate-0"
     } text-xs`;
+
+  // Funciones para alternar los dropdowns
+  const toggleContinentDropdown = () => setIsContinentOpen(!isContinentOpen);
+  const toggleCountryDropdown = () => setIsCountryOpen(!isCountryOpen);
+  const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
+  const toggleMedicalDropdown = () => setIsMedicalOpen(!isMedicalOpen);
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
