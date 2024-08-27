@@ -1,23 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-interface TourCardProps {
-  tour: {
-    id: number;
-    image1: string;
-    title: string;
-    description: string;
-    location: string;
-    rating?: number;
-    reviews?: number;
-    discount?: string;
-    duration: string;
-    oldPrice?: string;
-    price: number;
-  };
-}
-
-const TourCard: React.FC<TourCardProps> = ({ tour }) => {
+const TourCard = ({ tour }) => {
   return (
     <div className="flex border border-gray-200 rounded-lg overflow-hidden shadow-lg">
       <div className="relative w-1/3 flex-shrink-0">

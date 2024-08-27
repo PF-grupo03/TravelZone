@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function Pulpo() {
   const [hovered, setHovered] = useState(false);
@@ -66,16 +67,18 @@ function Pulpo() {
             hovered ? "opacity-100" : "opacity-0"
           } top-[7%] left-[40%] transform -translate-x-1/2 -translate-y-1/2`}
         >
-          <div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-            <Image
-              src="/Imagenes Pulpo/Vuelo.jpg"
-              alt="Vuelos"
-              width={1200}
-              height={800}
-              className="w-24 h-24 rounded-full object-fill-cover mr-2"
-            />
-            <span className="text-lg font-semibold w-48 h-full">Vuelos</span>
-          </div>
+          <Link href="/paquetes">
+            <div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
+              <Image
+                src="/Imagenes Pulpo/Vuelo.jpg"
+                alt="Vuelos"
+                width={1200}
+                height={800}
+                className="w-24 h-24 rounded-full object-fill-cover mr-2"
+              />
+              <span className="text-lg font-semibold w-48 h-full">Vuelos</span>
+            </div>
+          </Link>
         </div>
 
         <div

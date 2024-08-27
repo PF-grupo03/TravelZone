@@ -4,77 +4,38 @@ import { useRouter } from "next/navigation";
 
 const Filters = ({ setFilters }) => {
   const router = useRouter();
+
   const [isContinentOpen, setIsContinentOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [isMedicalOpen, setIsMedicalOpen] = useState(false);
 
-  const [selectedContinents, setSelectedContinents] = useState<string[]>([]);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
-  const [selectedMedicalServices, setSelectedMedicalServices] = useState<
-    string[]
-  >([]);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  // Función para actualizar la URL y los filtros
-  const updateQueryParams = (params: Record<string, string[]>) => {
+  // Función para actualizar la URL con los filtros seleccionados
+  const updateQueryParams = (newSelection: string[]) => {
     const queryParams = new URLSearchParams(window.location.search);
 
-    for (const [key, values] of Object.entries(params)) {
-      if (values.length > 0) {
-        queryParams.set(key, values.join(","));
-      } else {
-        queryParams.delete(key);
-      }
+    if (newSelection.length > 0) {
+      // Convertir los valores de las categorías a minúsculas
+      const formattedCategories = newSelection.map((item) =>
+        item.toLowerCase()
+      );
+      queryParams.set("categories", formattedCategories.join(","));
+    } else {
+      queryParams.delete("categories");
     }
-
-    // Actualiza los filtros en el estado global
-    setFilters({
-      continents: queryParams.get("categories")?.split(",") || [],
-      countries: queryParams.get("countries")?.split(",") || [],
-      activities: queryParams.get("activities")?.split(",") || [],
-      medicalServices: queryParams.get("medicalServices")?.split(",") || [],
-    });
 
     router.push(`?${queryParams.toString()}`);
   };
 
-  // Handlers para los cambios en los filtros
-  const handleContinentChange = (continent: string) => {
-    const newSelection = selectedContinents.includes(continent)
-      ? selectedContinents.filter((item) => item !== continent)
-      : [...selectedContinents, continent];
+  const handleFilterChange = (filter: string) => {
+    const newSelection = selectedFilters.includes(filter)
+      ? selectedFilters.filter((item) => item !== filter)
+      : [...selectedFilters, filter];
 
-    setSelectedContinents(newSelection);
-    setSelectedCountries([]); // Clear countries when continent changes
-    updateQueryParams({ continents: newSelection });
-  };
-
-  const handleCountryChange = (country: string) => {
-    const newSelection = selectedCountries.includes(country)
-      ? selectedCountries.filter((item) => item !== country)
-      : [...selectedCountries, country];
-
-    setSelectedCountries(newSelection);
-    updateQueryParams({ countries: newSelection });
-  };
-
-  const handleActivityChange = (activity: string) => {
-    const newSelection = selectedActivities.includes(activity)
-      ? selectedActivities.filter((item) => item !== activity)
-      : [...selectedActivities, activity];
-
-    setSelectedActivities(newSelection);
-    updateQueryParams({ activities: newSelection });
-  };
-
-  const handleMedicalServiceChange = (service: string) => {
-    const newSelection = selectedMedicalServices.includes(service)
-      ? selectedMedicalServices.filter((item) => item !== service)
-      : [...selectedMedicalServices, service];
-
-    setSelectedMedicalServices(newSelection);
-    updateQueryParams({ medicalServices: newSelection });
+    setSelectedFilters(newSelection);
+    updateQueryParams(newSelection);
   };
 
   // Mapa de continentes y países
@@ -89,20 +50,14 @@ const Filters = ({ setFilters }) => {
   const activities = ["Avistamiento de aves", "Pesca deportiva"];
   const medicalServices = ["Diseño de sonrisa"];
 
-  const availableCountries = selectedContinents.flatMap(
-    (continent) => continentCountryMap[continent] || []
-  );
+  const availableCountries = selectedFilters
+    .filter((filter) => Object.keys(continentCountryMap).includes(filter))
+    .flatMap((continent) => continentCountryMap[continent] || []);
 
   const dropdownArrowClass = (isOpen: boolean) =>
     `transition-transform transform ${
       isOpen ? "rotate-180" : "rotate-0"
     } text-xs`;
-
-  // Funciones para alternar los dropdowns
-  const toggleContinentDropdown = () => setIsContinentOpen(!isContinentOpen);
-  const toggleCountryDropdown = () => setIsCountryOpen(!isCountryOpen);
-  const toggleActivityDropdown = () => setIsActivityOpen(!isActivityOpen);
-  const toggleMedicalDropdown = () => setIsMedicalOpen(!isMedicalOpen);
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
@@ -113,7 +68,7 @@ const Filters = ({ setFilters }) => {
         {/* Dropdown para Continente */}
         <div>
           <h3
-            onClick={toggleContinentDropdown}
+            onClick={() => setIsContinentOpen(!isContinentOpen)}
             className="text-md font-semibold mb-2 cursor-pointer flex items-center justify-between"
           >
             <span>Continente</span>
@@ -121,21 +76,19 @@ const Filters = ({ setFilters }) => {
           </h3>
           {isContinentOpen && (
             <ul className="pl-4 space-y-2">
-              {["Asia", "África", "América", "Europa", "Oceanía"].map(
-                (continent) => (
-                  <li key={continent}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        className="mr-2"
-                        checked={selectedContinents.includes(continent)}
-                        onChange={() => handleContinentChange(continent)}
-                      />
-                      {continent}
-                    </label>
-                  </li>
-                )
-              )}
+              {Object.keys(continentCountryMap).map((continent) => (
+                <li key={continent}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={selectedFilters.includes(continent)}
+                      onChange={() => handleFilterChange(continent)}
+                    />
+                    {continent}
+                  </label>
+                </li>
+              ))}
             </ul>
           )}
         </div>
@@ -143,7 +96,7 @@ const Filters = ({ setFilters }) => {
         {/* Dropdown para País */}
         <div>
           <h3
-            onClick={toggleCountryDropdown}
+            onClick={() => setIsCountryOpen(!isCountryOpen)}
             className="text-md font-semibold mb-2 cursor-pointer flex items-center justify-between"
           >
             <span>País</span>
@@ -158,8 +111,8 @@ const Filters = ({ setFilters }) => {
                       <input
                         type="checkbox"
                         className="mr-2"
-                        checked={selectedCountries.includes(country)}
-                        onChange={() => handleCountryChange(country)}
+                        checked={selectedFilters.includes(country)}
+                        onChange={() => handleFilterChange(country)}
                       />
                       {country}
                     </label>
@@ -175,7 +128,7 @@ const Filters = ({ setFilters }) => {
         {/* Dropdown para Actividad */}
         <div>
           <h3
-            onClick={toggleActivityDropdown}
+            onClick={() => setIsActivityOpen(!isActivityOpen)}
             className="text-md font-semibold mb-2 cursor-pointer flex items-center justify-between"
           >
             <span>Actividad</span>
@@ -189,8 +142,8 @@ const Filters = ({ setFilters }) => {
                     <input
                       type="checkbox"
                       className="mr-2"
-                      checked={selectedActivities.includes(activity)}
-                      onChange={() => handleActivityChange(activity)}
+                      checked={selectedFilters.includes(activity)}
+                      onChange={() => handleFilterChange(activity)}
                     />
                     {activity}
                   </label>
@@ -203,7 +156,7 @@ const Filters = ({ setFilters }) => {
         {/* Dropdown para Servicios Médicos */}
         <div>
           <h3
-            onClick={toggleMedicalDropdown}
+            onClick={() => setIsMedicalOpen(!isMedicalOpen)}
             className="text-md font-semibold mb-2 cursor-pointer flex items-center justify-between"
           >
             <span>Servicios Médicos</span>
@@ -217,8 +170,8 @@ const Filters = ({ setFilters }) => {
                     <input
                       type="checkbox"
                       className="mr-2"
-                      checked={selectedMedicalServices.includes(service)}
-                      onChange={() => handleMedicalServiceChange(service)}
+                      checked={selectedFilters.includes(service)}
+                      onChange={() => handleFilterChange(service)}
                     />
                     {service}
                   </label>
