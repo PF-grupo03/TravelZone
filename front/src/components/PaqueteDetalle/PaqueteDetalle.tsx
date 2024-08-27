@@ -14,7 +14,7 @@ const PaqueteDetalle: React.FC<PaqueteDetalleProps> = ({
 	price,
 }) => {
 	return (
-		<div className="">
+		<div className="-mx-[110px] flex flex-col">
 			<div className="my-16 flex flex-col items-center justify-center w-full bg-slate-200 min-w-20">
 				<div className="flex justify-center space-x-6 h-full mt-6 max-w-full overflow-hidden mx-10">
 					<img
