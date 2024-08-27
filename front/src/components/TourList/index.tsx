@@ -5,6 +5,11 @@ const TourList = ({ tours, filters }) => {
   const { continents, countries, activities, medicalServices } = filters;
 
   const filteredTours = tours.filter((tour) => {
+    // Asegúrate de que la propiedad 'categories' esté presente en el objeto 'tour'
+    if (!tour.categories) {
+      return false;
+    }
+
     // Filtrar por continente
     const matchesContinent =
       continents.length === 0 ||

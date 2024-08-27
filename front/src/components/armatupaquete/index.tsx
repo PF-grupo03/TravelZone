@@ -5,12 +5,8 @@ import paquetesDatailToPreload from "@/helpers/paquetesDetailToPreload";
 import TourMap from "@/components/Maps";
 import { PaqueteDetalleProps } from "@/types";
 
-const TarjetaPage: React.FC<PaqueteDetalleProps> = ({
-  price,
-  title,
-  description2,
-}) => {
-  const [currentIndex, setCurrentIndex] = useState(0); //
+const TarjetaPage = ({ price, title, description2 }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
     setCurrentIndex(

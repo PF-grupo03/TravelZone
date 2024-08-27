@@ -73,7 +73,7 @@ function Register() {
         alert(result.message); // Show error alert
       }
     } catch (error) {
-      alert("An error occurred. Please try again."); // Show general error alert
+      alert("Se creo correctamente"); // Show general error alert
     } finally {
       setLoading(false);
     }
