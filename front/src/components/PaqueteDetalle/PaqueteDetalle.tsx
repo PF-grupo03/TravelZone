@@ -40,6 +40,7 @@ const PaqueteDetalle: React.FC<PaqueteDetalleProps> = ({
       />
     </div>
   );
+
 };
 
 export default PaqueteDetalle;
