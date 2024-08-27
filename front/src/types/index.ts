@@ -32,14 +32,16 @@ export interface ICredentials {
 }
 
 export interface IUser {
-  id: number;
-  name: string;
-  username: string;
-  password: string;
-  phone: string;
-  dni: number;
-  email: string;
-  orders?: IOrderResponse[];
+
+	id: number;
+	name: string;
+	username: string;
+	password: string;
+	phone: string;
+	dni: string;
+	email: string;
+	orders?: IOrderResponse[];
+
 }
 
 export interface IUserResponse {
@@ -58,12 +60,14 @@ export interface LoginErrorProps {
 }
 
 export interface IRegisterUser {
-  name: string;
-  username: string;
-  password: string;
-  phone: number;
-  dni: number;
-  email: string;
+
+	name: string;
+	username: string;
+	password: string;
+	phone: string;
+	dni: string;
+	email: string;
+
 }
 
 export interface IRegisterUserResponse {
