@@ -1,9 +1,8 @@
 "use client";
 
-import TarjetaPage from "@/components/armatupaquete/page";
-import { PaqueteDetalleProps } from "@/types";
+import TarjetaPage from "@/components/armatupaquete";
 
-const PaqueteDetalle: React.FC<PaqueteDetalleProps> = ({
+const PaqueteDetalle = ({
   id,
   image,
   image2,
@@ -28,16 +27,7 @@ const PaqueteDetalle: React.FC<PaqueteDetalleProps> = ({
           </div>
         </div>
       </div>
-      <TarjetaPage
-        id={id}
-        image={image} // Probablemente quieras usar `image1` aquí
-        image2={image2}
-        image3={image3}
-        description={description}
-        title={title}
-        description2={description2}
-        price={price}
-      />
+      <TarjetaPage title={title} description2={description2} price={price} />
     </div>
   );
 };

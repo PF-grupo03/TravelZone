@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import BookingCard from "@/components/Tarjeta";
 import paquetesDatailToPreload from "@/helpers/paquetesDetailToPreload";
 import TourMap from "@/components/Maps";
-import { PaqueteDetalleProps } from "@/types";
 
 const TarjetaPage = ({ price, title, description2 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
