@@ -141,4 +141,8 @@ export interface PaqueteDetalleProps {
   description: string;
   description2: string;
   price: number;
+  location: string;
+  duration: string;
+  stock: number;
+  categories: string[];
 }

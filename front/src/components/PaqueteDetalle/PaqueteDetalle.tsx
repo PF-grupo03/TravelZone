@@ -1,6 +1,6 @@
 "use client";
 
-import TarjetaPage from "@/components/armatupaquete";
+import TarjetaPage from "../armatupaquete";
 
 const PaqueteDetalle = ({
   id,
@@ -11,11 +11,15 @@ const PaqueteDetalle = ({
   description,
   description2,
   price,
+  location,
+  duration,
+  stock,
+  categories,
 }) => {
   return (
     <div className="">
       <div className="my-16 flex flex-col items-center justify-center w-full">
-        <div className="flex justify-center space-x-6 h-full mt-6 ">
+        <div className="flex justify-center space-x-6 h-full mt-6">
           <img src={image} alt={`${title} image 1`} className="h-96 w-full" />
           <img src={image2} alt={`${title} image 2`} className="h-96 w-full" />
           <img src={image3} alt={`${title} image 3`} className="h-96 w-full" />
