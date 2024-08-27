@@ -32,7 +32,7 @@ export interface IUser {
 	username: string;
 	password: string;
 	phone: string;
-	dni: number;
+	dni: string;
 	email: string;
 	orders?: IOrderResponse[];
 }
@@ -56,8 +56,8 @@ export interface IRegisterUser {
 	name: string;
 	username: string;
 	password: string;
-	phone: number;
-	dni: number;
+	phone: string;
+	dni: string;
 	email: string;
 }
 
