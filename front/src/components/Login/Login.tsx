@@ -2,7 +2,7 @@
 
 import { UserContext } from "@/context/userContext";
 import { validatedateLoginForm } from "@/helpers/formValidation";
-import { LoginErrorProps } from "@/types";
+import { LoginErrorProps, SignInResponse } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
@@ -27,7 +27,6 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate the form data
     const errors = validatedateLoginForm(signinValues);
     if (Object.keys(errors).length > 0) {
       setErrorUser(errors);
@@ -36,7 +35,7 @@ const Login = () => {
     }
 
     try {
-      const result = await signIn(signinValues);
+      const result: SignInResponse = await signIn(signinValues); // Explicitly type the result
 
       if (result.success) {
         alert(result.message);
