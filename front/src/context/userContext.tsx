@@ -7,6 +7,8 @@ import {
   IUser,
   IUsercontextType,
   IUserResponse,
+  SignInResponse,
+  SignUpResponse,
 } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
@@ -15,8 +17,8 @@ export const UserContext = createContext<IUsercontextType>({
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
-  signIn: async () => false,
-  signUp: async () => false,
+  signIn: async () => ({ success: false, message: "" }),
+  signUp: async () => ({ success: false, message: "" }),
   getOrders: async () => {},
   orders: [],
   logout: () => {},
@@ -27,20 +29,24 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [orders, setOrders] = useState<IOrderResponse[]>([]);
 
-  const signUp = async (user: Omit<IUser, "id">) => {
+  const signUp = async (user: Omit<IUser, "id">): Promise<SignUpResponse> => {
     try {
       const data = await postSignup(user);
       if (data.id) {
-        signIn({ email: user.email, password: user.password });
-        return true;
+        await signIn({ email: user.email, password: user.password });
+        return { success: true, message: "Account created successfully!" };
+      } else {
+        return { success: false, message: "Failed to create account." };
       }
     } catch (error) {
-      console.error(error);
-      return false;
+      return {
+        success: false,
+        message: error.message || "An error occurred. Please try again.",
+      };
     }
   };
 
-  const signIn = async (credentials: ILoginUser) => {
+  const signIn = async (credentials: ILoginUser): Promise<SignInResponse> => {
     try {
       const response = await postSignin(credentials);
       if (response.token) {
@@ -51,7 +57,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         return { success: false, message: "Invalid credentials." };
       }
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         message: error.message || "An error occurred. Please try again.",

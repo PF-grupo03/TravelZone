@@ -28,20 +28,18 @@ export interface ICategory {
 
 export interface ICredentials {
   password: string;
-  id: number;
+  id: string;
 }
 
 export interface IUser {
-
-	id: number;
-	name: string;
-	username: string;
-	password: string;
-	phone: string;
-	dni: string;
-	email: string;
-	orders?: IOrderResponse[];
-
+  id: string;
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+  orders?: IOrderResponse[];
 }
 
 export interface IUserResponse {
@@ -60,14 +58,12 @@ export interface LoginErrorProps {
 }
 
 export interface IRegisterUser {
-
-	name: string;
-	username: string;
-	password: string;
-	phone: string;
-	dni: string;
-	email: string;
-
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
 }
 
 export interface IRegisterUserResponse {
@@ -93,7 +89,7 @@ export interface RegisterPropsResponse {
 export interface RegisterErrorProps {
   name?: string;
   username?: string;
-  phone?: string;
+  phone?: number;
   email?: string;
   password?: string;
   role?: string;
@@ -104,8 +100,8 @@ export interface IUsercontextType {
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;
-  signIn: (credentials: ILoginUser) => Promise<boolean>;
-  signUp: (user: Omit<IUser, "id">) => Promise<boolean>;
+  signIn: (credentials: ILoginUser) => Promise<SignInResponse>;
+  signUp: (user: Omit<IUser, "id">) => Promise<SignInResponse>;
   getOrders: () => void;
   orders: IOrderResponse[] | [];
   logout: () => void;
@@ -149,4 +145,14 @@ export interface PaqueteDetalleProps {
   duration: string;
   stock: number;
   categories: string[];
+}
+
+export interface SignInResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface SignUpResponse {
+  success: boolean;
+  message: string;
 }

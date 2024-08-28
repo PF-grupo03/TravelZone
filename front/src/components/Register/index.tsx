@@ -2,15 +2,14 @@
 
 import { UserContext } from "@/context/userContext";
 import { validatedateRegisterForm } from "@/helpers/formValidation";
-import { IRegisterUser, RegisterErrorProps } from "@/types";
+import { IRegisterUser, RegisterErrorProps, SignUpResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 
 function Register() {
   const { signUp } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const router = useRouter(); // Ensure that this is used within a page or client component context
+  const router = useRouter();
   const [signupValues, setSignUpValues] = useState({
     name: "",
     username: "",
@@ -22,31 +21,21 @@ function Register() {
   const [errorUser, setErrorUser] = useState<RegisterErrorProps>({
     name: "",
     username: "",
-    phone: "",
+    phone: Number(),
     email: "",
     password: "",
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setSignUpValues({
-      ...signupValues,
-      [name]: value,
-    });
-    setErrorUser(validatedateRegisterForm({ ...signupValues, [name]: value }));
+  const user: IRegisterUser = {
+    name: signupValues.name,
+    username: signupValues.username,
+    email: signupValues.email,
+    password: signupValues.password,
+    phone: Number(signupValues.phone),
+    dni: Number(signupValues.dni),
   };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const user: IRegisterUser = {
-      name: signupValues.name,
-      username: signupValues.username,
-      email: signupValues.email,
-      password: signupValues.password,
-      phone: Number(signupValues.phone),
-      dni: Number(signupValues.dni),
-    };
 
     const errors = validatedateRegisterForm(user);
     if (Object.keys(errors).length > 0) {
@@ -56,10 +45,10 @@ function Register() {
     }
 
     try {
-      const result = await signUp(user);
+      const result: SignUpResponse = await signUp(user);
 
       if (result.success) {
-        alert(result.message); // Show success alert
+        alert(result.message);
         setSignUpValues({
           name: "",
           username: "",
@@ -70,13 +59,21 @@ function Register() {
         });
         router.push("/");
       } else {
-        alert(result.message); // Show error alert
+        alert(result.message);
       }
     } catch (error) {
-      alert("Se creo correctamente"); // Show general error alert
-    } finally {
-      setLoading(false);
+      console.error("Error during sign-up:", error);
+      alert("An error occurred while creating the account.");
     }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setSignUpValues({
+      ...signupValues,
+      [name]: value,
+    });
+    setErrorUser(validatedateRegisterForm({ ...user, [name]: value }));
   };
 
   return (
@@ -128,7 +125,7 @@ function Register() {
               Phone Number:
             </label>
             <input
-              type="text"
+              type="number"
               id="phone"
               name="phone"
               value={signupValues.phone}
@@ -206,9 +203,8 @@ function Register() {
           <button
             type="submit"
             className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600"
-            disabled={loading}
           >
-            {loading ? "Creating account..." : "Create account"}
+            Create account
           </button>
         </form>
         {message && (
