@@ -3,11 +3,30 @@ const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
 	images: {
-		domains: ["www.atrapalo.com.ar", "www.google.com"],
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "**",
+				hostname: "www.atrapalo.com.ar",
+			},
+			{
+				protocol: "https",
+				hostname: "www.google.com",
+			},
+			{
+				protocol: "https",
+				hostname: "media.admagazine.com",
+			},
+			{
+				protocol: "https",
+				hostname: "topadventure.com",
+			},
+			{
+				protocol: "https",
+				hostname: "prensa.cba.gov.ar",
+			},
+			{
+				protocol: "https",
+				hostname: "media.kasperskydaily.com",
 			},
 		],
 	},
