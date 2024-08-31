@@ -9,43 +9,61 @@ const Filters = ({ setFilters }) => {
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [isMedicalOpen, setIsMedicalOpen] = useState(false);
+  const [searchName, setSearchName] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 1000]);
 
-  const [selectedFilters, setSelectedFilters] = useState<{
-    continents: string[];
-    countries: string[];
-    activities: string[];
-    medicalServices: string[];
-  }>({
+  const [selectedFilters, setSelectedFilters] = useState({
     continents: [],
     countries: [],
     activities: [],
     medicalServices: [],
+    categorie: "",
+    priceRange: [0, 1000],
   });
 
-  const updateQueryParams = (newFilters: Record<string, string[]>) => {
+  const updateQueryParams = (newFilters) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.delete("categories");
+    queryParams.delete("categorie");
+    queryParams.delete("priceRange");
 
+    if (newFilters.ncategorie) {
+      queryParams.set("categorie", newFilters.categorie.toLowerCase());
+    }
+
+    if (newFilters.priceRange) {
+      queryParams.set(
+        "priceRange",
+        `${newFilters.priceRange[0]}-${newFilters.priceRange[1]}`
+      );
+    }
+
+    // Solo convertir a minúsculas si es una cadena
     Object.values(newFilters).forEach((filterArray) => {
-      filterArray.forEach((filterValue) => {
-        queryParams.append("categories", filterValue.toLowerCase());
-      });
+      if (Array.isArray(filterArray)) {
+        filterArray.forEach((filterValue) => {
+          if (typeof filterValue === "string") {
+            queryParams.append("categories", filterValue.toLowerCase());
+          }
+        });
+      }
     });
 
     router.push(`?${queryParams.toString()}`);
   };
 
-  const handleFilterChange = (
-    category: keyof typeof selectedFilters,
-    value: string
-  ) => {
+  const handleFilterChange = (category, value) => {
     const updatedFilters = { ...selectedFilters };
-    if (updatedFilters[category].includes(value)) {
-      updatedFilters[category] = updatedFilters[category].filter(
-        (item) => item !== value
-      );
+    if (category === "name" || category === "priceRange") {
+      updatedFilters[category] = value;
     } else {
-      updatedFilters[category].push(value);
+      if (updatedFilters[category].includes(value)) {
+        updatedFilters[category] = updatedFilters[category].filter(
+          (item) => item !== value
+        );
+      } else {
+        updatedFilters[category].push(value);
+      }
     }
 
     setSelectedFilters(updatedFilters);
@@ -68,7 +86,7 @@ const Filters = ({ setFilters }) => {
     (continent) => continentCountryMap[continent] || []
   );
 
-  const dropdownArrowClass = (isOpen: boolean) =>
+  const dropdownArrowClass = (isOpen) =>
     `transition-transform transform ${
       isOpen ? "rotate-180" : "rotate-0"
     } w-2.5 h-2.5 ms-3`;
@@ -79,6 +97,20 @@ const Filters = ({ setFilters }) => {
         <h2 className="text-lg font-bold">Escoja el lugar de su servicio.</h2>
       </div>
       <div className="p-4 space-y-4">
+        {/* Filtro de Búsqueda por Nombre */}
+        <div>
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={searchName}
+            onChange={(e) => {
+              setSearchName(e.target.value);
+              handleFilterChange("name", e.target.value);
+            }}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+
         {/* Dropdown para Continente */}
         <div>
           <h3
@@ -283,6 +315,37 @@ const Filters = ({ setFilters }) => {
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Filtro de Rango de Precios */}
+        <div>
+          <h3 className="text-md font-semibold mb-2">Rango de precios</h3>
+          <div className="flex space-x-2">
+            <input
+              type="number"
+              value={priceRange[0]}
+              onChange={(e) =>
+                handleFilterChange("priceRange", [
+                  Number(e.target.value),
+                  priceRange[1],
+                ])
+              }
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              placeholder="Mínimo"
+            />
+            <input
+              type="number"
+              value={priceRange[1]}
+              onChange={(e) =>
+                handleFilterChange("priceRange", [
+                  priceRange[0],
+                  Number(e.target.value),
+                ])
+              }
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              placeholder="Máximo"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import Filters from "@/components/Filters";
 import TourList from "@/components/TourList";
 import { fetchProducts } from "@/lib/fetchProduct";
@@ -11,13 +10,15 @@ const App = () => {
     countries: [],
     activities: [],
     medicalServices: [],
+    name: "",
+    priceRange: [0, 1000],
   });
 
   const [tours, setTours] = useState([]);
 
-  // Función para construir la query string basada en los filtros
   const buildFilterQuery = () => {
     const filterParams = new URLSearchParams();
+    const { name, priceRange, ...otherFilters } = filters;
     const allFilters = [
       ...filters.continents,
       ...filters.countries,
@@ -29,10 +30,17 @@ const App = () => {
       filterParams.set("categories", allFilters.join(",").toLowerCase());
     }
 
+    if (name) {
+      filterParams.set("name", name.toLowerCase());
+    }
+
+    if (priceRange) {
+      filterParams.set("priceRange", `${priceRange[0]}-${priceRange[1]}`);
+    }
+
     return `?${filterParams.toString()}`;
   };
 
-  // Cargar los productos cuando los filtros cambian
   useEffect(() => {
     const loadProducts = async () => {
       try {
@@ -45,7 +53,7 @@ const App = () => {
     };
 
     loadProducts();
-  }, [filters]); // Se ejecuta cuando cambian los filtros
+  }, [filters]);
 
   return (
     <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
