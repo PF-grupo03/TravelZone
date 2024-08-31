@@ -89,7 +89,7 @@ export interface RegisterPropsResponse {
 export interface RegisterErrorProps {
   name?: string;
   username?: string;
-  phone?: number;
+  phone?: string;
   email?: string;
   password?: string;
   role?: string;

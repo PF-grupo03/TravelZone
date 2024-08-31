@@ -21,7 +21,7 @@ function Register() {
   const [errorUser, setErrorUser] = useState<RegisterErrorProps>({
     name: "",
     username: "",
-    phone: Number(),
+    phone: "",
     email: "",
     password: "",
   });
