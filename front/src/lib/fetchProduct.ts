@@ -8,7 +8,6 @@ export async function fetchProducts(filters: string = ""): Promise<IProduct[]> {
   if (!response.ok) {
     throw new Error("Failed to fetch products");
   }
-
   const products = await response.json();
   return products;
 }

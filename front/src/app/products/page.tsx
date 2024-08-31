@@ -10,13 +10,15 @@ const App = () => {
     countries: [],
     activities: [],
     medicalServices: [],
+    name: "",
+    priceRange: [0, 1000],
   });
 
   const [tours, setTours] = useState([]);
 
-  // Función para construir la query string basada en los filtros
   const buildFilterQuery = () => {
     const filterParams = new URLSearchParams();
+    const { name, priceRange, ...otherFilters } = filters;
     const allFilters = [
       ...filters.continents,
       ...filters.countries,
@@ -28,10 +30,17 @@ const App = () => {
       filterParams.set("categories", allFilters.join(",").toLowerCase());
     }
 
+    if (name) {
+      filterParams.set("name", name.toLowerCase());
+    }
+
+    if (priceRange) {
+      filterParams.set("priceRange", `${priceRange[0]}-${priceRange[1]}`);
+    }
+
     return `?${filterParams.toString()}`;
   };
 
-  // Cargar los productos cuando los filtros cambian
   useEffect(() => {
     const loadProducts = async () => {
       try {
@@ -44,16 +53,18 @@ const App = () => {
     };
 
     loadProducts();
-  }, [filters]); // Se ejecuta cuando cambian los filtros
+  }, [filters]);
 
   return (
-    <div className="flex justify-center p-8 bg-white mt-16">
-      <aside className="w-1/4 mr-6">
+    <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
+      <aside className="w-full xl:w-1/4 xl:mr-6 mb-4 xl:mb-0">
         <Filters setFilters={setFilters} />
       </aside>
-      <main className="w-3/4">
-        <h1 className="text-2xl font-bold mb-6">¡Personaliza Tu Aventura!</h1>
-        <TourList tours={tours} filters={filters} />
+      <main className="w-full xl:w-3/4">
+        <h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
+          ¡Personaliza Tu Aventura!
+        </h1>
+        <TourList tours={tours} />
       </main>
     </div>
   );
