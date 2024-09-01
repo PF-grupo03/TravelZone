@@ -56,16 +56,18 @@ const App = () => {
   }, [filters]);
 
   return (
-    <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
-      <aside className="w-full xl:w-1/4 xl:mr-6 mb-4 xl:mb-0">
-        <Filters setFilters={setFilters} />
-      </aside>
-      <main className="w-full xl:w-3/4">
-        <h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
-          ¡Personaliza Tu Aventura!
-        </h1>
-        <TourList tours={tours} />
-      </main>
+    <div className="mx-[110px]">
+      <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
+        <aside className="w-full xl:w-1/4 xl:mr-6 mb-4 xl:mb-0">
+          <Filters setFilters={setFilters} />
+        </aside>
+        <main className="w-full xl:w-3/4">
+          <h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
+            ¡Personaliza Tu Aventura!
+          </h1>
+          <TourList tours={tours} />
+        </main>
+      </div>
     </div>
   );
 };

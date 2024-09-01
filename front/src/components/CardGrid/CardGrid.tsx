@@ -34,11 +34,18 @@ const CardGrid = () => {
   ];
 
   return (
-    <div>
-      <h2 className="mt-24 mb-6 text-xl font-bold font-inter text-[#05073C]">
+    <div
+      style={{
+        marginLeft: "calc(-110px + var(--margin-adjust))",
+        marginRight: "calc(-110px + var(--margin-adjust))",
+        paddingLeft: "calc(110px - var(--margin-adjust))",
+        paddingRight: "calc(110px - var(--margin-adjust))",
+      }}
+    >
+      <h2 className="mt-24 mb-6 text-xl font-bold font-inter text-[#05073C] text-center">
         Servicios extras...
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10 mx-auto max-w-screen-xl justify-items-center">
         {cardsData.map((card, index) => (
           <Card key={index} {...card} />
         ))}
@@ -46,5 +53,4 @@ const CardGrid = () => {
     </div>
   );
 };
-
 export default CardGrid;
