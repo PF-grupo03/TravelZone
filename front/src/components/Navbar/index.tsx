@@ -150,7 +150,7 @@ const Navbar = () => {
             Tours
           </a>
           <Link
-            href="/paquetes"
+            href="/products"
             className="text-gray-900 hover:text-blue-700 inter"
           >
             Paquetes
