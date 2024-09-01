@@ -17,9 +17,25 @@
   }
 }
 
-body {
-  margin-left: 110px;
-  margin-right: 110px;
+:root {
+  --margin-adjust: 0px;
+}
+@media (min-width: 1200px) {
+  :root {
+    --margin-adjust: 100px;
+  }
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --margin-adjust: 70px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --margin-adjust: 110px;
+  }
 }
 
 .font-jua {
