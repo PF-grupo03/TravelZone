@@ -233,7 +233,7 @@ const Checkout = () => {
 										Subtotal
 									</dt>
 									<dd className="text-base font-medium text-gray-900 dark:text-white">
-										$8,094.00
+										$250.00
 									</dd>
 								</dl>
 
@@ -249,7 +249,7 @@ const Checkout = () => {
 										Store Pickup
 									</dt>
 									<dd className="text-base font-medium text-gray-900 dark:text-white">
-										$99
+										0
 									</dd>
 								</dl>
 
@@ -258,7 +258,7 @@ const Checkout = () => {
 										Tax
 									</dt>
 									<dd className="text-base font-medium text-gray-900 dark:text-white">
-										$199
+										$20.00
 									</dd>
 								</dl>
 
@@ -267,7 +267,7 @@ const Checkout = () => {
 										Total
 									</dt>
 									<dd className="text-base font-bold text-gray-900 dark:text-white">
-										$8,392.00
+										$270.00
 									</dd>
 								</dl>
 							</div>
