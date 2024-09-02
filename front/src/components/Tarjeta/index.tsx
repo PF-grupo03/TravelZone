@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const BookingCard = ({ price }) => {
 	return (
@@ -63,10 +64,11 @@ const BookingCard = ({ price }) => {
 						</label>
 					</div>
 				</div>
-
-				<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-					BOOK NOW FOR ${price}
-				</button>
+				<Link href="/checkout">
+					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
+						BOOK NOW FOR ${price}
+					</button>
+				</Link>
 			</div>
 		</div>
 	);
