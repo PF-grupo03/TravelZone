@@ -155,4 +155,5 @@ export interface SignInResponse {
 export interface SignUpResponse {
   success: boolean;
   message: string;
+  user?: IUser; // Agrega esta línea para incluir el usuario en la respuesta
 }

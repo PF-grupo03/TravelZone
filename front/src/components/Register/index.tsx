@@ -37,6 +37,8 @@ function Register() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log("handleSubmit called");
+
     const errors = validatedateRegisterForm(user);
     if (Object.keys(errors).length > 0) {
       setErrorUser(errors);
@@ -45,7 +47,9 @@ function Register() {
     }
 
     try {
+      console.log("Attempting to sign up user:", user);
       const result: SignUpResponse = await signUp(user);
+      console.log("signUp result:", result);
 
       if (result.success) {
         alert(result.message);

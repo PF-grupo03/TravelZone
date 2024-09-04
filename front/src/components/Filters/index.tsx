@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const Filters = ({ setFilters }) => {
+const Filters = ({ setFilters, products }) => {
   const router = useRouter();
 
   const [isContinentOpen, setIsContinentOpen] = useState(false);
@@ -11,6 +11,7 @@ const Filters = ({ setFilters }) => {
   const [isMedicalOpen, setIsMedicalOpen] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const [selectedFilters, setSelectedFilters] = useState({
     continents: [],
@@ -21,13 +22,35 @@ const Filters = ({ setFilters }) => {
     priceRange: [0, 1000],
   });
 
+  useEffect(() => {
+    if (products && searchName) {
+      const lowercasedSearchTerm = searchName.toLowerCase();
+      const filtered = products.filter((product) => {
+        const inTitle = product.title
+          .toLowerCase()
+          .includes(lowercasedSearchTerm);
+        const inDescription = product.description
+          .toLowerCase()
+          .includes(lowercasedSearchTerm);
+        const inCategories = product.categories.some((category) =>
+          category.toLowerCase().includes(lowercasedSearchTerm)
+        );
+
+        return inTitle || inDescription || inCategories;
+      });
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products || []);
+    }
+  }, [searchName, products]);
+
   const updateQueryParams = (newFilters) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.delete("categories");
     queryParams.delete("categorie");
     queryParams.delete("priceRange");
 
-    if (newFilters.ncategorie) {
+    if (newFilters.categorie) {
       queryParams.set("categorie", newFilters.categorie.toLowerCase());
     }
 
@@ -38,7 +61,6 @@ const Filters = ({ setFilters }) => {
       );
     }
 
-    // Solo convertir a minúsculas si es una cadena
     Object.values(newFilters).forEach((filterArray) => {
       if (Array.isArray(filterArray)) {
         filterArray.forEach((filterValue) => {
@@ -74,7 +96,7 @@ const Filters = ({ setFilters }) => {
   const continentCountryMap = {
     Asia: ["Japón"],
     África: ["Egipto"],
-    América: ["Estados Unidos", "Brasil"],
+    América: ["Estados Unidos", "Brasil", "Japón"],
     Europa: ["Italia"],
     Oceanía: ["Australia", "Hawáii"],
   };
@@ -97,7 +119,6 @@ const Filters = ({ setFilters }) => {
         <h2 className="text-lg font-bold">Escoja el lugar de su servicio.</h2>
       </div>
       <div className="p-4 space-y-4">
-        {/* Filtro de Búsqueda por Nombre */}
         <div>
           <input
             type="text"
@@ -111,7 +132,7 @@ const Filters = ({ setFilters }) => {
           />
         </div>
 
-        {/* Dropdown para Continente */}
+        {/* Continente Filter */}
         <div>
           <h3
             onClick={() => setIsContinentOpen(!isContinentOpen)}
@@ -161,7 +182,7 @@ const Filters = ({ setFilters }) => {
           )}
         </div>
 
-        {/* Dropdown para País */}
+        {/* País Filter */}
         <div>
           <h3
             onClick={() => setIsCountryOpen(!isCountryOpen)}
@@ -186,36 +207,29 @@ const Filters = ({ setFilters }) => {
           </h3>
           {isCountryOpen && (
             <ul className="pl-4 space-y-2">
-              {availableCountries.length > 0 ? (
-                availableCountries.map((country) => (
-                  <li key={country}>
-                    <div className="flex items-center">
-                      <input
-                        id={`country-${country}`}
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        checked={selectedFilters.countries.includes(country)}
-                        onChange={() =>
-                          handleFilterChange("countries", country)
-                        }
-                      />
-                      <label
-                        htmlFor={`country-${country}`}
-                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        {country}
-                      </label>
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <li>No hay países disponibles</li>
-              )}
+              {availableCountries.map((country) => (
+                <li key={country}>
+                  <div className="flex items-center">
+                    <input
+                      id={`country-${country}`}
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      checked={selectedFilters.countries.includes(country)}
+                      onChange={() => handleFilterChange("countries", country)}
+                    />
+                    <label
+                      htmlFor={`country-${country}`}
+                      className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {country}
+                    </label>
+                  </div>
+                </li>
+              ))}
             </ul>
           )}
         </div>
 
-        {/* Dropdown para Actividad */}
         <div>
           <h3
             onClick={() => setIsActivityOpen(!isActivityOpen)}
@@ -265,7 +279,6 @@ const Filters = ({ setFilters }) => {
           )}
         </div>
 
-        {/* Dropdown para Servicios Médicos */}
         <div>
           <h3
             onClick={() => setIsMedicalOpen(!isMedicalOpen)}
@@ -294,7 +307,7 @@ const Filters = ({ setFilters }) => {
                 <li key={service}>
                   <div className="flex items-center">
                     <input
-                      id={`medical-${service}`}
+                      id={`medicalService-${service}`}
                       type="checkbox"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       checked={selectedFilters.medicalServices.includes(
@@ -305,7 +318,7 @@ const Filters = ({ setFilters }) => {
                       }
                     />
                     <label
-                      htmlFor={`medical-${service}`}
+                      htmlFor={`medicalService-${service}`}
                       className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
                       {service}
@@ -316,35 +329,26 @@ const Filters = ({ setFilters }) => {
             </ul>
           )}
         </div>
-
-        {/* Filtro de Rango de Precios */}
-        <div>
-          <h3 className="text-md font-semibold mb-2">Rango de precios</h3>
-          <div className="flex space-x-2">
-            <input
-              type="number"
-              value={priceRange[0]}
-              onChange={(e) =>
-                handleFilterChange("priceRange", [
-                  Number(e.target.value),
-                  priceRange[1],
-                ])
-              }
-              className="w-1/2 p-2 border border-gray-300 rounded-md"
-              placeholder="Mínimo"
-            />
-            <input
-              type="number"
-              value={priceRange[1]}
-              onChange={(e) =>
-                handleFilterChange("priceRange", [
-                  priceRange[0],
-                  Number(e.target.value),
-                ])
-              }
-              className="w-1/2 p-2 border border-gray-300 rounded-md"
-              placeholder="Máximo"
-            />
+        <div className="mb-4">
+          <label htmlFor="priceRange" className="block font-medium mb-2">
+            Rango de Precio:
+          </label>
+          <input
+            id="priceRange"
+            type="range"
+            min="0"
+            max="1000"
+            value={priceRange[1]}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setPriceRange([0, value]);
+              handleFilterChange("priceRange", [0, value]);
+            }}
+            className="w-full"
+          />
+          <div className="flex justify-between mt-1">
+            <span>0</span>
+            <span>{priceRange[1]}</span>
           </div>
         </div>
       </div>
