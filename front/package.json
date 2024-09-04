@@ -9,13 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
+    "@mui/material": "^6.0.2",
+    "@mui/styled-engine-sc": "^6.0.2",
+    "@mui/x-date-pickers": "^7.15.0",
     "@react-google-maps/api": "^2.19.3",
     "@tailwindcss/line-clamp": "^0.4.4",
+    "dayjs": "^1.11.13",
     "flowbite": "^2.5.1",
+    "install": "^0.13.0",
     "next": "14.2.5",
+    "npm": "^10.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.13",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {

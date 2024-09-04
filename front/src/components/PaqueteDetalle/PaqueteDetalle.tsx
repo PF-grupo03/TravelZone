@@ -1,6 +1,9 @@
 "use client";
 
 import TarjetaPage from "../armatupaquete";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const PaqueteDetalle = ({
 	id,
@@ -16,33 +19,50 @@ const PaqueteDetalle = ({
 	stock,
 	categories,
 }) => {
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 3000,
+	};
+
 	return (
-		<div className="flex flex-col">
-			<div className="my-16 flex flex-col items-center justify-center w-full bg-slate-200 min-w-20">
-				<div className="flex flex-col lg:flex-row justify-center space-y-6 lg:space-y-0 lg:space-x-6 h-full mt-6 max-w-full overflow-hidden mx-10">
-					<img
-						src={image}
-						alt={`${title} image 1`}
-						className="h-64 w-full lg:h-96 lg:w-1/3 object-contain"
-					/>
-					<img
-						src={image2}
-						alt={`${title} image 2`}
-						className="h-64 w-full lg:h-96 lg:w-1/3 object-contain"
-					/>
-					<img
-						src={image3}
-						alt={`${title} image 3`}
-						className="h-64 w-full lg:h-96 lg:w-1/3 object-contain"
-					/>
+		<div className="flex flex-col items-center w-full">
+			<div className="my-16 flex flex-col items-center justify-center w-full bg-slate-200">
+				<div className="flex items-center justify-center h-full mt-6 mx-4 md:mx-10 w-full">
+					<Slider
+						{...settings}
+						className="w-full h-full max-w-md md:max-w-lg lg:max-w-2xl"
+					>
+						<img
+							src={image}
+							alt={`${title} image 1`}
+							className="h-48 md:h-64 lg:h-96 w-full object-contain"
+						/>
+						<img
+							src={image2}
+							alt={`${title} image 2`}
+							className="h-48 md:h-64 lg:h-96 w-full object-contain"
+						/>
+						<img
+							src={image3}
+							alt={`${title} image 3`}
+							className="h-48 md:h-64 lg:h-96 w-full object-contain"
+						/>
+					</Slider>
 				</div>
-				<div className="flex flex-col">
-					<div className="flex flex-col my-20 items-center text-center lg:flex-row lg:justify-evenly">
-						<div>
-							<h1 className="text-2xl lg:text-4xl font-bold mb-4">{title}</h1>
-							<p className="text-black text-opacity-50">{description}</p>
-						</div>
+				<div className="w-full flex flex-col my-10 md:my-20 text-center px-4 md:px-10 ">
+					<div>
+						<h1 className="text-xl md:text-2xl font-bold mb-4">{title}</h1>
+						<p className="text-sm md:text-base text-black text-opacity-50">
+							{description}
+						</p>
 					</div>
+				</div>
+				<div className="w-full px-4 xl:px-10 ">
 					<TarjetaPage
 						title={title}
 						description2={description2}
