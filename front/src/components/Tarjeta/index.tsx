@@ -43,15 +43,14 @@ const BookingCard = ({ price }) => {
 						<h1 className="text-gray-500">Price</h1>
 						<h2 className="text-2xl font-bold">From</h2>
 					</div>
-					<p className="text-4xl font-bold text-gray-800">${price}</p>
+					<p className="text-4xl font-bold text-gray-800">
+						${calculateTotal()}
+					</p>
 				</div>
 
-				<div className="mt-4 flex justify-between">
+				<div className="mt-4 flex justify-center">
 					<button className="text-lg font-semibold border-b-2 border-teal-500 pb-1 mr-4">
 						Booking Form
-					</button>
-					<button className="text-lg font-semibold text-gray-500">
-						Enquiry Form
 					</button>
 				</div>
 
