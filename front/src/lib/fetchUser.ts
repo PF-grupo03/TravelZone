@@ -11,13 +11,25 @@ export const postSignup = async (user: Omit<IUser, "id">) => {
       body: JSON.stringify(user),
     }
   );
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Error registering user.");
+
+  console.log("Response status:", response.status);
+
+  let data;
+  try {
+    data = await response.json();
+    console.log("Response data:", data);
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+    throw new Error("Failed to parse server response.");
   }
-  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error registering user.");
+  }
+
   return data;
 };
+
 export const postSignin = async (credentials: ILoginUser) => {
   const response = await fetch(
     "https://pf-grupo03-back.onrender.com/auth/signin",
