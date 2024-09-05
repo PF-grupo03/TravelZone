@@ -16,7 +16,7 @@ function PulpoDesktop() {
 			<div className="relative w-full max-w-4xl">
 				<div className="absolute inset-0 flex items-center justify-center">
 					<Image
-						src="/Imagenes Pulpo/Logo.jpeg"
+						src="/Imagenes Pulpo/Logo.png"
 						alt="Travel Agency Logo"
 						width={300}
 						height={300}
