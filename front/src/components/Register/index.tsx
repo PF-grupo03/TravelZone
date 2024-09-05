@@ -1,497 +1,238 @@
-"use client"; // Add this line if using Next.js 13 or higher with app directory
-import { UserContext } from "@/context/userContext";
-import { validatedateRegisterForm } from "@/helpers/formValidation";
-import { IRegisterUser, RegisterErrorProps } from "@/types";
-import { useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
-
-interface FormData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    dni: string;
-    password: string;
-}
-
-function Register() {
-    const [formData, setFormData] = useState<FormData>({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        dni: "",
-        password: "",
-    });
-
-    const [errors, setErrors] = useState<Partial<FormData>>({});
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
-        setFormData({
-            ...formData,
-            [id]: value,
-        });
-    };
-
-    const validate = () => {
-        let tempErrors: Partial<FormData> = {};
-        let isValid = true;
-
-        if (!formData.firstName.trim()) {
-            tempErrors.firstName = "First name is required";
-            isValid = false;
-        }
-
-        if (!formData.lastName.trim()) {
-            tempErrors.lastName = "Last name is required";
-            isValid = false;
-        }
-
-        if (!formData.email) {
-            tempErrors.email = "Email is required";
-            isValid = false;
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            tempErrors.email = "Email is invalid";
-            isValid = false;
-        }
-
-        if (!formData.phone) {
-            tempErrors.phone = "Phone number is required";
-            isValid = false;
-        } else if (!/^\d{3}-\d{3}-\d{4}$/.test(formData.phone)) {
-            tempErrors.phone = "Phone number must be in the format: 123-456-7890";
-            isValid = false;
-        }
-
-        if (!formData.dni) {
-            tempErrors.dni = "DNI is required";
-            isValid = false;
-        } else if (!/^\d{8,10}$/.test(formData.dni)) {
-            tempErrors.dni = "DNI must be between 8 and 10 digits";
-            isValid = false;
-        }
-
-        if (!formData.password) {
-            tempErrors.password = "Password is required";
-            isValid = false;
-        } else if (formData.password.length < 6) {
-            tempErrors.password = "Password must be at least 6 characters long";
-            isValid = false;
-        }
-
-        setErrors(tempErrors);
-        return isValid;
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (validate()) {
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                setMessage("Registration successful!");
-                setFormData({
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    phone: "",
-                    dni: "",
-                    password: "",
-                });
-            }, 2000);
-        }
-    };
-
-    return (
-        <div className="flex justify-center mt-24 mb-32 items-start">
-            <div className="w-full max-w-md h-auto flex flex-col bg-white p-6 rounded-lg shadow-lg">
-                <div className="">
-                    <h1 className="text-3xl font-bold mb-4 text-center">Register</h1>
-                    <p className="text-gray-600 text-center mb-8">
-                        Please fill in the information below to create your account.
-                    </p>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label htmlFor="firstName" className="block text-gray-700 font-bold">
-                                First Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                value={formData.firstName}
-                                onChange={handleInputChange}
-                                placeholder="First Name"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.firstName ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.firstName && (
-                                <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="lastName" className="block text-gray-700 font-bold">
-                                Last Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                value={formData.lastName}
-                                onChange={handleInputChange}
-                                placeholder="Last Name"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.lastName ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.lastName && (
-                                <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="block text-gray-700 font-bold">
-                                Email:
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder="Email"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.email ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.email && (
-                                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="phone" className="block text-gray-700 font-bold">
-                                Phone Number:
-                            </label>
-                            <input
-                                type="text"
-                                id="phone"
-                                value={formData.phone}
-                                onChange={handleInputChange}
-                                placeholder="Phone Number"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.phone ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.phone && (
-                                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="dni" className="block text-gray-700 font-bold">
-                                DNI:
-                            </label>
-                            <input
-                                type="text"
-                                id="dni"
-                                value={formData.dni}
-                                onChange={handleInputChange}
-                                placeholder="DNI"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.dni ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.dni && (
-                                <p className="text-red-500 text-sm mt-1">{errors.dni}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block text-gray-700 font-bold">
-                                Password:
-                            </label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                placeholder="Password"
-                                className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                                    errors.password ? "border-red-500" : "border-gray-300"
-                                } rounded-md`}
-                            />
-                            {errors.password && (
-                                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                            )}
-                        </div>
-                        <div>
-                            <input type="checkbox" id="terms" required />
-                            <label htmlFor="terms" className="ml-2 text-gray-700">
-                                I agree to the{" "}
-                                <a href="#" className="text-red-500">
-                                    Terms and Privacy Policy
-                                </a>
-                            </label>
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600"
-                            disabled={loading}
-                        >
-                            {loading ? "Creating account..." : "Create account"}
-                        </button>
-                    </form>
-                    {message && (
-                        <p className="text-green-500 text-sm mt-4 text-center">{message}</p>
-                    )}
-                    <p className="text-center text-gray-700 mt-4">
-                        Already have an account?{" "}
-                        <a href="#" className="text-red-500">
-                            Login
-                        </a>
-                    </p>
-                </div>
-            </div>
-            <div className="w-1/3 h-full">
-                <img
-                    src="/path/to/your/image.png"
-                    alt="Register"
-                    className="rounded-r-lg w-full h-screen object-cover"
-                />
-            </div>
-        </div>
-    );
-  };
-
+"use client";
 import { UserContext } from "@/context/userContext";
 import { validatedateRegisterForm } from "@/helpers/formValidation";
 import { IRegisterUser, RegisterErrorProps, SignUpResponse } from "@/types";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 
 function Register() {
-  const { signUp } = useContext(UserContext);
-  const [message, setMessage] = useState("");
-  const router = useRouter();
-  const [signupValues, setSignUpValues] = useState({
-    name: "",
-    username: "",
-    phone: "",
-    email: "",
-    password: "",
-    dni: "",
-  });
-  const [errorUser, setErrorUser] = useState<RegisterErrorProps>({
-    name: "",
-    username: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
+	const { signUp } = useContext(UserContext);
+	const [message, setMessage] = useState("");
+	const router = useRouter();
+	const [signupValues, setSignUpValues] = useState({
+		name: "",
+		username: "",
+		phone: "",
+		email: "",
+		password: "",
+		dni: "",
+	});
+	const [errorUser, setErrorUser] = useState<RegisterErrorProps>({
+		name: "",
+		username: "",
+		phone: "",
+		email: "",
+		password: "",
+	});
 
-  const user: IRegisterUser = {
-    name: signupValues.name,
-    username: signupValues.username,
-    email: signupValues.email,
-    password: signupValues.password,
-    phone: Number(signupValues.phone),
-    dni: Number(signupValues.dni),
-  };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+	const user: IRegisterUser = {
+		name: signupValues.name,
+		username: signupValues.username,
+		email: signupValues.email,
+		password: signupValues.password,
+		phone: Number(signupValues.phone),
+		dni: Number(signupValues.dni),
+	};
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 
-    console.log("handleSubmit called");
+		console.log("handleSubmit called");
 
-    const errors = validatedateRegisterForm(user);
-    if (Object.keys(errors).length > 0) {
-      setErrorUser(errors);
-      alert("Check your info");
-      return;
-    }
+		const errors = validatedateRegisterForm(user);
+		if (Object.keys(errors).length > 0) {
+			setErrorUser(errors);
+			alert("Check your info");
+			return;
+		}
 
-    try {
-      console.log("Attempting to sign up user:", user);
-      const result: SignUpResponse = await signUp(user);
-      console.log("signUp result:", result);
+		try {
+			console.log("Attempting to sign up user:", user);
+			const result: SignUpResponse = await signUp(user);
+			console.log("signUp result:", result);
 
-      if (result.success) {
-        alert(result.message);
-        setSignUpValues({
-          name: "",
-          username: "",
-          email: "",
-          phone: "",
-          password: "",
-          dni: "",
-        });
-        router.push("/");
-      } else {
-        alert(result.message);
-      }
-    } catch (error) {
-      console.error("Error during sign-up:", error);
-      alert("An error occurred while creating the account.");
-    }
-  };
+			if (result.success) {
+				alert(result.message);
+				setSignUpValues({
+					name: "",
+					username: "",
+					email: "",
+					phone: "",
+					password: "",
+					dni: "",
+				});
+				router.push("/");
+			} else {
+				alert(result.message);
+			}
+		} catch (error) {
+			console.error("Error during sign-up:", error);
+			alert("An error occurred while creating the account.");
+		}
+	};
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setSignUpValues({
-      ...signupValues,
-      [name]: value,
-    });
-    setErrorUser(validatedateRegisterForm({ ...user, [name]: value }));
-  };
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
+		setSignUpValues({
+			...signupValues,
+			[name]: value,
+		});
+		setErrorUser(validatedateRegisterForm({ ...user, [name]: value }));
+	};
 
-  return (
-    <div className="flex justify-center mt-24 mb-32 items-start">
-      <div className="w-full max-w-md h-[100vh] flex flex-col bg-white p-9 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-1 text-center">Register</h1>
-        <br />
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-gray-700 font-bold">
-              Full Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={signupValues.name}
-              onChange={handleChange}
-              placeholder="Full Name"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                errorUser.name ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errorUser.name && (
-              <p className="text-red-500 text-sm mt-1">{errorUser.name}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="username" className="block text-gray-700 font-bold">
-              Username:
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={signupValues.username}
-              onChange={handleChange}
-              placeholder="Username"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                errorUser.username ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errorUser.username && (
-              <p className="text-red-500 text-sm mt-1">{errorUser.username}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-gray-700 font-bold">
-              Phone Number:
-            </label>
-            <input
-              type="number"
-              id="phone"
-              name="phone"
-              value={signupValues.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                errorUser.phone ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errorUser.phone && (
-              <p className="text-red-500 text-sm mt-1">{errorUser.phone}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-gray-700 font-bold">
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={signupValues.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                errorUser.email ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errorUser.email && (
-              <p className="text-red-500 text-sm mt-1">{errorUser.email}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-gray-700 font-bold">
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={signupValues.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                errorUser.password ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errorUser.password && (
-              <p className="text-red-500 text-sm mt-1">{errorUser.password}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="dni" className="block text-gray-700 font-bold">
-              DNI:
-            </label>
-            <input
-              type="text"
-              id="dni"
-              name="dni"
-              value={signupValues.dni}
-              onChange={handleChange}
-              placeholder="DNI"
-              className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 `}
-            />
-          </div>
-          <div>
-            <input type="checkbox" id="terms" required />
-            <label htmlFor="terms" className="ml-2 text-gray-700">
-              I agree to the{" "}
-              <a href="#" className="text-red-500">
-                Terms and Privacy Policy
-              </a>
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600"
-          >
-            Create account
-          </button>
-        </form>
-        {message && (
-          <p className="text-green-500 text-sm mt-2 text-center">{message}</p>
-        )}
-        <p className="text-center text-gray-700 mt-4">
-          Already have an account?{" "}
-          <a href="#" className="text-red-500">
-            Login
-          </a>
-        </p>
-      </div>
-      <div className="w-1/3 h-full ">
-        <img
-          src="/register.jpg"
-          alt="Register"
-          className="rounded-r-lg w-full h-screen"
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div className="flex flex-col justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
+			<div className="w-full max-w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
+				<h2 className="text-3xl font-bold mb-4 text-center">Register</h2>
+				<p className="text-gray-600 text-center mb-8">
+					Create your Travel Zone account
+				</p>
+				<form onSubmit={handleSubmit} className="space-y-4">
+					<div>
+						<label htmlFor="name" className="block text-gray-700 font-bold">
+							Full Name:
+						</label>
+						<input
+							type="text"
+							id="name"
+							name="name"
+							value={signupValues.name}
+							onChange={handleChange}
+							placeholder="Full Name"
+							className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+								errorUser.name ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errorUser.name && (
+							<p className="text-red-500 text-sm mt-1">{errorUser.name}</p>
+						)}
+					</div>
+					<div>
+						<label htmlFor="username" className="block text-gray-700 font-bold">
+							Username:
+						</label>
+						<input
+							type="text"
+							id="username"
+							name="username"
+							value={signupValues.username}
+							onChange={handleChange}
+							placeholder="Username"
+							className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+								errorUser.username ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errorUser.username && (
+							<p className="text-red-500 text-sm mt-1">{errorUser.username}</p>
+						)}
+					</div>
+					<div>
+						<label htmlFor="phone" className="block text-gray-700 font-bold">
+							Phone Number:
+						</label>
+						<input
+							type="number"
+							id="phone"
+							name="phone"
+							value={signupValues.phone}
+							onChange={handleChange}
+							placeholder="Phone Number"
+							className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+								errorUser.phone ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errorUser.phone && (
+							<p className="text-red-500 text-sm mt-1">{errorUser.phone}</p>
+						)}
+					</div>
+					<div>
+						<label htmlFor="email" className="block text-gray-700 font-bold">
+							Email:
+						</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							value={signupValues.email}
+							onChange={handleChange}
+							placeholder="Email"
+							className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+								errorUser.email ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errorUser.email && (
+							<p className="text-red-500 text-sm mt-1">{errorUser.email}</p>
+						)}
+					</div>
+					<div>
+						<label htmlFor="password" className="block text-gray-700 font-bold">
+							Password:
+						</label>
+						<input
+							type="password"
+							id="password"
+							name="password"
+							value={signupValues.password}
+							onChange={handleChange}
+							placeholder="Password"
+							className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+								errorUser.password ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errorUser.password && (
+							<p className="text-red-500 text-sm mt-1">{errorUser.password}</p>
+						)}
+					</div>
+					<div>
+						<label htmlFor="dni" className="block text-gray-700 font-bold">
+							DNI:
+						</label>
+						<input
+							type="text"
+							id="dni"
+							name="dni"
+							value={signupValues.dni}
+							onChange={handleChange}
+							placeholder="DNI"
+							className="mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+						/>
+					</div>
+					<div className="flex items-center">
+						<input type="checkbox" id="terms" required className="mr-2" />
+						<label htmlFor="terms" className="text-gray-700">
+							I agree to the{" "}
+							<a href="#" className="text-red-500">
+								Terms and Privacy Policy
+							</a>
+						</label>
+					</div>
+					<button
+						type="submit"
+						className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600"
+					>
+						Create account
+					</button>
+				</form>
+				{message && (
+					<p className="text-green-500 text-sm mt-2 text-center">{message}</p>
+				)}
+				<p className="text-center text-gray-600 mt-4">
+					Already have an account?{" "}
+					<Link href="/login" className="text-red-500">
+						Login
+					</Link>
+				</p>
+			</div>
+
+			<div className="w-full md:w-96 mt-6 sm:mt-0 max-md:hidden">
+				<img
+					src="/register.jpg"
+					alt="Register"
+					className="w-full rounded-lg sm:rounded-r-lg"
+				/>
+			</div>
+		</div>
+	);
 }
-
 
 export default Register;

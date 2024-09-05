@@ -7,10 +7,10 @@ export default function Footer() {
 			className="bg-cover bg-center h-64 flex flex-col sm:flex-row w-full p-4"
 			style={{
 				backgroundImage: 'url("/Imagenes Pulpo/Fondo3.jpeg")',
-				marginLeft: "calc(-110px + var(--margin-adjust))",
-				marginRight: "calc(-110px + var(--margin-adjust))",
-				paddingLeft: "calc(110px - var(--margin-adjust))",
-				paddingRight: "calc(110px - var(--margin-adjust))",
+				// marginLeft: "calc(-110px + var(--margin-adjust))",
+				// marginRight: "calc(-110px + var(--margin-adjust))",
+				// paddingLeft: "calc(110px - var(--margin-adjust))",
+				// paddingRight: "calc(110px - var(--margin-adjust))",
 			}}
 		>
 			<div className="flex items-center justify-center w-full sm:w-1/4 h-full sm:pl-4 mb-4 sm:mb-0">
