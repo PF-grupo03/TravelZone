@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Filters from "@/components/Filters";
 import TourList from "@/components/TourList";
 import { fetchProducts } from "@/lib/fetchProduct";
@@ -16,7 +16,8 @@ const App = () => {
 
   const [tours, setTours] = useState([]);
 
-  const buildFilterQuery = () => {
+  // Uso de useCallback para memorizar la función y evitar renderizados innecesarios
+  const buildFilterQuery = useCallback(() => {
     const filterParams = new URLSearchParams();
     const { name, priceRange, ...otherFilters } = filters;
 
@@ -31,17 +32,17 @@ const App = () => {
       filterParams.append("categories", filter.toLowerCase());
     });
 
-    // Always include name and priceRange in the query, even if they are empty
     filterParams.set("name", name ? name.toLowerCase() : "");
     filterParams.set(
       "priceRange",
       priceRange ? `${priceRange[0]}-${priceRange[1]}` : "0-1000"
     );
 
-    console.log("Filter query string:", filterParams.toString());
+    const queryString = `?${filterParams.toString()}`;
+    console.log("Filter query string:", queryString);
 
-    return `?${filterParams.toString()}`;
-  };
+    return queryString;
+  }, [filters]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -58,8 +59,9 @@ const App = () => {
       }
     };
 
+    // Llamar a la función de carga de productos solo si hay cambios en los filtros
     loadProducts();
-  }, [filters]);
+  }, [buildFilterQuery]);
 
   return (
     <div className="mx-[110px]">
