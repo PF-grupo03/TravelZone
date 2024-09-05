@@ -50,8 +50,8 @@ const Login = () => {
 	};
 
 	return (
-		<div className="flex justify-center mt-32 mb-32">
-			<div className="w-full max-w-md  flex flex-col bg-white p-8 shadow-lg rounded-l-lg">
+		<div className="flex flex-col justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
+			<div className="w-full max-w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
 				<h2 className="text-3xl font-bold mb-4 text-center">Login</h2>
 				<p className="text-gray-600 text-center mb-8">
 					Login to access your Travel Zone account
@@ -78,7 +78,7 @@ const Login = () => {
 							<p className="text-red-500 text-sm">{errorUser.email}</p>
 						)}
 					</div>
-					<div className="mb-4">
+					<div className="mb-4 relative">
 						<label htmlFor="password" className="block text-gray-700 font-bold">
 							Password:
 						</label>
@@ -139,8 +139,12 @@ const Login = () => {
 				</p>
 			</div>
 
-			<div className="w-96">
-				<img src="/AvionLogin.jpg" alt="Resort" className="  rounded-r-lg" />
+			<div className="w-full md:w-96 mt-6 sm:mt-0 max-md:hidden">
+				<img
+					src="/AvionLogin.jpg"
+					alt="Resort"
+					className="w-full rounded-lg sm:rounded-r-lg"
+				/>
 			</div>
 		</div>
 	);
