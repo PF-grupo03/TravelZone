@@ -1,11 +1,16 @@
 export interface IProduct {
   id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
   image: string;
-  categoryId: number;
+  image2: string;
+  image3: string;
+  title: string;
+  description: string;
+  description2: string;
+  price: number;
+  location: string;
+  duration: string;
+  stock: number;
+  categories: string[];
 }
 
 export interface IProductListProps {
@@ -23,15 +28,15 @@ export interface ICategory {
 
 export interface ICredentials {
   password: string;
-  id: number;
+  id: string;
 }
 
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
   username: string;
   password: string;
-  phone: string;
+  phone: number;
   dni: number;
   email: string;
   orders?: IOrderResponse[];
@@ -56,7 +61,7 @@ export interface IRegisterUser {
   name: string;
   username: string;
   password: string;
-  phone: string;
+  phone: number;
   dni: number;
   email: string;
 }
@@ -65,7 +70,7 @@ export interface IRegisterUserResponse {
   name: string;
   username: string;
   password: string;
-  phone: string;
+  phone: number;
   dni: number;
   email: string;
   role: string;
@@ -74,7 +79,7 @@ export interface IRegisterUserResponse {
 
 export interface RegisterPropsResponse {
   name: string;
-  phone: string;
+  phone: number;
   email: string;
   password: string;
   role: string;
@@ -95,8 +100,8 @@ export interface IUsercontextType {
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;
-  signIn: (credentials: ILoginUser) => Promise<boolean>;
-  signUp: (user: Omit<IUser, "id">) => Promise<boolean>;
+  signIn: (credentials: ILoginUser) => Promise<SignInResponse>;
+  signUp: (user: Omit<IUser, "id">) => Promise<SignInResponse>;
   getOrders: () => void;
   orders: IOrderResponse[] | [];
   logout: () => void;
@@ -125,4 +130,30 @@ export interface IOrderResponse {
 export interface ICreateOrder {
   userId: number;
   products: number;
+}
+
+export interface PaqueteDetalleProps {
+  id: number;
+  image: string;
+  image2: string;
+  image3: string;
+  title: string;
+  description: string;
+  description2: string;
+  price: number;
+  location: string;
+  duration: string;
+  stock: number;
+  categories: string[];
+}
+
+export interface SignInResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface SignUpResponse {
+  success: boolean;
+  message: string;
+  user?: IUser; // Agrega esta línea para incluir el usuario en la respuesta
 }

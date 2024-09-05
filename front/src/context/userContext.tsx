@@ -7,6 +7,8 @@ import {
   IUser,
   IUsercontextType,
   IUserResponse,
+  SignInResponse,
+  SignUpResponse,
 } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
@@ -15,8 +17,8 @@ export const UserContext = createContext<IUsercontextType>({
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
-  signIn: async () => false,
-  signUp: async () => false,
+  signIn: async () => ({ success: false, message: "" }),
+  signUp: async () => ({ success: false, message: "" }),
   getOrders: async () => {},
   orders: [],
   logout: () => {},
@@ -27,31 +29,54 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [orders, setOrders] = useState<IOrderResponse[]>([]);
 
-  const signUp = async (user: Omit<IUser, "id">) => {
+  const signUp = async (user: Omit<IUser, "id">): Promise<SignUpResponse> => {
     try {
+      // Envía la solicitud para crear el usuario
       const data = await postSignup(user);
-      if (data.id) {
-        signIn({ email: user.email, password: user.password });
-        return true;
+      console.log("Response from postSignup:", data); // Log para verificar data
+
+      // Asegúrate de que estás accediendo a data.user.id
+      if (data.user && data.user.id) {
+        console.log("User created successfully:", data.user); // Log para ver el usuario completo
+
+        console.log("User created, attempting to sign in...");
+        await signIn({ email: user.email, password: user.password });
+
+        // Devuelve un objeto de respuesta que indica éxito y el usuario creado
+        return {
+          success: true,
+          message: "Account created successfully!",
+          user: data.user,
+        };
+      } else {
+        console.error("User creation failed, no ID returned");
+        return { success: false, message: "Failed to create account." };
       }
     } catch (error) {
-      console.error(error);
-      return false;
+      console.error("Error during sign-up process:", error);
+      return {
+        success: false,
+        message: error.message || "An error occurred. Please try again.",
+      };
     }
   };
 
-  const signIn = async (credentials: ILoginUser) => {
+  const signIn = async (credentials: ILoginUser): Promise<SignInResponse> => {
     try {
-      const data = await postSignin(credentials);
-      if (data.token) {
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("token", data.token);
-        return true;
+      const response = await postSignin(credentials);
+      if (response.token) {
+        setUser(response);
+        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("token", response.token);
+        return { success: true, message: "Login successful!" };
+      } else {
+        return { success: false, message: "Invalid credentials." };
       }
-    } catch (error) {
-      console.error(error);
-      return false;
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.message || "An error occurred. Please try again.",
+      };
     }
   };
 
