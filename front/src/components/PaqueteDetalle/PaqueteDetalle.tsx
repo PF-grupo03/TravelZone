@@ -33,15 +33,15 @@ const PaqueteDetalle = ({
 		<div className="flex flex-col items-center w-full">
 			<div className="my-10 flex flex-col items-center justify-center w-full 2xl:p-16 ">
 				{/* Carousel for mobile and tablet */}
-				<div className="flex items-center justify-center h-full mt-6 mx-2 md:hidden w-4/5 ">
+				<div className="flex items-center justify-center h-full mt-6 mx-4 md:hidden w-full bg-slate-600  ">
 					<Slider
 						{...settings}
-						className=" h-full w-full max-w-md md:max-w-lg lg:max-w-2xl "
+						className=" h-full max-w-md md:max-w-lg lg:max-w-2xl p-10"
 					>
 						<img
 							src={image}
 							alt={`${title} image 1`}
-							className=" w-full h-full object-cover aspect-[4/3] "
+							className=" w-full object-cover aspect-[4/3] "
 						/>
 						<img
 							src={image2}
