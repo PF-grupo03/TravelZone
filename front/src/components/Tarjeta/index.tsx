@@ -1,38 +1,45 @@
+// components/BookingCard.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import DatePickerValue from "../Calendar/Calendar";
+import BookingContext from "@/context/BookingContext";
 
-const BookingCard = ({ price }) => {
-	const [adults, setAdults] = useState(1);
-	const [children, setChildren] = useState(0);
-	const [selectedDate, setSelectedDate] = useState("03-12-2024"); // Estado para la fecha seleccionada
-	const [extraServices, setExtraServices] = useState({
-		healthInsurance: false,
-		medicalInsurance: false,
-	});
+interface BookingCardProps {
+	price: number;
+}
 
-	const handleAdultChange = (increment) => {
+const BookingCard = ({ price }: BookingCardProps) => {
+	const {
+		adults,
+		setAdults,
+		kids,
+		setKids,
+		selectedDate,
+		setSelectedDate,
+		extraServices,
+		setExtraServices,
+		calculateTotal,
+		setTotalPrice,
+	} = useContext(BookingContext);
+
+	const handleBookNow = () => {
+		setTotalPrice(calculateTotal(price));
+	};
+	const handleAdultChange = (increment: number) => {
 		setAdults((prev) => Math.max(1, prev + increment));
 	};
 
-	const handleChildrenChange = (increment) => {
-		setChildren((prev) => Math.max(0, prev + increment));
+	const handleKidsChange = (increment: number) => {
+		setKids((prev) => Math.max(0, prev + increment));
 	};
 
-	const handleServiceChange = (service) => {
+	const handleServiceChange = (service: string) => {
 		setExtraServices((prev) => ({
 			...prev,
 			[service]: !prev[service],
 		}));
-	};
-
-	const calculateTotal = () => {
-		let total = adults * price + children * 200;
-		if (extraServices.healthInsurance) total += 220;
-		if (extraServices.medicalInsurance) total += 45;
-		return total;
 	};
 
 	return (
@@ -44,7 +51,7 @@ const BookingCard = ({ price }) => {
 						<h2 className="text-2xl font-bold">From</h2>
 					</div>
 					<p className="text-4xl font-bold text-gray-800">
-						${calculateTotal()}
+						${calculateTotal(price)}
 					</p>
 				</div>
 
@@ -85,17 +92,17 @@ const BookingCard = ({ price }) => {
 
 				<div className="mt-4">
 					<div className="flex justify-between">
-						<span className="text-gray-800">Children</span>
+						<span className="text-gray-800">Kids</span>
 						<div className="flex items-center">
 							<button
-								onClick={() => handleChildrenChange(-1)}
+								onClick={() => handleKidsChange(-1)}
 								className="bg-gray-200 px-2"
 							>
 								-
 							</button>
-							<span className="mx-2">{children}</span>
+							<span className="mx-2">{kids}</span>
 							<button
-								onClick={() => handleChildrenChange(1)}
+								onClick={() => handleKidsChange(1)}
 								className="bg-gray-200 px-2"
 							>
 								+
@@ -129,9 +136,9 @@ const BookingCard = ({ price }) => {
 					</div>
 				</div>
 
-				<Link href="/checkout">
+				<Link href="/checkout" onClick={handleBookNow}>
 					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-						BOOK NOW FOR ${calculateTotal()}
+						BOOK NOW FOR ${calculateTotal(price)}
 					</button>
 				</Link>
 			</div>

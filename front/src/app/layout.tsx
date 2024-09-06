@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar/index";
 import { UserProvider } from "@/context/userContext";
 import "./globals.css";
 import Head from "./head";
+import { BookingProvider } from "@/context/BookingContext";
 
 export const metadata = {
 	title: "Travel Zone",
@@ -22,9 +23,11 @@ export default function RootLayout({
 			</head>
 			<body className="flex flex-col min-h-screen">
 				<UserProvider>
-					<Navbar />
-					<main className="flex-grow">{children}</main>
-					<Footer />
+					<BookingProvider>
+						<Navbar />
+						<main className="flex-grow">{children}</main>
+						<Footer />
+					</BookingProvider>
 				</UserProvider>
 			</body>
 		</html>

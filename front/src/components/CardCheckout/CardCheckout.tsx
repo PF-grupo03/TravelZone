@@ -1,6 +1,12 @@
-import React from "react";
+// components/CardCheckout.tsx
+"use client";
+import React, { useContext } from "react";
+import BookingContext from "@/context/BookingContext";
 
 const CardCheckout = () => {
+	const { adults, kids, extraServices, totalPrice } =
+		useContext(BookingContext);
+
 	return (
 		<div className=" w-full space-y-6 lg:mt-0 lg:max-w-xs xl:max-w-md">
 			<div className="flow-root">
@@ -10,32 +16,43 @@ const CardCheckout = () => {
 							Subtotal
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
-							$250.00
+							${totalPrice} {/* Ajusta el precio base según sea necesario */}
 						</dd>
 					</dl>
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Savings
-						</dt>
-						<dd className="text-base font-medium text-green-500">0</dd>
-					</dl>
-
-					<dl className="flex items-center justify-between gap-4 py-3">
-						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Store Pickup
+							Adults
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
-							0
+							{adults}
 						</dd>
 					</dl>
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Tax
+							Kids
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
-							$20.00
+							{kids}
+						</dd>
+					</dl>
+
+					<dl className="flex items-center justify-between gap-4 py-3">
+						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+							Health Insurance
+						</dt>
+						<dd className="text-base font-medium text-gray-900 dark:text-white">
+							{extraServices.healthInsurance ? "Yes" : "No"}
+						</dd>
+					</dl>
+
+					<dl className="flex items-center justify-between gap-4 py-3">
+						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+							Medical Insurance
+						</dt>
+						<dd className="text-base font-medium text-gray-900 dark:text-white">
+							{extraServices.medicalInsurance ? "Yes" : "No"}
 						</dd>
 					</dl>
 
@@ -44,7 +61,7 @@ const CardCheckout = () => {
 							Total
 						</dt>
 						<dd className="text-base font-bold text-gray-900 dark:text-white">
-							$270.00
+							${totalPrice} {/* Ajusta el precio base según sea necesario */}
 						</dd>
 					</dl>
 				</div>
