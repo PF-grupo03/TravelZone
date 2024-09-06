@@ -13,7 +13,10 @@ const FormUsers = () => {
 		setParticipants([...participants, {}]);
 	};
 
-	const handleParticipantChange = (index, event) => {
+	const handleParticipantChange = (
+		index: number,
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		const { name, value } = event.target;
 		const newParticipants = participants.map((participant, i) =>
 			i === index ? { ...participant, [name]: value } : participant
@@ -21,7 +24,7 @@ const FormUsers = () => {
 		setParticipants(newParticipants);
 	};
 
-	const handleRemoveParticipant = (index) => {
+	const handleRemoveParticipant = (index: number) => {
 		setParticipants(participants.filter((_, i) => i !== index));
 	};
 
@@ -57,9 +60,7 @@ const FormUsers = () => {
 
 							<div
 								className={`transition-all duration-300 ease-in-out mt-4 ${
-									isParticipantFormOpen
-										? "block" // Allows the section to grow
-										: "hidden"
+									isParticipantFormOpen ? "block" : "hidden"
 								}`}
 							>
 								<div className="overflow-auto">
@@ -83,6 +84,7 @@ const FormUsers = () => {
 														type="text"
 														id={`participant_name_${index}`}
 														name="name"
+														// value={participant.name || ''}
 														onChange={(e) => handleParticipantChange(index, e)}
 														className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 														placeholder="Participant Name"
@@ -100,6 +102,7 @@ const FormUsers = () => {
 														type="email"
 														id={`participant_email_${index}`}
 														name="email"
+														// value={participant.email || ''}
 														onChange={(e) => handleParticipantChange(index, e)}
 														className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 														placeholder="participant@example.com"
@@ -117,6 +120,7 @@ const FormUsers = () => {
 														type="text"
 														id={`participant_cellphone_${index}`}
 														name="cellphone"
+														// value={participant.cellphone || ''}
 														onChange={(e) => handleParticipantChange(index, e)}
 														className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 														placeholder="123-456-7890"
@@ -134,6 +138,7 @@ const FormUsers = () => {
 														type="text"
 														id={`participant_dni_${index}`}
 														name="dni"
+														// value={participant.dni || ''}
 														onChange={(e) => handleParticipantChange(index, e)}
 														className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 														placeholder="DNI Number"
