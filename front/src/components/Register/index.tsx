@@ -81,13 +81,13 @@ function Register() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
-			<div className="w-full max-w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
+		<div className="flex flex-col h-full  w-full justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
+			<div className="w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
 				<h2 className="text-3xl font-bold mb-4 text-center">Register</h2>
 				<p className="text-gray-600 text-center mb-8">
 					Create your Travel Zone account
 				</p>
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form onSubmit={handleSubmit} className="space-y-4 ">
 					<div>
 						<label htmlFor="name" className="block text-gray-700 font-bold">
 							Full Name:
@@ -224,11 +224,11 @@ function Register() {
 				</p>
 			</div>
 
-			<div className="w-full md:w-96 mt-6 sm:mt-0 max-md:hidden">
+			<div className=" mt-6 sm:mt-0 max-lg:hidden">
 				<img
 					src="/register.jpg"
 					alt="Register"
-					className="w-full rounded-lg sm:rounded-r-lg"
+					className=" rounded-lg sm:rounded-r-lg"
 				/>
 			</div>
 		</div>

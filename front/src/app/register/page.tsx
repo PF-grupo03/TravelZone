@@ -1,9 +1,11 @@
 import Register from "@/components/Register";
 
 function RegisterPage() {
-    return <div>
-        <Register />
-    </div>;
+	return (
+		<div className="flex justify-center">
+			<Register />
+		</div>
+	);
 }
 
 export default RegisterPage;
