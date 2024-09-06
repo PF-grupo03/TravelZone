@@ -1,14 +1,15 @@
 // context/BookingContext.tsx
 "use client";
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
+import { UserContext } from "./userContext"; // Importa el contexto de usuario
 
 interface BookingContextType {
 	adults: number;
 	setAdults: (value: number | ((prev: number) => number)) => void;
 	kids: number;
 	setKids: (value: number | ((prev: number) => number)) => void;
-	selectedDate: string;
-	setSelectedDate: (date: string) => void;
+	date: string;
+	setDate: (date: string) => void;
 	extraServices: {
 		healthInsurance: boolean;
 		medicalInsurance: boolean;
@@ -30,14 +31,16 @@ interface BookingContextType {
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
-	const [adults, setAdults] = useState<number>(0);
+	const [adults, setAdults] = useState<number>(1);
 	const [kids, setKids] = useState<number>(0);
-	const [selectedDate, setSelectedDate] = useState<string>("");
+	const [date, setDate] = useState<string>(""); // Nuevo estado para la fecha de departure
 	const [extraServices, setExtraServices] = useState<{
 		healthInsurance: boolean;
 		medicalInsurance: boolean;
 	}>({ healthInsurance: false, medicalInsurance: false });
 	const [totalPrice, setTotalPrice] = useState<number>(0);
+
+	const { user } = useContext(UserContext); // Usa el contexto de usuario
 
 	const calculateTotal = (price: number): number => {
 		const numAdults = Number(adults);
@@ -59,9 +62,10 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 		const bookingData = {
 			adults,
 			kids,
-			selectedDate,
+			date, // Incluye la fecha de departure
 			extraServices,
 			totalConIva,
+			userId: user.login, // Incluye el ID del usuario logeado
 		};
 
 		try {
@@ -95,8 +99,8 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setAdults,
 				kids,
 				setKids,
-				selectedDate,
-				setSelectedDate,
+				date,
+				setDate, // Proveedor de la nueva función setDate
 				extraServices,
 				setExtraServices,
 				totalPrice,
