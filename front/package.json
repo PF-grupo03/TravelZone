@@ -19,7 +19,12 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "dayjs": "^1.11.13",
     "flowbite": "^2.5.1",
+
+    "mapbox-gl": "^3.6.0",
+    "mapkick": "^0.2.6",
+
     "install": "^0.13.0",
+
     "next": "14.2.5",
     "npm": "^10.8.3",
     "react": "^18.3.1",
