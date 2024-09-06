@@ -3,9 +3,14 @@ import React, { useState } from "react";
 
 const Checkout = () => {
 	const [showForm, setShowForm] = useState(true);
+	const [paymentMethod, setPaymentMethod] = useState("credit-card"); // Controlar el método de pago seleccionado
 
 	const toggleForm = () => {
 		setShowForm(!showForm);
+	};
+
+	const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPaymentMethod(e.target.id); // Cambia el método de pago basado en el id del input
 	};
 
 	return (
@@ -47,7 +52,7 @@ const Checkout = () => {
 												<input
 													type="text"
 													id="your_name"
-													className="block w-full rounded-lg  border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  focus:ring-primary-500"
+													className="block w-full rounded-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:ring-primary-500"
 													placeholder="Bonnie Green"
 													required
 												/>
@@ -98,7 +103,7 @@ const Checkout = () => {
 												<input
 													placeholder="New York"
 													className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-												></input>
+												/>
 											</div>
 
 											<div>
@@ -111,24 +116,8 @@ const Checkout = () => {
 												<input
 													type="text"
 													id="phone-input"
-													className="block w-full rounded-lg   border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
+													className="block w-full rounded-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
 													placeholder="123-456-7890"
-													required
-												/>
-											</div>
-
-											<div>
-												<label
-													htmlFor="email"
-													className="block text-sm font-medium text-gray-900 dark:text-white"
-												>
-													Email
-												</label>
-												<input
-													type="email"
-													id="email"
-													className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-													placeholder="name@TravelZone.com"
 													required
 												/>
 											</div>
@@ -173,7 +162,7 @@ const Checkout = () => {
 										</h3>
 
 										<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-											<div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+											<div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
 												<div className="flex items-start">
 													<div className="flex h-5 items-center">
 														<input
@@ -181,9 +170,10 @@ const Checkout = () => {
 															aria-describedby="credit-card-text"
 															type="radio"
 															name="payment-method"
-															value=""
+															value="credit-card"
+															checked={paymentMethod === "credit-card"} // Controlar con el estado
+															onChange={handlePaymentChange} // Función para manejar el cambio
 															className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-															checked
 														/>
 													</div>
 
@@ -196,14 +186,77 @@ const Checkout = () => {
 														</label>
 														<p
 															id="credit-card-text"
-															className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
+															className="mt-1 text-gray-500 dark:text-gray-400"
 														>
-															Pay with your credit card.
+															Pay with Visa or Mastercard.
 														</p>
 													</div>
 												</div>
 											</div>
-											{/* Más opciones de pago */}
+
+											<div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+												<div className="flex items-start">
+													<div className="flex h-5 items-center">
+														<input
+															id="paypal"
+															aria-describedby="paypal-text"
+															type="radio"
+															name="payment-method"
+															value="paypal"
+															checked={paymentMethod === "paypal"} // Controlar con el estado
+															onChange={handlePaymentChange} // Función para manejar el cambio
+															className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+														/>
+													</div>
+
+													<div className="ms-4 text-sm">
+														<label
+															htmlFor="paypal"
+															className="font-medium leading-none text-gray-900 dark:text-white"
+														>
+															PayPal
+														</label>
+														<p
+															id="paypal-text"
+															className="mt-1 text-gray-500 dark:text-gray-400"
+														>
+															Pay easily with your PayPal account.
+														</p>
+													</div>
+												</div>
+											</div>
+
+											<div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+												<div className="flex items-start">
+													<div className="flex h-5 items-center">
+														<input
+															id="bank-transfer"
+															aria-describedby="bank-transfer-text"
+															type="radio"
+															name="payment-method"
+															value="bank-transfer"
+															checked={paymentMethod === "bank-transfer"} // Controlar con el estado
+															onChange={handlePaymentChange} // Función para manejar el cambio
+															className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+														/>
+													</div>
+
+													<div className="ms-4 text-sm">
+														<label
+															htmlFor="bank-transfer"
+															className="font-medium leading-none text-gray-900 dark:text-white"
+														>
+															Bank Transfer
+														</label>
+														<p
+															id="bank-transfer-text"
+															className="mt-1 text-gray-500 dark:text-gray-400"
+														>
+															Transfer money directly from your bank account.
+														</p>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>

@@ -1,7 +1,7 @@
 // components/BookingCard.tsx
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import DatePickerValue from "../Calendar/Calendar";
 import BookingContext from "@/context/BookingContext";
@@ -16,17 +16,22 @@ const BookingCard = ({ price }: BookingCardProps) => {
 		setAdults,
 		kids,
 		setKids,
-		selectedDate,
-		setSelectedDate,
 		extraServices,
 		setExtraServices,
 		calculateTotal,
 		setTotalPrice,
 	} = useContext(BookingContext);
 
+	const [localTotal, setLocalTotal] = useState<number>(calculateTotal(price));
+
+	useEffect(() => {
+		setLocalTotal(calculateTotal(price));
+	}, [adults, kids, extraServices, price]);
+
 	const handleBookNow = () => {
-		setTotalPrice(calculateTotal(price));
+		setTotalPrice(localTotal);
 	};
+
 	const handleAdultChange = (increment: number) => {
 		setAdults((prev) => Math.max(1, prev + increment));
 	};
@@ -50,9 +55,7 @@ const BookingCard = ({ price }: BookingCardProps) => {
 						<h1 className="text-gray-500">Price</h1>
 						<h2 className="text-2xl font-bold">From</h2>
 					</div>
-					<p className="text-4xl font-bold text-gray-800">
-						${calculateTotal(price)}
-					</p>
+					<p className="text-4xl font-bold text-gray-800">${localTotal}</p>
 				</div>
 
 				<div className="mt-4 flex justify-center">
@@ -61,12 +64,9 @@ const BookingCard = ({ price }: BookingCardProps) => {
 					</button>
 				</div>
 
-				{/* Integrando DatePickerValue */}
 				<div className="my-10 flex justify-center">
 					<DatePickerValue />
 				</div>
-
-				{/* Mostrando la fecha seleccionada */}
 
 				<div className="mt-4">
 					<div className="flex justify-between">
@@ -136,10 +136,12 @@ const BookingCard = ({ price }: BookingCardProps) => {
 					</div>
 				</div>
 
-				<Link href="/checkout" onClick={handleBookNow}>
-					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-						BOOK NOW FOR ${calculateTotal(price)}
-					</button>
+				<Link href="/checkout">
+					<a onClick={handleBookNow}>
+						<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
+							BOOK NOW FOR ${localTotal}
+						</button>
+					</a>
 				</Link>
 			</div>
 		</div>
