@@ -136,12 +136,10 @@ const BookingCard = ({ price }: BookingCardProps) => {
 					</div>
 				</div>
 
-				<Link href="/checkout">
-					<a onClick={handleBookNow}>
-						<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-							BOOK NOW FOR ${localTotal}
-						</button>
-					</a>
+				<Link href="/checkout" onClick={handleBookNow}>
+					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
+						BOOK NOW FOR ${localTotal}
+					</button>
 				</Link>
 			</div>
 		</div>

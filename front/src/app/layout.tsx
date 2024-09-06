@@ -4,6 +4,7 @@ import { UserProvider } from "@/context/userContext";
 import "./globals.css";
 import Head from "./head";
 import { BookingProvider } from "@/context/BookingContext";
+import DatePickerValue from "@/components/Calendar/Calendar";
 
 export const metadata = {
 	title: "Travel Zone",
@@ -24,6 +25,7 @@ export default function RootLayout({
 			<body className="flex flex-col min-h-screen">
 				<UserProvider>
 					<BookingProvider>
+						<DatePickerValue />
 						<Navbar />
 						<main className="flex-grow">{children}</main>
 						<Footer />
