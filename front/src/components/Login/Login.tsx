@@ -35,21 +35,10 @@ const Login = () => {
     }
 
     try {
-      const result: SignInResponse = await signIn(signinValues); // Explicitly type the result
+      const result: SignInResponse = await signIn(signinValues);
 
       if (result.success) {
         alert(result.message);
-        const user = useContext(UserContext).user;
-        console.log("Logged in user data:", user);
-        if (user) {
-          const username = user.user?.username;
-          const email = user.user?.email;
-          console.log("Username:", username);
-          console.log("Email:", email);
-
-          // You could potentially display this information to the user
-          // or use it for other functionalities within your application.
-        }
         router.push("/");
       } else {
         alert(result.message);
