@@ -1,177 +1,171 @@
 export interface IProduct {
-	id: number;
-	image: string;
-	image2: string;
-	image3: string;
-	title: string;
-	description: string;
-	description2: string;
-	price: number;
-	location: string;
-	duration: string;
-	stock: number;
-	categories: string[];
+  id: number;
+  image: string;
+  image2: string;
+  image3: string;
+  title: string;
+  description: string;
+  description2: string;
+  price: number;
+  location: string;
+  duration: string;
+  stock: number;
+  categories: string[];
 }
 
 export interface IProductListProps {
-	products: IProduct[];
+  products: IProduct[];
 }
 
 export interface IProductCardProps {
-	product: IProduct;
-	remove?: () => void;
+  product: IProduct;
+  remove?: () => void;
 }
 
 export interface ICategory {
-	name: string;
+  name: string;
 }
 
 export interface ICredentials {
-	password: string;
-	id: string;
+  password: string;
+  id: string;
 }
 
 export interface IUser {
-	id: string;
-	name: string;
-	username: string;
-	password: string;
-	phone: number;
-	dni: number;
-	email: string;
-	orders?: IOrderResponse[];
-}
-
-export interface IUserResponse {
-	login: boolean;
-	user: Partial<IUser> | null;
-	token: string;
-}
-export interface ILoginUser {
-	email: string;
-	password: string;
-}
-
-export interface LoginErrorProps {
-	email?: string;
-	password?: string;
-}
-
-export interface IRegisterUser {
-	name: string;
-	username: string;
-	password: string;
-	phone: number;
-	dni: number;
-	email: string;
-}
-
-export interface IRegisterUserResponse {
-	name: string;
-	username: string;
-	password: string;
-	phone: number;
-	dni: number;
-	email: string;
-	role: string;
-	credential: ICredentials;
-}
-
-export interface RegisterPropsResponse {
-	name: string;
-	phone: number;
-	email: string;
-	password: string;
-	role: string;
-	credential: ICredentials;
-}
-
-export interface RegisterErrorProps {
-	name?: string;
-	username?: string;
-	phone?: string;
-	email?: string;
-	password?: string;
-	role?: string;
-}
-
-export interface IUsercontextType {
-	user: Partial<IUserResponse> | null;
-	setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
-	isLogged: boolean;
-	setIsLogged: (isLogged: boolean) => void;
-	signIn: (credentials: ILoginUser) => Promise<SignInResponse>;
-	signUp: (user: Omit<IUser, "id">) => Promise<SignInResponse>;
-	getOrders: () => void;
-	orders: IOrderResponse[] | [];
-	logout: () => void;
-}
-
-export interface ICartContextType {
-	cartItems: IProduct[];
-	addToCart: (product: number) => void;
-	removeFromCart: (product: number) => void;
-	total: number;
-	proceedtoCheckout: () => void;
-}
-
-export interface IOrderProps {
-	order: IOrderResponse;
-}
-
-export interface IOrderResponse {
-	id: number;
-	status: string;
-	date: string;
-	user: IUser;
-	products: IProduct[];
-}
-
-export interface ICreateOrder {
-	userId: number;
-	products: number;
-}
-
-export interface PaqueteDetalleProps {
-	id: number;
-	image: string;
-	image2: string;
-	image3: string;
-	title: string;
-	description: string;
-	description2: string;
-	price: number;
-	location: string;
-	duration: string;
-	stock: number;
-	categories: string[];
+  id: string;
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+  orders?: IOrderResponse[];
+  isAdmin: boolean;
 }
 
 export interface SignInResponse {
-	success: boolean;
-	message: string;
+  success: boolean;
+  message: string;
+  user?: IUser;
 }
 
 export interface SignUpResponse {
-	success: boolean;
-	message: string;
-	user?: IUser; // Agrega esta línea para incluir el usuario en la respuesta
+  success: boolean;
+  message: string;
+  user?: IUser;
+}
+
+export interface IUserResponse {
+  login: boolean;
+  user: Partial<IUser> | null;
+  token: string;
+}
+export interface ILoginUser {
+  email: string;
+  password: string;
+}
+
+export interface LoginErrorProps {
+  email?: string;
+  password?: string;
+}
+
+export interface IRegisterUser {
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+}
+
+export interface IRegisterUserResponse {
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+  role: string;
+  credential: ICredentials;
+}
+
+export interface RegisterPropsResponse {
+  name: string;
+  phone: number;
+  email: string;
+  password: string;
+  role: string;
+  credential: ICredentials;
+}
+
+export interface RegisterErrorProps {
+  name?: string;
+  username?: string;
+  phone?: string;
+  email?: string;
+  password?: string;
+  role?: string;
+}
+
+export interface IUsercontextType {
+  user: Partial<IUserResponse> | null;
+  setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
+  isLogged: boolean;
+  setIsLogged: (isLogged: boolean) => void;
+  signIn: (credentials: ILoginUser) => Promise<SignInResponse>;
+  signUp: (user: Omit<IUser, "id">) => Promise<SignInResponse>;
+  getOrders: () => void;
+  orders: IOrderResponse[] | [];
+  logout: () => void;
+}
+
+export interface IOrderProps {
+  order: IOrderResponse;
+}
+
+export interface IOrderResponse {
+  id: number;
+  status: string;
+  date: string;
+  user: IUser;
+  products: IProduct[];
+}
+
+export interface ICreateOrder {
+  userId: number;
+  products: number;
+}
+
+export interface PaqueteDetalleProps {
+  id: number;
+  image: string;
+  image2: string;
+  image3: string;
+  title: string;
+  description: string;
+  description2: string;
+  price: number;
+  location: string;
+  duration: string;
+  stock: number;
+  categories: string[];
 }
 
 export interface ExtraServices {
-	healthInsurance: boolean;
-	medicalInsurance: boolean;
+  healthInsurance: boolean;
+  medicalInsurance: boolean;
 }
 
 export interface BookingData {
-	adults: number;
-	children: number;
-	selectedDate: string;
-	extraServices: ExtraServices;
-	total: number;
+  adults: number;
+  children: number;
+  selectedDate: string;
+  extraServices: ExtraServices;
+  total: number;
 }
 
 export interface BookingContextType {
-	bookingData: BookingData;
-	setBookingData: (data: BookingData) => void;
+  bookingData: BookingData;
+  setBookingData: (data: BookingData) => void;
 }
