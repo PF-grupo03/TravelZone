@@ -13,9 +13,9 @@ const ProfilePage = () => {
     useContext<IUsercontextType>(UserContext);
 
   useEffect(() => {
-    if (isLogged) {
-      getOrders();
-    }
+    // if (isLogged) {
+    //   getOrders();
+    //  }
   }, [isLogged]);
 
   if (!isLogged) return <SignInAlert />;
