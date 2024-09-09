@@ -12,15 +12,14 @@ const ProceedToPaymentButton = () => {
 	const handleProceedToPayment = () => {
 		if (!userContext.isLogged) {
 			alert("Please log in to proceed with the payment.");
-			// Redirigir a la página de inicio de sesión si es necesario
-			// window.location.href = "/login";
+
 			router.push("/login");
 			return;
 		}
 
 		if (bookingContext) {
-			console.log(bookingContext);
-			bookingContext.sendBookingData;
+			bookingContext.sendBookingData();
+			console.log("data sent:" + bookingContext);
 		}
 	};
 
