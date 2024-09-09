@@ -48,11 +48,15 @@ export interface SignInResponse {
   message: string;
   user?: IUser;
 }
-
-export interface SignUpResponse {
-  success: boolean;
-  message: string;
-  user?: IUser;
+export interface IRegisterUserResponse {
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+  role: string;
+  credential: ICredentials;
 }
 
 export interface IUserResponse {
@@ -60,6 +64,12 @@ export interface IUserResponse {
   user: Partial<IUser> | null;
   token: string;
 }
+export interface SignUpResponse {
+  success: boolean;
+  message: string;
+  user?: IUser;
+}
+
 export interface ILoginUser {
   email: string;
   password: string;
@@ -77,18 +87,7 @@ export interface IRegisterUser {
   phone: number;
   dni: number;
   email: string;
-  isAdmin?: boolean;
-}
-
-export interface IRegisterUserResponse {
-  name: string;
-  username: string;
-  password: string;
-  phone: number;
-  dni: number;
-  email: string;
-  role: string;
-  credential: ICredentials;
+  isAdmin: boolean;
 }
 
 export interface RegisterPropsResponse {
