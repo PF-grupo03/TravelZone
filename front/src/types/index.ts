@@ -40,6 +40,23 @@ export interface IUser {
 	dni: number;
 	email: string;
 	orders?: IOrderResponse[];
+	isAdmin: boolean;
+}
+
+export interface SignInResponse {
+	success: boolean;
+	message: string;
+	user?: IUser;
+}
+export interface IRegisterUserResponse {
+	name: string;
+	username: string;
+	password: string;
+	phone: number;
+	dni: number;
+	email: string;
+	role: string;
+	credential: ICredentials;
 }
 
 export interface IUserResponse {
@@ -47,6 +64,12 @@ export interface IUserResponse {
 	user: Partial<IUser> | null;
 	token: string;
 }
+export interface SignUpResponse {
+	success: boolean;
+	message: string;
+	user?: IUser;
+}
+
 export interface ILoginUser {
 	email: string;
 	password: string;
@@ -64,17 +87,7 @@ export interface IRegisterUser {
 	phone: number;
 	dni: number;
 	email: string;
-}
-
-export interface IRegisterUserResponse {
-	name: string;
-	username: string;
-	password: string;
-	phone: number;
-	dni: number;
-	email: string;
-	role: string;
-	credential: ICredentials;
+	isAdmin: boolean;
 }
 
 export interface RegisterPropsResponse {
@@ -107,14 +120,6 @@ export interface IUsercontextType {
 	logout: () => void;
 }
 
-export interface ICartContextType {
-	cartItems: IProduct[];
-	addToCart: (product: number) => void;
-	removeFromCart: (product: number) => void;
-	total: number;
-	proceedtoCheckout: () => void;
-}
-
 export interface IOrderProps {
 	order: IOrderResponse;
 }
@@ -145,17 +150,6 @@ export interface PaqueteDetalleProps {
 	duration: string;
 	stock: number;
 	categories: string[];
-}
-
-export interface SignInResponse {
-	success: boolean;
-	message: string;
-}
-
-export interface SignUpResponse {
-	success: boolean;
-	message: string;
-	user?: IUser; // Agrega esta línea para incluir el usuario en la respuesta
 }
 
 export interface BookingContextType {

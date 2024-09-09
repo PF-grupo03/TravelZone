@@ -59,3 +59,45 @@ export const getUserOrders = async (token: string) => {
   const data = await response.json();
   return data;
 };
+
+export const banUser = async (
+  id: string,
+  body?: object
+): Promise<IUser | undefined> => {
+  const response = await fetch(
+    `https://m4f.onrender.com/users/ban-user/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to ban user.");
+  }
+
+  const data = await response.json();
+  return data as IUser;
+};
+
+export const unbanUser = async (id: string): Promise<IUser | undefined> => {
+  const response = await fetch(
+    `https://m4f.onrender.com/users/unban-user/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to unban user.");
+  }
+
+  const data = await response.json();
+  return data as IUser;
+};

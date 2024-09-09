@@ -64,6 +64,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (credentials: ILoginUser): Promise<SignInResponse> => {
     try {
       const response = await postSignin(credentials);
+      console.log("Response from postSignin:", response);
       if (response.token) {
         setUser(response);
         localStorage.setItem("user", JSON.stringify(response));
