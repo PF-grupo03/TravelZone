@@ -9,7 +9,6 @@ const Page = () => {
 			<div className="flex-grow flex flex-col lg:flex-row lg:justify-evenly">
 				<div className="w-auto">
 					<FormUsers />
-					<Checkout />
 				</div>
 				<CardCheckout />
 			</div>

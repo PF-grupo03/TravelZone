@@ -19,18 +19,16 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "dayjs": "^1.11.13",
     "flowbite": "^2.5.1",
-
+    "install": "^0.13.0",
     "mapbox-gl": "^3.6.0",
     "mapkick": "^0.2.6",
-
-    "install": "^0.13.0",
-
     "next": "14.2.5",
     "npm": "^10.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
+    "stripe": "^16.10.0",
     "styled-components": "^6.1.13",
     "tailwindcss-animate": "^1.0.7"
   },
