@@ -2,6 +2,11 @@
 "use client";
 import { createContext, useState, ReactNode, useContext } from "react";
 import { UserContext } from "./userContext"; // Importa el contexto de usuario
+import Stripe from "stripe";
+
+const stripe = new Stripe(
+	"sk_test_51PsmlNRsgw4cKaffU7immScU3lAiyKXnyDWiAcDw0W4NtTiJtYyuygwMsJ0u6KanDXs6PbRyr9wwvF6S7GheHHo300GeBTdknb"
+);
 
 interface BookingContextType {
 	adults: number;
@@ -60,17 +65,28 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 		const iva = totalPrice < 200.0 ? 0 : totalPrice * 0.13;
 		const totalConIva = totalPrice + iva;
 		const bookingData = {
-			adults,
-			kids,
-			date, // Incluye la fecha de departure
-			extraServices,
-			totalConIva,
-			userId: user.login, // Incluye el ID del usuario logeado
+			userId: "cb7316da-1453-4e99-8de5-86f8fa0669d7",
+			products: [
+				{
+					id: "9d7d7403-0453-4e4a-b781-a95902213e99",
+				},
+			],
+			date: "2024-11-12",
+			adults: 1,
+			children: 0,
+			medicalInsurance: false,
+			passengers: [
+				{
+					name: "string",
+					email: "string",
+					cellphone: "string",
+					dni: "string",
+				},
+			],
 		};
-
 		try {
 			const response = await fetch(
-				"https://jsonplaceholder.typicode.com/posts",
+				"https://pf-grupo03-back.onrender.com/orders",
 				{
 					method: "POST",
 					headers: {
@@ -86,7 +102,10 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 			const data = await response.json();
 			console.log("Booking data sent successfully:", data);
-			// Maneja la respuesta del backend según sea necesario
+
+			const sessionId = data.sessionId;
+			const session = await stripe.checkout.sessions.retrieve(sessionId);
+			window.location.href = session.url;
 		} catch (error) {
 			console.error("Error sending booking data:", error);
 		}
