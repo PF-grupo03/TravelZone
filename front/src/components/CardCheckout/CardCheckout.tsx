@@ -4,7 +4,7 @@ import BookingContext from "@/context/BookingContext";
 import ProceedToPaymentButton from "../ButtonPayment/ProceedToPaymentButton";
 
 const CardCheckout = () => {
-	const { adults, kids, extraServices, totalPrice } =
+	const { adults, kids, medicalInsurance, totalPrice } =
 		useContext(BookingContext);
 
 	// Cálculo de IVA (13%) solo si el precio es mayor o igual a 200
@@ -44,19 +44,10 @@ const CardCheckout = () => {
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Health Insurance
-						</dt>
-						<dd className="text-base font-medium text-gray-900 dark:text-white">
-							{extraServices.healthInsurance ? "Yes" : "No"}
-						</dd>
-					</dl>
-
-					<dl className="flex items-center justify-between gap-4 py-3">
-						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
 							Medical Insurance
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
-							{extraServices.medicalInsurance ? "Yes" : "No"}
+							{medicalInsurance ? "Yes" : "No"}
 						</dd>
 					</dl>
 

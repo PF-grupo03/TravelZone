@@ -158,20 +158,17 @@ export interface SignUpResponse {
 	user?: IUser; // Agrega esta línea para incluir el usuario en la respuesta
 }
 
-export interface ExtraServices {
-	healthInsurance: boolean;
-	medicalInsurance: boolean;
-}
-
-export interface BookingData {
-	adults: number;
-	children: number;
-	selectedDate: string;
-	extraServices: ExtraServices;
-	total: number;
-}
-
 export interface BookingContextType {
-	bookingData: BookingData;
-	setBookingData: (data: BookingData) => void;
+	adults: number;
+	setAdults: (value: number | ((prev: number) => number)) => void;
+	kids: number;
+	setKids: (value: number | ((prev: number) => number)) => void;
+	date: string;
+	setDate: (date: string) => void;
+	medicalInsurance: boolean;
+	setMedicalInsurance: (value: boolean | ((prev: boolean) => boolean)) => void;
+	totalPrice: number;
+	setTotalPrice: (price: number) => void;
+	calculateTotal: (price: number) => number;
+	sendBookingData: () => Promise<void>;
 }
