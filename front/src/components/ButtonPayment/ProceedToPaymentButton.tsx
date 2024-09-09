@@ -20,6 +20,7 @@ const ProceedToPaymentButton = () => {
 
 		if (bookingContext) {
 			console.log(bookingContext);
+			bookingContext.sendBookingData;
 		}
 	};
 
