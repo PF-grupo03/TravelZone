@@ -77,6 +77,7 @@ export interface IRegisterUser {
   phone: number;
   dni: number;
   email: string;
+  isAdmin?: boolean;
 }
 
 export interface IRegisterUserResponse {

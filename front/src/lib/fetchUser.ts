@@ -95,7 +95,7 @@ export const unbanUser = async (id: string): Promise<IUser | undefined> => {
   );
 
   if (!response.ok) {
-    throw new Error("Failed to delete user.");
+    throw new Error("Failed to unban user.");
   }
 
   const data = await response.json();
