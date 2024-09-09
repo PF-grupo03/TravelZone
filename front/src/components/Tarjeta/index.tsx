@@ -8,9 +8,10 @@ import BookingContext from "@/context/BookingContext";
 
 interface BookingCardProps {
 	price: number;
+	productId: string; // Nueva propiedad para el ID del producto
 }
 
-const BookingCard = ({ price }: BookingCardProps) => {
+const BookingCard = ({ price, productId }: BookingCardProps) => {
 	const {
 		adults,
 		setAdults,
@@ -20,6 +21,7 @@ const BookingCard = ({ price }: BookingCardProps) => {
 		setMedicalInsurance,
 		calculateTotal,
 		setTotalPrice,
+		setSelectedProductId, // Usar la función setSelectedProductId del contexto
 	} = useContext(BookingContext);
 
 	const [localTotal, setLocalTotal] = useState<number>(calculateTotal(price));
@@ -30,6 +32,7 @@ const BookingCard = ({ price }: BookingCardProps) => {
 
 	const handleBookNow = () => {
 		setTotalPrice(localTotal);
+		setSelectedProductId(productId); // Establecer el ID del producto en el contexto
 	};
 
 	const handleAdultChange = (increment: number) => {
@@ -39,6 +42,7 @@ const BookingCard = ({ price }: BookingCardProps) => {
 	const handleMedicalInsuranceChange = () => {
 		setMedicalInsurance((prev: boolean) => !prev);
 	};
+
 	const handleKidsChange = (increment: number) => {
 		setKids((prev) => Math.max(0, prev + increment));
 	};

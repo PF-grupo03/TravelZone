@@ -8,7 +8,7 @@ import { useContext } from "react";
 import BookingContext from "../../context/BookingContext"; // Asegúrate de importar el contexto
 
 export default function DatePickerValue() {
-	const [value, setValue] = React.useState<Dayjs | null>(dayjs("2024-04-17"));
+	const [value, setValue] = React.useState<Dayjs | null>(dayjs());
 	const { setDate } = useContext(BookingContext); // Usa el contexto
 
 	const handleDepartureDateChange = (newValue: Dayjs | null) => {
@@ -24,7 +24,6 @@ export default function DatePickerValue() {
 				<div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 					<DatePicker
 						label="Departure date"
-						defaultValue={dayjs("2024-04-17")}
 						value={value}
 						onChange={handleDepartureDateChange} // Usa la función de cambio
 						slotProps={{

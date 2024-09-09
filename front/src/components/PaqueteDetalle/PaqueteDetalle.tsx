@@ -88,6 +88,7 @@ const PaqueteDetalle = ({
 						title={title}
 						description2={description2}
 						price={price}
+						productId={id}
 					/>
 				</div>
 			</div>
