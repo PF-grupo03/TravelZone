@@ -1,7 +1,7 @@
 // context/BookingContext.tsx
 "use client";
 import { createContext, useState, ReactNode, useContext } from "react";
-import { UserContext } from "./userContext";
+import { UserContext, UserProvider } from "./userContext";
 import Stripe from "stripe";
 import { BookingContextType } from "@/types";
 
@@ -17,9 +17,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	const [date, setDate] = useState<string>(""); // Nuevo estado para la fecha de departure
 	const [medicalInsurance, setMedicalInsurance] = useState<boolean>(false);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
+	const [selectedProductId, setSelectedProductId] = useState<string>("");
 
-	const { user } = useContext(UserContext);
-	console.log(user);
+	const { user } = useContext(UserContext); // Usar useContext para obtener el valor de UserContext
 
 	const calculateTotal = (price: number): number => {
 		const numAdults = Number(adults);
@@ -30,7 +30,6 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 		if (medicalInsurance) total += 45;
 
-		console.log("Total price:", total);
 		return total;
 	};
 	const sendBookingData = async (): Promise<void> => {
@@ -40,13 +39,13 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			userId: user.user.id,
 			products: [
 				{
-					id: "f8091c30-36ae-4a5b-95e9-e76499f51b26",
+					id: selectedProductId,
 				},
 			],
-			date: "2024-11-12",
-			adults: 1,
-			children: 0,
-			medicalInsurance: false,
+			date: date,
+			adults: adults,
+			children: kids,
+			medicalInsurance: medicalInsurance,
 			passengers: [
 				{
 					name: "string",
@@ -74,7 +73,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			}
 
 			const data = await response.json();
-			console.log("Booking data sent successfully:", data, user);
+			console.log("Booking data sent successfully:", data, user, "hola");
 
 			const sessionId = data.sessionId;
 			const session = await stripe.checkout.sessions.retrieve(sessionId);
@@ -82,6 +81,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 		} catch (error) {
 			console.error("Error sending booking data:", error);
 		}
+		console.log(bookingData);
 	};
 
 	return (
@@ -99,6 +99,8 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setTotalPrice,
 				calculateTotal,
 				sendBookingData,
+				selectedProductId,
+				setSelectedProductId,
 			}}
 		>
 			{children}

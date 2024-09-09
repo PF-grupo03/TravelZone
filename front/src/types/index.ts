@@ -165,4 +165,6 @@ export interface BookingContextType {
 	setTotalPrice: (price: number) => void;
 	calculateTotal: (price: number) => number;
 	sendBookingData: () => Promise<void>;
+	selectedProductId: string;
+	setSelectedProductId: (id: string) => void;
 }
