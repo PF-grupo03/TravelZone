@@ -18,6 +18,13 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	const [medicalInsurance, setMedicalInsurance] = useState<boolean>(false);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
 	const [selectedProductId, setSelectedProductId] = useState<string>("");
+	const [participants, setParticipants] = useState([{}]);
+
+	const updateParticipants = (newAdults, newKids) => {
+		const totalParticipants = newAdults + newKids;
+		const newParticipants = Array(totalParticipants).fill({});
+		setParticipants(newParticipants);
+	};
 
 	const { user } = useContext(UserContext); // Usar useContext para obtener el valor de UserContext
 
@@ -32,6 +39,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 		return total;
 	};
+
 	const sendBookingData = async (): Promise<void> => {
 		const iva = totalPrice < 200.0 ? 0 : totalPrice * 0.13;
 		const totalConIva = totalPrice + iva;
@@ -46,14 +54,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			adults: adults,
 			children: kids,
 			medicalInsurance: medicalInsurance,
-			passengers: [
-				{
-					name: "string",
-					email: "string",
-					cellphone: "string",
-					dni: "string",
-				},
-			],
+			passengers: participants,
 		};
 
 		try {
@@ -91,6 +92,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setAdults,
 				kids,
 				setKids,
+				participants,
+				setParticipants,
+				updateParticipants,
 				date,
 				setDate, // Proveedor de la nueva función setDate
 				medicalInsurance,

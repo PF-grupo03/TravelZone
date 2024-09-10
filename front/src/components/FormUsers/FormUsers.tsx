@@ -1,35 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import BookingContext from "@/context/BookingContext";
+import React, { useContext, useState } from "react";
 
 const FormUsers = () => {
-	const [isParticipantFormOpen, setIsParticipantFormOpen] = useState(false);
-	const [participants, setParticipants] = useState([{}]);
+	const { participants, setParticipants } = useContext(BookingContext);
 
-	const toggleParticipantForm = () => {
-		setIsParticipantFormOpen(!isParticipantFormOpen);
-	};
-
-	const handleAddParticipant = () => {
-		setParticipants([...participants, {}]);
-	};
+	const [newParticipants, setNewParticipants] = useState(participants);
 
 	const handleParticipantChange = (
 		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const { name, value } = event.target;
-		const newParticipants = participants.map((participant, i) =>
+		const updatedParticipants = newParticipants.map((participant, i) =>
 			i === index ? { ...participant, [name]: value } : participant
 		);
-		setParticipants(newParticipants);
-	};
-
-	const handleRemoveParticipant = (index: number) => {
-		setParticipants(participants.filter((_, i) => i !== index));
+		setNewParticipants(updatedParticipants);
+		setParticipants(updatedParticipants); // Actualizar el contexto también
 	};
 
 	return (
-		<section className="bg-white pt-9 w-[50rem] antialiased dark:bg-gray-900 mt-10">
+		<section className="bg-white pt-9 w-[50rem] antialiased dark:bg-gray-900 mt-10 mb-32">
 			<form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
 				<ol className="items-center flex w-full max-w-2xl text-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-base">
 					<li className="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
@@ -41,30 +32,14 @@ const FormUsers = () => {
 
 				<div className="mt-6 sm:mt-8 lg:items-start lg:gap-12 xl:gap-16">
 					<div className="min-w-0 flex-1 space-y-8">
-						{/* Delivery Details */}
-
-						{/* Participant Details */}
 						<div className="space-y-4">
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 								Participant Details
 							</h3>
-							<button
-								type="button"
-								onClick={toggleParticipantForm}
-								className="w-full bg-orange-500 hover:bg-orange-600 text-white p-2 rounded"
-							>
-								{isParticipantFormOpen
-									? "Hide Participants"
-									: "Add Participant Details"}
-							</button>
 
-							<div
-								className={`transition-all duration-300 ease-in-out mt-4 ${
-									isParticipantFormOpen ? "block" : "hidden"
-								}`}
-							>
+							<div className=" d mt-4 ">
 								<div className="overflow-auto">
-									{participants.map((participant, index) => (
+									{newParticipants.map((participant, index) => (
 										<div
 											key={index}
 											className="mb-4 p-4 border rounded-lg bg-gray-50"
@@ -146,26 +121,8 @@ const FormUsers = () => {
 													/>
 												</div>
 											</div>
-											{/* Show the remove button only if there are more than one participant and not for the first participant */}
-											{participants.length > 1 && index > 0 && (
-												<button
-													type="button"
-													onClick={() => handleRemoveParticipant(index)}
-													className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded"
-												>
-													Remove Participant
-												</button>
-											)}
 										</div>
 									))}
-
-									<button
-										type="button"
-										onClick={handleAddParticipant}
-										className="w-full bg-gray-200 hover:bg-gray-300 text-black p-2 rounded mt-4"
-									>
-										Add Another Participant
-									</button>
 								</div>
 							</div>
 						</div>
