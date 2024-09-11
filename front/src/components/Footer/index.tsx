@@ -15,11 +15,11 @@ export default function Footer() {
 		>
 			<div className="flex items-center justify-center w-full sm:w-1/4 h-full sm:pl-4 mb-4 sm:mb-0">
 				<h1 className="transform rotate-90 text-3xl font-bold text-white leading-tight max-sm:text-sm">
-					Travel beyond your imagination, with our Travel Agency!
+				¡Viaja más allá de tu imaginación, con nuestra Agencia de Viajes!
 				</h1>
 			</div>
 			<div className="flex flex-col justify-center items-center space-y-2 w-full sm:w-2/4 h-full text-center max-sm:text-sm">
-				<h2 className="font-bold text-white">Address</h2>
+				<h2 className="font-bold text-white">Direccion</h2>
 				<p className="text-white">1080 Bicrest Ave</p>
 				<p className="text-white">Miami - Florida</p>
 				<p className="text-white">U.S. of America</p>
@@ -55,7 +55,7 @@ export default function Footer() {
 				</div>
 			</div>
 			<div className="flex flex-col justify-center items-center space-y-2 w-full sm:w-1/4 h-full text-center sm:text-left max-sm:w-full">
-				<h2 className="font-bold text-white">Contact</h2>
+				<h2 className="font-bold text-white">Contacto</h2>
 				<a
 					href="mailto:info@travel.com"
 					className="bg-orange-600 text-white px-4 py-2 rounded-full inline-block max-sm:text-xs"

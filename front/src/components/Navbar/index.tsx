@@ -106,14 +106,14 @@ const Navbar = () => {
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
                     <Link href="/dashboard/profile">
                       <button className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
-                        Profile
+                      Perfil
                       </button>
                     </Link>
                     <button
                       className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
                       onClick={logout}
                     >
-                      Logout
+                      Cerrar sesión
                     </button>
                   </div>
                 )}
@@ -125,7 +125,7 @@ const Navbar = () => {
                     href="/register"
                     className="block text-lg font-medium hover:text-blue-500 transition-colors duration-300"
                   >
-                    Sign up
+                    Registrarse
                   </Link>
                 </li>
                 <li>
@@ -137,7 +137,7 @@ const Navbar = () => {
                       type="button"
                       className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-300"
                     >
-                      Log in
+                      Iniciar Sesion
                     </button>
                   </Link>
                 </li>
@@ -184,14 +184,14 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
                   <Link href="/dashboard/profile">
                     <button className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
-                      Profile
+                      Perfil
                     </button>
                   </Link>
                   <button
                     className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
                     onClick={logout}
                   >
-                    Logout
+                    Cerrar Sesion
                   </button>
                 </div>
               )}
@@ -202,7 +202,7 @@ const Navbar = () => {
                 href="/register"
                 className="text-gray-900 hover:text-blue-700 inter"
               >
-                Sign up
+                Registro
               </Link>
               <Link
                 href="/login"
@@ -212,7 +212,7 @@ const Navbar = () => {
                   type="button"
                   className="text-white bg-[#EB662B] hover:bg-[#cc541f] focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-l-full rounded-r-full text-sm px-4 py-2 text-center dark:bg-[#EB662B] dark:hover:bg-[#cc541f] dark:focus:ring-orange-800"
                 >
-                  Log in
+                  Iniciar Sesion
                 </button>
               </Link>
             </>

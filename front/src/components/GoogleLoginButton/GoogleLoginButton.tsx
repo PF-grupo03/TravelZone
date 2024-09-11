@@ -12,7 +12,7 @@ const GoogleLoginButton: React.FC = () => {
 		>
 			<img src="google-icon.svg" alt="Google icon" className="w-5 h-5 mr-2" />
 			<span className="text-sm font-medium text-gray-700">
-				Login with Google
+			Iniciar sesión con Google
 			</span>
 		</button>
 	);
