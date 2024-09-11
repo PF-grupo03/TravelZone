@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AddProductPopup from "../AddProductPopup";
 
 const Filters = ({ setFilters, products, user, onAddProduct }) => {
@@ -19,7 +19,7 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
       console.error("Error saving product:", error);
     }
   };
-  const searchParams = useSearchParams();
+  //comentario
   const [isContinentOpen, setIsContinentOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
