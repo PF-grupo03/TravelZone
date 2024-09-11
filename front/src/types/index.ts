@@ -167,4 +167,16 @@ export interface BookingContextType {
 	sendBookingData: () => Promise<void>;
 	selectedProductId: string;
 	setSelectedProductId: (id: string) => void;
+	participants: Participant[];
+	setParticipants: (
+		participants: Participant[] | ((prev: Participant[]) => Participant[])
+	) => void;
+	updateParticipants: (newAdults: number, newKids: number) => void;
+}
+
+export interface Participant {
+	name: string;
+	email: string;
+	cellphone: string;
+	dni: string;
 }

@@ -3,7 +3,7 @@
 import { createContext, useState, ReactNode, useContext } from "react";
 import { UserContext, UserProvider } from "./userContext";
 import Stripe from "stripe";
-import { BookingContextType } from "@/types";
+import { BookingContextType, Participant } from "@/types";
 
 const stripe = new Stripe(
 	"sk_test_51PsmlNRsgw4cKaffU7immScU3lAiyKXnyDWiAcDw0W4NtTiJtYyuygwMsJ0u6KanDXs6PbRyr9wwvF6S7GheHHo300GeBTdknb"
@@ -18,6 +18,13 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	const [medicalInsurance, setMedicalInsurance] = useState<boolean>(false);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
 	const [selectedProductId, setSelectedProductId] = useState<string>("");
+	const [participants, setParticipants] = useState<Participant[]>([]);
+
+	const updateParticipants = (newAdults: number, newKids: number) => {
+		const totalParticipants = newAdults + newKids;
+		const newParticipants = Array(totalParticipants).fill({}) as Participant[];
+		setParticipants(newParticipants);
+	};
 
 	const { user } = useContext(UserContext); // Usar useContext para obtener el valor de UserContext
 
@@ -32,6 +39,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 		return total;
 	};
+
 	const sendBookingData = async (): Promise<void> => {
 		const iva = totalPrice < 200.0 ? 0 : totalPrice * 0.13;
 		const totalConIva = totalPrice + iva;
@@ -46,14 +54,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			adults: adults,
 			children: kids,
 			medicalInsurance: medicalInsurance,
-			passengers: [
-				{
-					name: "string",
-					email: "string",
-					cellphone: "string",
-					dni: "string",
-				},
-			],
+			passengers: participants,
 		};
 
 		try {
@@ -69,7 +70,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			);
 
 			if (!response.ok) {
-				throw new Error("error al enviar los datos de la reserva");
+				throw new Error("Error al enviar los datos de la reserva");
 			}
 
 			const data = await response.json();
@@ -91,6 +92,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setAdults,
 				kids,
 				setKids,
+				participants,
+				setParticipants,
+				updateParticipants,
 				date,
 				setDate, // Proveedor de la nueva función setDate
 				medicalInsurance,

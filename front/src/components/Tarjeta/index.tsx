@@ -21,7 +21,8 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 		setMedicalInsurance,
 		calculateTotal,
 		setTotalPrice,
-		setSelectedProductId, // Usar la función setSelectedProductId del contexto
+		setSelectedProductId,
+		updateParticipants,
 	} = useContext(BookingContext);
 
 	const [localTotal, setLocalTotal] = useState<number>(calculateTotal(price));
@@ -36,15 +37,18 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 	};
 
 	const handleAdultChange = (increment: number) => {
-		setAdults((prev) => Math.max(1, prev + increment));
-	};
-
-	const handleMedicalInsuranceChange = () => {
-		setMedicalInsurance((prev: boolean) => !prev);
+		const newAdults = Math.max(1, adults + increment);
+		setAdults(newAdults);
+		updateParticipants(newAdults, kids);
 	};
 
 	const handleKidsChange = (increment: number) => {
-		setKids((prev) => Math.max(0, prev + increment));
+		const newKids = Math.max(0, kids + increment);
+		setKids(newKids);
+		updateParticipants(adults, newKids);
+	};
+	const handleMedicalInsuranceChange = () => {
+		setMedicalInsurance((prev: boolean) => !prev);
 	};
 
 	return (
