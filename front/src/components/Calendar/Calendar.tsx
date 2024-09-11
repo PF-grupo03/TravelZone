@@ -5,27 +5,32 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useContext } from "react";
-import BookingContext from "../../context/BookingContext"; // Asegúrate de importar el contexto
+import BookingContext from "../../context/BookingContext";
 
 export default function DatePickerValue() {
 	const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-	const { setDate } = useContext(BookingContext); // Usa el contexto
+	const { setDate } = useContext(BookingContext);
+	const [error, setError] = React.useState<string | null>(null); // Para manejar errores
 
 	const handleDepartureDateChange = (newValue: Dayjs | null) => {
 		setValue(newValue);
 		if (newValue) {
-			setDate(newValue.format("YYYY-MM-DD")); // Actualiza la fecha de departure en el contexto
+			setDate(newValue.format("YYYY-MM-DD"));
+			setError(null); // Resetea el error si la fecha es válida
+		} else {
+			setError("Por favor, selecciona una fecha válida.");
 		}
 	};
 
 	return (
 		<div>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
-				<div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+				<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
 					<DatePicker
 						label="Departure date"
-						value={value}
-						onChange={handleDepartureDateChange} // Usa la función de cambio
+						value={null}
+						onChange={handleDepartureDateChange}
+						minDate={dayjs()}
 						slotProps={{
 							textField: {
 								sx: {
@@ -33,31 +38,39 @@ export default function DatePickerValue() {
 										backgroundColor: "white",
 										borderRadius: "8px",
 										padding: "10px",
-										boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-										width: "250px",
+										width: "100%",
 										height: "40px",
 									},
-									"& .MuiOutlinedInput-notchedOutline": {
-										borderColor: "#ccc",
-									},
-									"& .MuiInputLabel-root": {
-										color: "gray",
-									},
-									"&:hover .MuiOutlinedInput-notchedOutline": {
-										borderColor: "#aaa",
-									},
-									// Aquí eliminamos el recuadro azul del enfoque
-									"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-										{
-											borderColor: "transparent",
+									"& .MuiOutlinedInput-root": {
+										"& .MuiOutlinedInput-notchedOutline": {
+											borderColor: "gray", // Cambia el color por defecto
 										},
-									"& .MuiOutlinedInput-root.Mui-focused": {
-										boxShadow: "none",
+										"&:hover .MuiOutlinedInput-notchedOutline": {
+											borderColor: "red", // Borde rojo al hacer hover
+										},
+										"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+											borderColor: "blue", // Borde azul en focus
+											borderWidth: "2px", // Ajustar grosor
+										},
+									},
+									// Eliminar el borde azul adicional del input
+									"& .MuiInputBase-input": {
+										boxShadow: "none !important", // Deshabilitar cualquier sombra adicional
+										outline: "none !important", // Eliminar el outline azul extra
+									},
+									"& input": {
+										padding: "10px", // Ajustar padding del input
 									},
 								},
 							},
 						}}
 					/>
+
+					{error && (
+						<span style={{ color: "red", fontSize: "12px" }}>
+							{error} {/* Mensaje de error si aplica */}
+						</span>
+					)}
 				</div>
 			</LocalizationProvider>
 		</div>

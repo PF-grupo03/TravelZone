@@ -8,7 +8,7 @@ import BookingContext from "@/context/BookingContext";
 
 interface BookingCardProps {
 	price: number;
-	productId: string; // Nueva propiedad para el ID del producto
+	productId: string;
 }
 
 const BookingCard = ({ price, productId }: BookingCardProps) => {
@@ -16,6 +16,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 		adults,
 		setAdults,
 		kids,
+		date,
 		setKids,
 		medicalInsurance,
 		setMedicalInsurance,
@@ -32,6 +33,12 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 	}, [adults, kids, medicalInsurance, price]);
 
 	const handleBookNow = () => {
+		if (!date) {
+			alert(
+				"Por favor, selecciona una fecha antes de proceder con la reserva."
+			);
+			return;
+		}
 		setTotalPrice(localTotal);
 		setSelectedProductId(productId); // Establecer el ID del producto en el contexto
 	};

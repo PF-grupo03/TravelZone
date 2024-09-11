@@ -1,15 +1,21 @@
 "use client";
 import BookingContext from "@/context/BookingContext";
 import { Participant } from "@/types";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 const FormUsers = () => {
 	const { participants, setParticipants, adults, kids } =
 		useContext(BookingContext);
 
-	const [newParticipants, setNewParticipants] =
-		useState<Participant[]>(participants);
-	const [isFormValid, setIsFormValid] = useState<boolean>(true);
+	const [newParticipants, setNewParticipants] = useState<Participant[]>(
+		participants.length > 0 ? participants : [{} as Participant]
+	);
+
+	useEffect(() => {
+		if (newParticipants.length === 0) {
+			setNewParticipants([{} as Participant]);
+		}
+	}, [newParticipants]);
 
 	const handleParticipantChange = (
 		index: number,
