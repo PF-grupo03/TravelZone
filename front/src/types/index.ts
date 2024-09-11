@@ -132,6 +132,7 @@ export interface IOrderResponse {
 	user: IUser;
 	products: IProduct[];
 	totalPrice: number;
+	date: string;
 }
 
 export interface ICreateOrder {
