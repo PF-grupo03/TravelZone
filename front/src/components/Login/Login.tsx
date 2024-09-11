@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import GoogleLoginButton from "../GoogleLoginButton/GoogleLoginButton";
 import { UserContext } from "@/context/userContext";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 
 const Login = () => {
   const router = useRouter();
@@ -24,13 +25,19 @@ const Login = () => {
     setSigninValues({ ...signinValues, [name]: value });
     setErrorUser(validatedateLoginForm({ ...signinValues, [name]: value }));
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const errors = validatedateLoginForm(signinValues);
     if (Object.keys(errors).length > 0) {
       setErrorUser(errors);
-      alert("Please correct the errors in the form.");
+      Swal.fire({
+        icon: "error",
+        title: "¡Errores en el formulario!",
+        text: "Por favor, corrige los errores en el formulario.",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -38,13 +45,29 @@ const Login = () => {
       const result: SignInResponse = await signIn(signinValues);
 
       if (result.success) {
-        alert(result.message);
+        Swal.fire({
+          icon: "success",
+          title: "¡Inicio de sesión exitoso!",
+          text: result.message,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00", // Color naranja
+        });
         router.push("/");
       } else {
-        alert(result.message);
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: result.message,
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "¡Ups!",
+        text: "Ocurrió un error. Por favor, intenta de nuevo.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -53,7 +76,7 @@ const Login = () => {
       <div className="w-full max-w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
         <h2 className="text-3xl font-bold mb-4 text-center">Login</h2>
         <p className="text-gray-600 text-center mb-8">
-          Login to access your Travel Zone account
+          Inicia sesión para acceder a tu cuenta de Travel Zone
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -79,7 +102,7 @@ const Login = () => {
           </div>
           <div className="mb-4 relative">
             <label htmlFor="password" className="block text-gray-700 font-bold">
-              Password:
+              Contraseña:
             </label>
             <div className="">
               <input
@@ -95,29 +118,17 @@ const Login = () => {
               {errorUser.password && (
                 <p className="text-red-500 text-sm">{errorUser.password}</p>
               )}
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                ></svg>
-              </button>
             </div>
           </div>
           <div className="flex items-center justify-between mb-6">
             <div>
               <input type="checkbox" id="remember" className="mr-2" />
               <label htmlFor="remember" className="text-gray-700">
-                Remember me
+                Recuérdame
               </label>
             </div>
             <a href="#" className="text-red-500">
-              Forgot Password?
+              ¿Olvidaste tu contraseña?
             </a>
           </div>
           <div>
@@ -125,15 +136,15 @@ const Login = () => {
               type="submit"
               className="w-full bg-orange-500 hover:bg-orange-600 text-white p-2 rounded"
             >
-              Login
+              Iniciar sesión
             </button>
             <GoogleLoginButton />
           </div>
         </form>
         <p className="text-center text-gray-600 mt-4">
-          Don't have an account?{" "}
+          ¿No tienes una cuenta?{" "}
           <Link href="/register" className="text-red-500">
-            Sign up
+            Regístrate
           </Link>
         </p>
       </div>

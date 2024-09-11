@@ -4,8 +4,8 @@ import { validatedateRegisterForm } from "@/helpers/formValidation";
 import { IRegisterUser, RegisterErrorProps, SignUpResponse } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { stringify } from "querystring";
 import React, { useContext, useState } from "react";
+import Swal from "sweetalert2"; 
 
 function Register() {
   const { signUp } = useContext(UserContext);
@@ -41,22 +41,29 @@ function Register() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log("handleSubmit called");
-
     const errors = validatedateRegisterForm(user);
     if (Object.keys(errors).length > 0) {
       setErrorUser(errors);
-      alert("Check your info");
+      Swal.fire({
+        icon: "error",
+        title: "¡Errores en el formulario!",
+        text: "Por favor, corrige los errores en el formulario.",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
     try {
-      console.log("Attempting to sign up user:", user);
       const result: SignUpResponse = await signUp(user);
-      console.log("signUp result:", result);
 
       if (result.success) {
-        alert(result.message);
+        Swal.fire({
+          icon: "success",
+          title: "¡Registro exitoso!",
+          text: "Tu cuenta ha sido creada exitosamente.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#f97316", // Color naranja para el botón
+        });
         setSignUpValues({
           name: "",
           username: "",
@@ -67,11 +74,20 @@ function Register() {
         });
         router.push("/");
       } else {
-        alert(result.message);
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: result.message,
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      console.error("Error during sign-up:", error);
-      alert("An error occurred while creating the account.");
+      Swal.fire({
+        icon: "error",
+        title: "¡Ups!",
+        text: "Ocurrió un error al crear la cuenta. Por favor, intenta de nuevo.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -85,16 +101,16 @@ function Register() {
   };
 
   return (
-    <div className="flex flex-col h-full  w-full justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
+    <div className="flex flex-col h-full w-full justify-center mt-16 mb-16 sm:flex-row sm:justify-center">
       <div className="w-full sm:max-w-md flex flex-col bg-white p-8 shadow-lg rounded-lg sm:rounded-l-lg">
-        <h2 className="text-3xl font-bold mb-4 text-center">Register</h2>
+        <h2 className="text-3xl font-bold mb-4 text-center">Registro</h2>
         <p className="text-gray-600 text-center mb-8">
-          Create your Travel Zone account
+          Crea tu cuenta de Travel Zone
         </p>
-        <form onSubmit={handleSubmit} className="space-y-4 ">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-gray-700 font-bold">
-              Full Name:
+              Nombre Completo:
             </label>
             <input
               type="text"
@@ -102,7 +118,7 @@ function Register() {
               name="name"
               value={signupValues.name}
               onChange={handleChange}
-              placeholder="Full Name"
+              placeholder="Nombre Completo"
               className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                 errorUser.name ? "border-red-500" : "border-gray-300"
               }`}
@@ -113,7 +129,7 @@ function Register() {
           </div>
           <div>
             <label htmlFor="username" className="block text-gray-700 font-bold">
-              Username:
+              Nombre de Usuario:
             </label>
             <input
               type="text"
@@ -121,7 +137,7 @@ function Register() {
               name="username"
               value={signupValues.username}
               onChange={handleChange}
-              placeholder="Username"
+              placeholder="Nombre de Usuario"
               className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                 errorUser.username ? "border-red-500" : "border-gray-300"
               }`}
@@ -132,7 +148,7 @@ function Register() {
           </div>
           <div>
             <label htmlFor="phone" className="block text-gray-700 font-bold">
-              Phone Number:
+              Número de Teléfono:
             </label>
             <input
               type="number"
@@ -140,7 +156,7 @@ function Register() {
               name="phone"
               value={signupValues.phone}
               onChange={handleChange}
-              placeholder="Phone Number"
+              placeholder="Número de Teléfono"
               className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                 errorUser.phone ? "border-red-500" : "border-gray-300"
               }`}
@@ -151,7 +167,7 @@ function Register() {
           </div>
           <div>
             <label htmlFor="email" className="block text-gray-700 font-bold">
-              Email:
+              Correo Electrónico:
             </label>
             <input
               type="email"
@@ -159,7 +175,7 @@ function Register() {
               name="email"
               value={signupValues.email}
               onChange={handleChange}
-              placeholder="Email"
+              placeholder="Correo Electrónico"
               className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                 errorUser.email ? "border-red-500" : "border-gray-300"
               }`}
@@ -170,7 +186,7 @@ function Register() {
           </div>
           <div>
             <label htmlFor="password" className="block text-gray-700 font-bold">
-              Password:
+              Contraseña:
             </label>
             <input
               type="password"
@@ -178,7 +194,7 @@ function Register() {
               name="password"
               value={signupValues.password}
               onChange={handleChange}
-              placeholder="Password"
+              placeholder="Contraseña"
               className={`mt-1 p-2 block w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                 errorUser.password ? "border-red-500" : "border-gray-300"
               }`}
@@ -204,9 +220,9 @@ function Register() {
           <div className="flex items-center">
             <input type="checkbox" id="terms" required className="mr-2" />
             <label htmlFor="terms" className="text-gray-700">
-              I agree to the{" "}
+              Acepto los{" "}
               <a href="#" className="text-red-500">
-                Terms and Privacy Policy
+                Términos y Política de Privacidad
               </a>
             </label>
           </div>
@@ -214,16 +230,16 @@ function Register() {
             type="submit"
             className="w-full py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600"
           >
-            Create account
+            Crear cuenta
           </button>
         </form>
         {message && (
           <p className="text-green-500 text-sm mt-2 text-center">{message}</p>
         )}
         <p className="text-center text-gray-600 mt-4">
-          Already have an account?{" "}
+          ¿Ya tienes una cuenta?{" "}
           <Link href="/login" className="text-red-500">
-            Login
+            Iniciar sesión
           </Link>
         </p>
       </div>
@@ -232,7 +248,7 @@ function Register() {
         <img
           src="/register.jpg"
           alt="Register"
-          className=" rounded-lg sm:rounded-r-lg"
+          className="rounded-lg sm:rounded-r-lg"
         />
       </div>
     </div>

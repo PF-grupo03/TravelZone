@@ -26,7 +26,7 @@ const CardCheckout = () => {
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Adults
+							Adultos
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
 							{adults}
@@ -35,7 +35,7 @@ const CardCheckout = () => {
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Kids
+							Niños
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
 							{kids}
@@ -44,7 +44,7 @@ const CardCheckout = () => {
 
 					<dl className="flex items-center justify-between gap-4 py-3">
 						<dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Medical Insurance
+							Seguro Medico
 						</dt>
 						<dd className="text-base font-medium text-gray-900 dark:text-white">
 							{medicalInsurance ? "Yes" : "No"}
@@ -75,13 +75,13 @@ const CardCheckout = () => {
 				<ProceedToPaymentButton />
 
 				<p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-					One or more items in your cart require an account.{" "}
+				Uno o más artículos en su carrito requieren una cuenta.{" "}
 					<a
 						href="#"
 						title="Sign in or create an account now"
 						className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
 					>
-						Sign in or create an account now
+						Inicie sesión o cree una cuenta ahora
 					</a>
 					.
 				</p>

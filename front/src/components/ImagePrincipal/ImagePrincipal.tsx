@@ -20,7 +20,7 @@ const ImagePrincipal = () => {
 						className="mx-4 p-4 rounded-lg w-full max-w-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-black placeholder-opacity-70 placeholder:text-xl text-center max-sm:text-xs max-sm:placeholder:text-sm max-sm:p-2"
 					/>
 					<button className="w-60 h-14 bg-orange-500 text-white px-4 py-2 rounded-lg ml-2 max-sm:w-20 max-sm:h-10 max-sm:py-1">
-						Search
+						Buscar
 					</button>
 				</div>
 			</div>

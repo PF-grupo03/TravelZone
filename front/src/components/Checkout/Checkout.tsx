@@ -23,7 +23,7 @@ const Checkout = () => {
 				</li>
 			</ol>
 			<h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-				Delivery Details
+			    Detalles de la entrega
 			</h2>
 
 			<section className="bg-white py-8 antialiased dark:bg-gray-900">
@@ -33,7 +33,7 @@ const Checkout = () => {
 						className="mb-4 w-full rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-primary-600"
 						onClick={toggleForm}
 					>
-						Payment details
+						Detalles de pago
 					</button>
 
 					{showForm && (
@@ -47,7 +47,7 @@ const Checkout = () => {
 													htmlFor="your_name"
 													className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													Your name
+													Nombre
 												</label>
 												<input
 													type="text"
@@ -63,7 +63,7 @@ const Checkout = () => {
 													htmlFor="your_email"
 													className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													Your email*
+													Email
 												</label>
 												<input
 													type="email"
@@ -79,7 +79,7 @@ const Checkout = () => {
 													htmlFor="select-country-input-3"
 													className="block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													Country*
+													Pais
 												</label>
 												<select
 													id="select-country-input-3"
@@ -98,7 +98,7 @@ const Checkout = () => {
 													htmlFor="select-city-input-3"
 													className="block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													City*
+													Ciudad
 												</label>
 												<input
 													placeholder="New York"
@@ -111,7 +111,7 @@ const Checkout = () => {
 													htmlFor="phone-input-3"
 													className="block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													Phone Number*
+													Numero de Telefono
 												</label>
 												<input
 													type="text"
@@ -127,7 +127,7 @@ const Checkout = () => {
 													htmlFor="company_name"
 													className="block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													Company name
+													Nombre de empresa
 												</label>
 												<input
 													type="text"
@@ -143,7 +143,7 @@ const Checkout = () => {
 													htmlFor="vat_number"
 													className="block text-sm font-medium text-gray-900 dark:text-white"
 												>
-													VAT number
+													Número de IVA
 												</label>
 												<input
 													type="text"
@@ -158,7 +158,7 @@ const Checkout = () => {
 
 									<div className="space-y-4">
 										<h3 className="my-10 text-xl font-semibold text-gray-900 dark:text-white">
-											Payment
+										Pago
 										</h3>
 
 										<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -182,13 +182,13 @@ const Checkout = () => {
 															htmlFor="credit-card"
 															className="font-medium leading-none text-gray-900 dark:text-white"
 														>
-															Credit Card
+															Tarjeta de crédito
 														</label>
 														<p
 															id="credit-card-text"
 															className="mt-1 text-gray-500 dark:text-gray-400"
 														>
-															Pay with Visa or Mastercard.
+															Pagar con Visa o Mastercard.
 														</p>
 													</div>
 												</div>
