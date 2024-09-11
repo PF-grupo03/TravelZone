@@ -81,13 +81,14 @@ export interface LoginErrorProps {
 }
 
 export interface IRegisterUser {
-	name: string;
-	username: string;
-	password: string;
-	phone: number;
-	dni: number;
-	email: string;
-	isAdmin: boolean;
+  name: string;
+  username: string;
+  password: string;
+  phone: number;
+  dni: number;
+  email: string;
+  isAdmin: boolean;
+  profilePicture: string;
 }
 
 export interface RegisterPropsResponse {
