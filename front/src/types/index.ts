@@ -81,14 +81,14 @@ export interface LoginErrorProps {
 }
 
 export interface IRegisterUser {
-  name: string;
-  username: string;
-  password: string;
-  phone: number;
-  dni: number;
-  email: string;
-  isAdmin: boolean;
-  profilePicture: string;
+	name: string;
+	username: string;
+	password: string;
+	phone: number;
+	dni: number;
+	email: string;
+	isAdmin: boolean;
+	profilePicture: string;
 }
 
 export interface RegisterPropsResponse {
@@ -128,9 +128,10 @@ export interface IOrderProps {
 export interface IOrderResponse {
 	id: number;
 	status: string;
-	date: string;
+	orderDate: string;
 	user: IUser;
 	products: IProduct[];
+	totalPrice: number;
 }
 
 export interface ICreateOrder {
