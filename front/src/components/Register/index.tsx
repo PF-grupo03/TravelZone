@@ -4,6 +4,7 @@ import { validatedateRegisterForm } from "@/helpers/formValidation";
 import { IRegisterUser, RegisterErrorProps, SignUpResponse } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { stringify } from "querystring";
 import React, { useContext, useState } from "react";
 
 function Register() {
@@ -34,6 +35,7 @@ function Register() {
     phone: Number(signupValues.phone),
     dni: Number(signupValues.dni),
     isAdmin: false,
+    profilePicture: "",
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

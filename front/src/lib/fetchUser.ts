@@ -50,11 +50,14 @@ export const postSignin = async (credentials: ILoginUser) => {
 };
 
 export const getUserOrders = async (token: string) => {
-  const response = await fetch("https://m4f.onrender.com/users/orders", {
-    headers: {
-      Authorization: `${token}`,
-    },
-  });
+  const response = await fetch(
+    "https://pf-grupo03-back.onrender.com/users/orders",
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
 
   const data = await response.json();
   return data;
@@ -62,42 +65,162 @@ export const getUserOrders = async (token: string) => {
 
 export const banUser = async (
   id: string,
-  body?: object
-): Promise<IUser | undefined> => {
+  body: object = {}
+): Promise<IUser> => {
+  console.log("banUser called with:", { id, body });
+
   const response = await fetch(
-    `https://m4f.onrender.com/users/ban-user/${id}`,
+    `https://pf-grupo03-back.onrender.com/users/ban-user/${id}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: body ? JSON.stringify(body) : undefined,
+      body: JSON.stringify(body),
+    }
+  );
+
+  console.log("banUser response:", response);
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    console.error("banUser error:", errorMessage);
+    throw new Error(`Failed to ban user: ${response.status} - ${errorMessage}`);
+  }
+
+  const data = await response.json();
+  console.log("banUser response data:", data);
+  return data as IUser;
+};
+
+export const unbanUser = async (id: string): Promise<IUser> => {
+  console.log("unbanUser called with:", id);
+
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/users/unban-user/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  console.log("unbanUser response:", response);
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    console.error("unbanUser error:", errorMessage);
+    throw new Error(
+      `Failed to unban user: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  const data = await response.json();
+  console.log("unbanUser response data:", data);
+  return data as IUser;
+};
+
+export const updateUser = async (
+  id: string,
+  body: { username?: string; password?: string }
+): Promise<IUser> => {
+  console.log("updateUser called with:", { id, body });
+
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/users/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  console.log("updateUser response:", response);
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    console.error("updateUser error:", errorMessage);
+    throw new Error(
+      `Failed to update user: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  const data = await response.json();
+  console.log("updateUser response data:", data);
+  return data as IUser;
+};
+
+// Eliminar usuario por ID
+export const deleteUser = async (id: string): Promise<void> => {
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/users/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
 
   if (!response.ok) {
-    throw new Error("Failed to ban user.");
+    const errorMessage = await response.text();
+    throw new Error(
+      `Error al eliminar el usuario: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  console.log("Usuario eliminado:", id);
+};
+
+// Buscar usuario por email
+export const fetchUserByEmail = async (email: string): Promise<IUser> => {
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/users/getByEmail/${encodeURIComponent(
+      email
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(
+      `Error buscando usuario: ${response.status} - ${errorMessage}`
+    );
   }
 
   const data = await response.json();
   return data as IUser;
 };
 
-export const unbanUser = async (id: string): Promise<IUser | undefined> => {
+export async function updateProfileImage(
+  userId: string,
+  imageFile: File
+): Promise<void> {
+  const formData = new FormData();
+  formData.append("profileImage", imageFile); // 'profileImage' debe coincidir con el nombre que espera tu backend
+
   const response = await fetch(
-    `https://m4f.onrender.com/users/unban-user/${id}`,
+    `https://tu-api.com/users/image-profile/${userId}`,
     {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "POST",
+      body: formData,
     }
   );
 
   if (!response.ok) {
-    throw new Error("Failed to unban user.");
+    const errorMessage = await response.text();
+    throw new Error(
+      `Failed to upload profile image: ${response.status} - ${errorMessage}`
+    );
   }
 
-  const data = await response.json();
-  return data as IUser;
-};
+  console.log("Imagen de perfil actualizada exitosamente.");
+}

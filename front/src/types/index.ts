@@ -88,6 +88,7 @@ export interface IRegisterUser {
   dni: number;
   email: string;
   isAdmin: boolean;
+  profilePicture: string;
 }
 
 export interface RegisterPropsResponse {

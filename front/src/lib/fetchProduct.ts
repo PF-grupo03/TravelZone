@@ -22,3 +22,72 @@ export async function fetchProductById(id: string): Promise<IProduct> {
   const product = await response.json();
   return product;
 }
+
+export async function addProduct(
+  product: Omit<IProduct, "id">
+): Promise<IProduct> {
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/products`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(
+      `Failed to add product: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  const newProduct = await response.json();
+  return newProduct;
+}
+
+export async function updateProduct(
+  id: string,
+  updatedProduct: Partial<IProduct>
+): Promise<IProduct> {
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/products/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProduct),
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(
+      `Failed to update product: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  const product = await response.json();
+  return product;
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/products/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(
+      `Failed to delete product: ${response.status} - ${errorMessage}`
+    );
+  }
+
+  console.log(`Product ${id} deleted successfully`);
+}
