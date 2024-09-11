@@ -1,32 +1,13 @@
 // context/BookingContext.tsx
 "use client";
 import { createContext, useState, ReactNode, useContext } from "react";
-import { UserContext } from "./userContext"; // Importa el contexto de usuario
+import { UserContext, UserProvider } from "./userContext";
+import Stripe from "stripe";
+import { BookingContextType, Participant } from "@/types";
 
-interface BookingContextType {
-	adults: number;
-	setAdults: (value: number | ((prev: number) => number)) => void;
-	kids: number;
-	setKids: (value: number | ((prev: number) => number)) => void;
-	date: string;
-	setDate: (date: string) => void;
-	extraServices: {
-		healthInsurance: boolean;
-		medicalInsurance: boolean;
-	};
-	setExtraServices: (
-		services:
-			| { healthInsurance: boolean; medicalInsurance: boolean }
-			| ((prev: { healthInsurance: boolean; medicalInsurance: boolean }) => {
-					healthInsurance: boolean;
-					medicalInsurance: boolean;
-			  })
-	) => void;
-	totalPrice: number;
-	setTotalPrice: (price: number) => void;
-	calculateTotal: (price: number) => number;
-	sendBookingData: () => Promise<void>;
-}
+const stripe = new Stripe(
+	"sk_test_51PsmlNRsgw4cKaffU7immScU3lAiyKXnyDWiAcDw0W4NtTiJtYyuygwMsJ0u6KanDXs6PbRyr9wwvF6S7GheHHo300GeBTdknb"
+);
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
@@ -34,25 +15,28 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	const [adults, setAdults] = useState<number>(1);
 	const [kids, setKids] = useState<number>(0);
 	const [date, setDate] = useState<string>(""); // Nuevo estado para la fecha de departure
-	const [extraServices, setExtraServices] = useState<{
-		healthInsurance: boolean;
-		medicalInsurance: boolean;
-	}>({ healthInsurance: false, medicalInsurance: false });
+	const [medicalInsurance, setMedicalInsurance] = useState<boolean>(false);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
+	const [selectedProductId, setSelectedProductId] = useState<string>("");
+	const [participants, setParticipants] = useState<Participant[]>([]);
 
-	const { user } = useContext(UserContext); // Usa el contexto de usuario
+	const updateParticipants = (newAdults: number, newKids: number) => {
+		const totalParticipants = newAdults + newKids;
+		const newParticipants = Array(totalParticipants).fill({}) as Participant[];
+		setParticipants(newParticipants);
+	};
+
+	const { user } = useContext(UserContext); // Usar useContext para obtener el valor de UserContext
 
 	const calculateTotal = (price: number): number => {
 		const numAdults = Number(adults);
 		const numKids = Number(kids);
-		const basePrice = Number(price);
+		const pricePerKid = price / 2;
 
-		let total = numAdults * 100 + numKids * 200 + basePrice;
+		let total = numAdults * price + numKids * pricePerKid;
 
-		if (extraServices.healthInsurance) total += 220;
-		if (extraServices.medicalInsurance) total += 45;
+		if (medicalInsurance) total += 45;
 
-		console.log("Total price:", total);
 		return total;
 	};
 
@@ -60,17 +44,22 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 		const iva = totalPrice < 200.0 ? 0 : totalPrice * 0.13;
 		const totalConIva = totalPrice + iva;
 		const bookingData = {
-			adults,
-			kids,
-			date, // Incluye la fecha de departure
-			extraServices,
-			totalConIva,
-			userId: user.login, // Incluye el ID del usuario logeado
+			userId: user.user.id,
+			products: [
+				{
+					id: selectedProductId,
+				},
+			],
+			date: date,
+			adults: adults,
+			children: kids,
+			medicalInsurance: medicalInsurance,
+			passengers: participants,
 		};
 
 		try {
 			const response = await fetch(
-				"https://jsonplaceholder.typicode.com/posts",
+				"https://pf-grupo03-back.onrender.com/orders",
 				{
 					method: "POST",
 					headers: {
@@ -81,15 +70,19 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 			);
 
 			if (!response.ok) {
-				throw new Error("Failed to send booking data");
+				throw new Error("Error al enviar los datos de la reserva");
 			}
 
 			const data = await response.json();
-			console.log("Booking data sent successfully:", data);
-			// Maneja la respuesta del backend según sea necesario
+			console.log("Booking data sent successfully:", data, user, "hola");
+
+			const sessionId = data.sessionId;
+			const session = await stripe.checkout.sessions.retrieve(sessionId);
+			window.location.href = session.url;
 		} catch (error) {
 			console.error("Error sending booking data:", error);
 		}
+		console.log(bookingData);
 	};
 
 	return (
@@ -99,14 +92,19 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setAdults,
 				kids,
 				setKids,
+				participants,
+				setParticipants,
+				updateParticipants,
 				date,
 				setDate, // Proveedor de la nueva función setDate
-				extraServices,
-				setExtraServices,
+				medicalInsurance,
+				setMedicalInsurance,
 				totalPrice,
 				setTotalPrice,
 				calculateTotal,
 				sendBookingData,
+				selectedProductId,
+				setSelectedProductId,
 			}}
 		>
 			{children}
