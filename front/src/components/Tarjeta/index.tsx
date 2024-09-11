@@ -8,43 +8,47 @@ import BookingContext from "@/context/BookingContext";
 
 interface BookingCardProps {
 	price: number;
+	productId: string; // Nueva propiedad para el ID del producto
 }
 
-const BookingCard = ({ price }: BookingCardProps) => {
+const BookingCard = ({ price, productId }: BookingCardProps) => {
 	const {
 		adults,
 		setAdults,
 		kids,
 		setKids,
-		extraServices,
-		setExtraServices,
+		medicalInsurance,
+		setMedicalInsurance,
 		calculateTotal,
 		setTotalPrice,
+		setSelectedProductId,
+		updateParticipants,
 	} = useContext(BookingContext);
 
 	const [localTotal, setLocalTotal] = useState<number>(calculateTotal(price));
 
 	useEffect(() => {
 		setLocalTotal(calculateTotal(price));
-	}, [adults, kids, extraServices, price]);
+	}, [adults, kids, medicalInsurance, price]);
 
 	const handleBookNow = () => {
 		setTotalPrice(localTotal);
+		setSelectedProductId(productId); // Establecer el ID del producto en el contexto
 	};
 
 	const handleAdultChange = (increment: number) => {
-		setAdults((prev) => Math.max(1, prev + increment));
+		const newAdults = Math.max(1, adults + increment);
+		setAdults(newAdults);
+		updateParticipants(newAdults, kids);
 	};
 
 	const handleKidsChange = (increment: number) => {
-		setKids((prev) => Math.max(0, prev + increment));
+		const newKids = Math.max(0, kids + increment);
+		setKids(newKids);
+		updateParticipants(adults, newKids);
 	};
-
-	const handleServiceChange = (service: string) => {
-		setExtraServices((prev) => ({
-			...prev,
-			[service]: !prev[service],
-		}));
+	const handleMedicalInsuranceChange = () => {
+		setMedicalInsurance((prev: boolean) => !prev);
 	};
 
 	return (
@@ -109,27 +113,18 @@ const BookingCard = ({ price }: BookingCardProps) => {
 							</button>
 						</div>
 					</div>
-					<div className="text-gray-500 text-sm">Under 18 ($200)</div>
+					<div className="text-gray-500 text-sm">Under 18 (${price / 2})</div>
 				</div>
 
 				<div className="mt-4">
 					<span className="text-gray-800">Extra Services</span>
 					<div className="flex flex-col mt-2">
-						<label className="flex items-center">
-							<input
-								type="checkbox"
-								className="mr-2"
-								checked={extraServices.healthInsurance}
-								onChange={() => handleServiceChange("healthInsurance")}
-							/>
-							Health Insurance ($220)
-						</label>
 						<label className="flex items-center mt-2">
 							<input
 								type="checkbox"
 								className="mr-2"
-								checked={extraServices.medicalInsurance}
-								onChange={() => handleServiceChange("medicalInsurance")}
+								checked={medicalInsurance}
+								onChange={() => handleMedicalInsuranceChange()}
 							/>
 							Medical Insurance ($45)
 						</label>

@@ -4,7 +4,7 @@ import BookingCard from "@/components/Tarjeta";
 import paquetesDatailToPreload from "@/helpers/paquetesDetailToPreload";
 import TourMap from "@/components/Maps";
 
-const TarjetaPage = ({ price, title, description2 }) => {
+const TarjetaPage = ({ price, title, description2, productId }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const handleNext = () => {
@@ -25,7 +25,7 @@ const TarjetaPage = ({ price, title, description2 }) => {
 					</p>
 				</div>
 				<div className="mt-8 xl:mt-0 w-full xl:w-auto">
-					<BookingCard price={price} />
+					<BookingCard price={price} productId={productId} />
 				</div>
 			</div>
 

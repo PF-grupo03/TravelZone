@@ -1,25 +1,42 @@
-// components/ProceedToPaymentButton.tsx
 import React, { useContext } from "react";
 import BookingContext from "@/context/BookingContext";
-import { UserContext } from "@/context/userContext"; //
+import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 
 const ProceedToPaymentButton = () => {
 	const router = useRouter();
 	const bookingContext = useContext(BookingContext);
-	const userContext = useContext(UserContext); // Usa UserContext
+	const userContext = useContext(UserContext);
+
+	const validateParticipants = () => {
+		if (!bookingContext) return false;
+		for (const participant of bookingContext.participants) {
+			if (
+				!participant.name ||
+				!participant.email ||
+				!participant.cellphone ||
+				!participant.dni
+			) {
+				return false;
+			}
+		}
+		return true;
+	};
 
 	const handleProceedToPayment = () => {
 		if (!userContext.isLogged) {
 			alert("Please log in to proceed with the payment.");
-			// Redirigir a la página de inicio de sesión si es necesario
-			// window.location.href = "/login";
 			router.push("/login");
 			return;
 		}
 
-		if (bookingContext) {
+		if (validateParticipants()) {
 			bookingContext.sendBookingData();
+			console.log("data sent:" + bookingContext);
+		} else {
+			alert(
+				"Por favor, completa todos los campos antes de proceder con el pago."
+			);
 		}
 	};
 
