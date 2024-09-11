@@ -19,7 +19,7 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
       console.error("Error saving product:", error);
     }
   };
-
+  //comentario
   const [isContinentOpen, setIsContinentOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
