@@ -83,8 +83,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const getOrders = async () => {
 		try {
-			const token: string = localStorage.getItem("token") || "";
-			const data = await getUserOrders(token);
+			const data = await getUserOrders();
 			setOrders(data);
 		} catch (error) {
 			console.error(error);
