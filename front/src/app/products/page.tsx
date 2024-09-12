@@ -4,6 +4,7 @@ import Filters from "@/components/Filters";
 import TourList from "@/components/TourList";
 import { addProduct, fetchProducts } from "@/lib/fetchProduct";
 import { UserContext } from "@/context/userContext"; // Importar UserContext
+import { debounce } from "@mui/material";
 
 const App = () => {
   const [filters, setFilters] = useState({
@@ -12,16 +13,16 @@ const App = () => {
     activities: [],
     medicalServices: [],
     name: "",
-    priceRange: [0, 5000],
   });
 
   const [tours, setTours] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Estado para el loader
   const { user } = useContext(UserContext); // Obtener el usuario desde el contexto
 
   // Uso de useCallback para memorizar la función y evitar renderizados innecesarios
   const buildFilterQuery = useCallback(() => {
     const filterParams = new URLSearchParams();
-    const { name, priceRange, ...otherFilters } = filters;
+    const { name, ...otherFilters } = filters;
 
     const allFilters = [
       ...filters.continents,
@@ -35,19 +36,14 @@ const App = () => {
     });
 
     filterParams.set("name", name ? name.toLowerCase() : "");
-    filterParams.set(
-      "priceRange",
-      priceRange ? `${priceRange[0]}-${priceRange[1]}` : "0-5000"
-    );
 
     const queryString = `?${filterParams.toString()}`;
-    console.log("Filter query string:", queryString);
-
     return queryString;
   }, [filters]);
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadProducts = debounce(async () => {
+      setIsLoading(true); // Mostrar loader
       try {
         const filterQuery = buildFilterQuery();
         console.log("Final filter query URL:", filterQuery);
@@ -58,11 +54,13 @@ const App = () => {
         setTours(products);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false); // Ocultar loader
       }
-    };
+    }, 500); // 500ms debounce
 
     loadProducts();
-  }, [buildFilterQuery]);
+  }, [filters]);
 
   const handleAddProduct = async (product) => {
     try {
@@ -88,7 +86,12 @@ const App = () => {
           <h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
             ¡Personaliza Tu Aventura!
           </h1>
-          <TourList tours={tours} />
+
+          {isLoading ? ( // Mostrar loader mientras se cargan los productos
+            <div className="text-center">Cargando productos...</div>
+          ) : (
+            <TourList tours={tours} />
+          )}
         </main>
       </div>
     </div>
