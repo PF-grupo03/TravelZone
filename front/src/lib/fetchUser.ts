@@ -49,12 +49,13 @@ export const postSignin = async (credentials: ILoginUser) => {
   return data;
 };
 
-export const getUserOrders = async (token: string) => {
+export const getUserOrders = async (): Promise<any> => {
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
   const response = await fetch(
     "https://pf-grupo03-back.onrender.com/users/orders",
     {
       headers: {
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
     }
   );
@@ -68,6 +69,7 @@ export const banUser = async (
   body: object = {}
 ): Promise<IUser> => {
   console.log("banUser called with:", { id, body });
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
 
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/users/ban-user/${id}`,
@@ -75,6 +77,7 @@ export const banUser = async (
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
       body: JSON.stringify(body),
     }
@@ -95,6 +98,7 @@ export const banUser = async (
 
 export const unbanUser = async (id: string): Promise<IUser> => {
   console.log("unbanUser called with:", id);
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
 
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/users/unban-user/${id}`,
@@ -102,6 +106,7 @@ export const unbanUser = async (id: string): Promise<IUser> => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
     }
   );
@@ -126,6 +131,7 @@ export const updateUser = async (
   body: { username?: string; password?: string }
 ): Promise<IUser> => {
   console.log("updateUser called with:", { id, body });
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
 
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/users/${id}`,
@@ -133,6 +139,7 @@ export const updateUser = async (
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
       body: JSON.stringify(body),
     }
@@ -155,12 +162,15 @@ export const updateUser = async (
 
 // Eliminar usuario por ID
 export const deleteUser = async (id: string): Promise<void> => {
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
+
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/users/${id}`,
     {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
     }
   );
@@ -177,6 +187,8 @@ export const deleteUser = async (id: string): Promise<void> => {
 
 // Buscar usuario por email
 export const fetchUserByEmail = async (email: string): Promise<IUser> => {
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
+
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/users/getByEmail/${encodeURIComponent(
       email
@@ -185,6 +197,7 @@ export const fetchUserByEmail = async (email: string): Promise<IUser> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
       },
     }
   );
@@ -204,6 +217,7 @@ export async function updateProfileImage(
   userId: string,
   imageFile: File
 ): Promise<void> {
+  const token = localStorage.getItem("token"); // Obtén el token del localStorage
   const formData = new FormData();
   formData.append("profileImage", imageFile); // 'profileImage' debe coincidir con el nombre que espera tu backend
 
@@ -211,6 +225,9 @@ export async function updateProfileImage(
     `https://tu-api.com/users/image-profile/${userId}`,
     {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // Añade el token al encabezado
+      },
       body: formData,
     }
   );

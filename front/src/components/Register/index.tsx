@@ -5,7 +5,7 @@ import { IRegisterUser, RegisterErrorProps, SignUpResponse } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 
 function Register() {
   const { signUp } = useContext(UserContext);
