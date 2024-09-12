@@ -3,12 +3,12 @@ import { UserContext } from "@/context/userContext";
 import { getOrdersByUserId } from "@/lib/fetchProduct";
 import { IOrderResponse } from "@/types";
 import React, { useContext, useState, useEffect } from "react";
-import { FaSpinner } from "react-icons/fa"; // Icono de spinner
+import { FaSpinner } from "react-icons/fa";
 
 const OrdersPage = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [orders, setOrders] = useState<IOrderResponse[]>([]); // Estado para las órdenes
+	const [orders, setOrders] = useState<IOrderResponse[]>([]);
 	const { user } = useContext(UserContext);
 
 	useEffect(() => {
@@ -25,7 +25,7 @@ const OrdersPage = () => {
 	async function fetchOrders() {
 		try {
 			const orders = await getOrdersByUserId(user.user.id);
-			setOrders(orders); // Asegúrate de que `orders` es un arreglo de `IOrder`
+			setOrders(orders);
 		} catch (error) {
 			setError("Error al obtener las órdenes");
 		} finally {
@@ -54,7 +54,7 @@ const OrdersPage = () => {
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto mt-20 p-6 bg-white shadow-md rounded-lg">
+		<div className="w-full  mt-20 p-6 bg-white shadow-md rounded-lg">
 			<h1 className="text-3xl font-bold mb-6 text-gray-800">
 				Tus órdenes {user.user.name}
 			</h1>
