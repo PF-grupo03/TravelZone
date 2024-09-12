@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const EditProductPopup = ({ tour, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -46,25 +47,22 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
         : [], // Envía array vacío si no hay categorías
     };
 
-    console.log("Data sent to API:", updatedProduct);
-    // Validación adicional si lo necesitas
-    if (isNaN(updatedProduct.price)) {
-      alert("El precio debe ser un número válido.");
-      return;
-    }
+    const invalidFields = [];
+    if (isNaN(updatedProduct.price)) invalidFields.push("Precio");
+    if (isNaN(updatedProduct.stock)) invalidFields.push("Stock");
+    if (isNaN(updatedProduct.latitude)) invalidFields.push("Latitud");
+    if (isNaN(updatedProduct.longitude)) invalidFields.push("Longitud");
 
-    if (isNaN(updatedProduct.stock)) {
-      alert("El stock debe ser un número válido.");
-      return;
-    }
-
-    if (isNaN(updatedProduct.latitude)) {
-      alert("La latitud debe ser un número válido.");
-      return;
-    }
-
-    if (isNaN(updatedProduct.longitude)) {
-      alert("La longitud debe ser un número válido.");
+    // Si hay campos inválidos, muestra una alerta y detén la ejecución
+    if (invalidFields.length > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Error en los campos numéricos",
+        text: `Por favor, revisa los siguientes campos: ${invalidFields.join(
+          ", "
+        )}.`,
+        confirmButtonText: "OK",
+      });
       return;
     }
 
