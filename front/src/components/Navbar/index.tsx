@@ -60,12 +60,12 @@ const Navbar = () => {
 				>
 					<ul className="flex flex-col space-y-4">
 						<li>
-							<a
-								href="#"
+							<Link
+								href="/products?activities=tours"
 								className="block text-lg font-medium hover:text-blue-500 transition-colors duration-300"
 							>
 								Tours
-							</a>
+							</Link>
 						</li>
 						<li>
 							<Link
@@ -76,12 +76,12 @@ const Navbar = () => {
 							</Link>
 						</li>
 						<li>
-							<a
-								href="#"
+							<Link
+								href="/products?rentals=transporte"
 								className="block text-lg font-medium hover:text-blue-500 transition-colors duration-300"
 							>
 								Alquileres
-							</a>
+							</Link>
 						</li>
 						{isLogged ? (
 							<li className="relative">
@@ -149,18 +149,24 @@ const Navbar = () => {
 					</ul>
 				</div>
 				<div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
-					<a href="#" className="text-gray-900 hover:text-blue-700 inter">
-						Tours
-					</a>
+					<Link
+								href="/products?activities=tours"
+								className="block text-lg font-medium hover:text-blue-500 transition-colors duration-300"
+							>
+								Tours
+							</Link>
 					<Link
 						href="/products"
 						className="text-gray-900 hover:text-blue-700 inter"
 					>
 						Paquetes
 					</Link>
-					<a href="#" className="text-gray-900 hover:text-blue-700 inter">
-						Alquileres
-					</a>
+					<Link
+								href="/products?rentals=transporte"
+								className="block text-lg font-medium hover:text-blue-500 transition-colors duration-300"
+							>
+								Alquileres
+							</Link>
 					{isLogged ? (
 						<div className="relative">
 							<button
