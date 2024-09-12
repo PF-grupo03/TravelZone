@@ -6,6 +6,7 @@ import {
   deleteUser,
   fetchUserByEmail,
 } from "@/lib/fetchUser";
+import Swal from "sweetalert2";
 
 const UserControl = ({
   actions = ["unban-user", "ban-user", "delete-user"],
@@ -13,55 +14,97 @@ const UserControl = ({
   const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const [selectedAction, setSelectedAction] = useState(actions[0]);
-  const [loading, setLoading] = useState(false);
+  const [loadingEmail, setLoadingEmail] = useState(false); // Estado de carga para buscar por email
+  const [loadingAction, setLoadingAction] = useState(false); // Estado de carga para aplicar acción
 
   // Buscar usuario por email
   const handleEmailSearch = async () => {
     if (!email) return;
-    setLoading(true);
+    setLoadingEmail(true);
     try {
       const user = await fetchUserByEmail(email);
       if (user) {
         setUserId(user.id);
-        alert(`El ID del usuario es: ${user.id}`);
+        Swal.fire({
+          icon: "success",
+          title: "Usuario encontrado",
+          text: `El ID del usuario es: ${user.id}`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00",
+        });
       } else {
-        alert("Usuario no encontrado.");
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: "No se encontró un usuario con ese email.",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      console.error("Error fetching user by email:", error);
-      alert("Error al buscar usuario por email.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error al buscar usuario por email.",
+        confirmButtonText: "OK",
+      });
     } finally {
-      setLoading(false);
+      setLoadingEmail(false);
     }
   };
 
   const handleSubmit = async () => {
     if (!userId) return;
-    setLoading(true);
+    setLoadingAction(true);
     try {
       if (selectedAction === "ban-user") {
         const body = {
           motive: "usuario suspendido por infligir nuestras normas",
         };
-        const response = await banUser(userId, body);
-        alert(`Usuario ${userId} ha sido bloqueado.`);
+        await banUser(userId, body);
+        Swal.fire({
+          icon: "success",
+          title: "Usuario bloqueado",
+          text: `El usuario ${userId} ha sido bloqueado.`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00",
+        });
       } else if (selectedAction === "unban-user") {
-        const response = await unbanUser(userId);
-        alert(`Usuario ${userId} ha sido desbloqueado.`);
+        await unbanUser(userId);
+        Swal.fire({
+          icon: "success",
+          title: "Usuario desbloqueado",
+          text: `El usuario ${userId} ha sido desbloqueado.`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00",
+        });
       } else if (selectedAction === "delete-user") {
         await deleteUser(userId);
-        alert(`Usuario ${userId} ha sido eliminado.`);
+        Swal.fire({
+          icon: "success",
+          title: "Usuario eliminado",
+          text: `El usuario ${userId} ha sido eliminado.`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00",
+        });
       } else {
-        alert("Acción no válida.");
+        Swal.fire({
+          icon: "error",
+          title: "Acción no válida",
+          text: "La acción seleccionada no es válida.",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
-      console.error("Error performing action:", error);
-      alert(`Error: ${error.message || "Intente nuevamente."}`);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Error: ${error.message || "Intente nuevamente."}`,
+        confirmButtonText: "OK",
+      });
     } finally {
-      setLoading(false);
+      setLoadingAction(false);
     }
   };
-
   return (
     <div className="bg-white p-6 shadow-md rounded-md mb-6">
       <h3 className="text-xl font-bold mb-4">Control de Usuarios</h3>
@@ -77,9 +120,9 @@ const UserControl = ({
         <button
           onClick={handleEmailSearch}
           className="bg-green-500 text-white p-2 rounded-md mt-2"
-          disabled={loading || !email}
+          disabled={loadingEmail || !email}
         >
-          {loading ? "Buscando..." : "Buscar por Email"}
+          {loadingEmail ? "Buscando..." : "Buscar por Email"}
         </button>
       </div>
       {/* ID de Usuario */}
@@ -91,7 +134,6 @@ const UserControl = ({
           onChange={(e) => setUserId(e.target.value)}
           className="border p-2 w-full rounded-md"
         />
-        <p>ID del Usuario: {userId}</p>
       </div>
       {/* Selección de acción */}
       <div className="mb-4">
@@ -117,9 +159,9 @@ const UserControl = ({
       <button
         onClick={handleSubmit}
         className="bg-blue-500 text-white p-2 rounded-md"
-        disabled={loading || !userId}
+        disabled={loadingAction || !userId}
       >
-        {loading ? "Aplicando acción..." : "Aplicar acción"}
+        {loadingAction ? "Aplicando acción..." : "Aplicar acción"}
       </button>
     </div>
   );
