@@ -15,7 +15,7 @@ function PulpoDesktop() {
 		<div className="min-h-screen flex justify-center bg-white mb-40">
 			<div className="relative w-full max-w-4xl">
 				<div className="absolute inset-0 flex items-center justify-center">
-					<Image
+					<img
 						src="/Imagenes Pulpo/Logo.png"
 						alt="Travel Agency Logo"
 						width={300}
@@ -31,8 +31,8 @@ function PulpoDesktop() {
 					} top-[60%] left-[72%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-						<Image
-							src="/Imagenes Pulpo/Pesca.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104815/Pesca_lu4npb.jpg"
 							alt="Pesca Deportiva"
 							width={1200}
 							height={800}
