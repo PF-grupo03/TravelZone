@@ -1,9 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const MasVisitados = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const { data: session, status } = useSession();
+	if (status === "loading") {
+		return <div>Cargando...</div>;
+	}
+
+	if (status === "unauthenticated") {
+		return <div>No estás autenticado</div>;
+	}
 
 	const images = [
 		{
@@ -46,6 +55,15 @@ const MasVisitados = () => {
 
 	return (
 		<div className="bg-stone-200 w-full py-8">
+			<div>
+				<h1>Bienvenido a la Página de Inicio</h1>
+				<p>Hola, {session?.user?.name}</p>
+				<p>Correo electrónico: {session?.user?.email}</p>
+				<p>
+					Imagen de perfil:{" "}
+					<img src={session?.user?.image} alt="Imagen de perfil" />
+				</p>
+			</div>
 			<div className="w-full max-w-screen-xl mx-auto px-4">
 				<div className="flex justify-center items-center mb-4 mt-4">
 					<h2 className="text-xl font-bold font-inter text-[#05073C] ">

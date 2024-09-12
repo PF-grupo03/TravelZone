@@ -2,9 +2,12 @@ import React from "react";
 import { signIn } from "next-auth/react";
 
 export default function SignIn() {
+	const handleSignIn = () => {
+		window.location.href = "https://pf-grupo03-back.onrender.com/auth/google";
+	};
 	return (
 		<button
-			onClick={() => signIn("google")}
+			onClick={handleSignIn}
 			className="my-4 flex items-center justify-center w-full p-2 border
 			border-gray-300 rounded-md bg-white hover:bg-gray-100"
 		>
