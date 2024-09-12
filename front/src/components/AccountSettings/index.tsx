@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { IUserResponse } from "@/types";
-import { updateUser } from "@/lib/fetchUser";
+import { updateUser, deleteUser } from "@/lib/fetchUser"; // Asegúrate de importar deleteUser
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 
@@ -29,7 +29,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     }
 
     // Mensaje de consola para verificar los valores del formulario
-    console.log("Valores del formulario:", { username, password }); // Mensaje en español
+    console.log("Valores del formulario:", { username, password });
 
     try {
       // Construye el objeto de datos de actualización
@@ -43,7 +43,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       const response = await updateUser(loggedInUser.user.id, updatedUserData);
 
       // Mensaje de consola para verificar la respuesta
-      console.log("Respuesta de updateUser:", response); // Mensaje en español
+      console.log("Respuesta de updateUser:", response);
 
       Swal.fire({
         icon: "success",
@@ -54,7 +54,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       });
     } catch (error) {
       // Manejo de errores
-      console.error("Error al actualizar el usuario:", error); // Mensaje en español
+      console.error("Error al actualizar el usuario:", error);
 
       Swal.fire({
         icon: "error",
@@ -63,6 +63,50 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
         confirmButtonText: "OK",
       });
     }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!loggedInUser?.user?.id) {
+      Swal.fire({
+        icon: "error",
+        title: "¡Error!",
+        text: "ID de usuario no encontrado. Por favor, inicia sesión.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    // Confirmar eliminación del usuario
+    Swal.fire({
+      icon: "warning",
+      title: "¿Estás seguro?",
+      text: "Esta acción no se puede deshacer. Eliminará permanentemente tu cuenta.",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#FF6B00", // Color naranja
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteUser(loggedInUser.user.id);
+          Swal.fire({
+            icon: "success",
+            title: "¡Cuenta eliminada!",
+            text: "Tu cuenta ha sido eliminada permanentemente.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#FF6B00", // Color naranja
+          });
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Error al eliminar",
+            text: `No se pudo eliminar la cuenta. Error: ${error.message}`,
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -126,7 +170,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           >
             <path
               fillRule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a 1 1 0 002 0V6a1 1 0 00-1-1z"
               clipRule="evenodd"
             />
           </svg>
@@ -138,7 +182,10 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           completamente tus datos. No habrá forma de acceder a tu cuenta después
           de esta acción.
         </p>
-        <button className="ml-auto text-sm font-semibold text-rose-600 underline decoration-2">
+        <button
+          onClick={handleDeleteAccount}
+          className="ml-auto text-sm font-semibold text-rose-600 underline decoration-2"
+        >
           Continuar con la eliminación
         </button>
       </div>
