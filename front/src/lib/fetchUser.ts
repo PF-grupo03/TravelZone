@@ -241,3 +241,29 @@ export async function updateProfileImage(
 
 	console.log("Imagen de perfil actualizada exitosamente.");
 }
+
+export const changePassword = async (
+  id: string,
+  newPassword: string
+): Promise<IUser> => {
+  console.log("changePassword called with:", { id, newPassword });
+  const token = localStorage.getItem("token"); // Obtener el token del localStorage
+
+  const response = await fetch(
+    `https://pf-grupo03-back.onrender.com/users/change-password/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Añadir el token al encabezado
+      },
+      body: JSON.stringify({ password: newPassword }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error al cambiar la contraseña");
+  }
+
+  return response.json();
+};

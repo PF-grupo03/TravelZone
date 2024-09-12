@@ -1,21 +1,21 @@
 import React, { useContext, useState } from "react";
 import { IUserResponse } from "@/types";
-import { updateUser, deleteUser } from "@/lib/fetchUser"; // Asegúrate de importar deleteUser
+import { updateUser, deleteUser, changePassword } from "@/lib/fetchUser";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
+import { HiEye, HiEyeOff } from "react-icons/hi"; // Importa los íconos de ojo
 
 interface AccountSettingsProps {
   user: Partial<IUserResponse> | null;
 }
 
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
-  const { user: loggedInUser } = useContext(UserContext);
+  const { user: loggedInUser, logout } = useContext(UserContext);
 
   const [username, setUsername] = useState(loggedInUser?.user?.username || "");
   const [email, setEmail] = useState(loggedInUser?.user?.email || "");
   const [password, setPassword] = useState("");
-
-  console.log("Datos iniciales del usuario:", loggedInUser);
+  const [showPassword, setShowPassword] = useState(false); // Controla la visibilidad de la contraseña
 
   const handleSubmit = async () => {
     if (!loggedInUser?.user?.id) {
@@ -28,38 +28,27 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       return;
     }
 
-    // Mensaje de consola para verificar los valores del formulario
-    console.log("Valores del formulario:", { username, password });
-
     try {
-      // Construye el objeto de datos de actualización
-      const updatedUserData = {
-        username:
-          username !== loggedInUser?.user.username ? username : undefined,
-        password: password || undefined,
-      };
+      if (username !== loggedInUser.user.username) {
+        await updateUser(loggedInUser.user.id, { username });
+      }
 
-      // Actualiza el usuario utilizando la función updateUser
-      const response = await updateUser(loggedInUser.user.id, updatedUserData);
-
-      // Mensaje de consola para verificar la respuesta
-      console.log("Respuesta de updateUser:", response);
+      if (password.trim()) {
+        await changePassword(loggedInUser.user.id, password);
+      }
 
       Swal.fire({
         icon: "success",
         title: "¡Actualización exitosa!",
-        text: "Información del usuario actualizada exitosamente.",
+        text: "La información del usuario ha sido actualizada exitosamente.",
         confirmButtonText: "OK",
-        confirmButtonColor: "#FF6B00", // Color naranja
+        confirmButtonColor: "#FF6B00",
       });
     } catch (error) {
-      // Manejo de errores
-      console.error("Error al actualizar el usuario:", error);
-
       Swal.fire({
         icon: "error",
         title: "¡Error al actualizar!",
-        text: "Error al actualizar la información del usuario. Inténtalo nuevamente.",
+        text: "Hubo un error al actualizar la información. Por favor, inténtalo nuevamente.",
         confirmButtonText: "OK",
       });
     }
@@ -76,7 +65,6 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       return;
     }
 
-    // Confirmar eliminación del usuario
     Swal.fire({
       icon: "warning",
       title: "¿Estás seguro?",
@@ -84,7 +72,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#FF6B00", // Color naranja
+      confirmButtonColor: "#FF6B00",
       cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -95,8 +83,9 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
             title: "¡Cuenta eliminada!",
             text: "Tu cuenta ha sido eliminada permanentemente.",
             confirmButtonText: "OK",
-            confirmButtonColor: "#FF6B00", // Color naranja
+            confirmButtonColor: "#FF6B00",
           });
+          logout();
         } catch (error) {
           Swal.fire({
             icon: "error",
@@ -137,15 +126,22 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       <div className="flex items-center">
         <label htmlFor="login-password" className="w-full">
           <span className="text-sm text-gray-500">Nueva contraseña</span>
-          <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
+          <div className="relative flex items-center overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="login-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
               placeholder="***********"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600"
+            >
+              {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
+            </button>
           </div>
         </label>
       </div>
