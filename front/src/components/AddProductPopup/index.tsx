@@ -21,7 +21,7 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
     const { name, value, files } = e.target;
 
     if (files) {
-      setFormData((prev) => ({ ...prev, [name]: files[0] })); // Para archivos, usa files[0]
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }

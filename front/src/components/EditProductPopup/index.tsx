@@ -13,6 +13,8 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
     duration: tour.duration,
     stock: tour.stock || "", // Asegúrate de que sea string inicialmente
     categories: tour.categories ? tour.categories.join(", ") : "",
+    latitude: tour.latitude || "", // Agregar campo de latitude
+    longitude: tour.longitude || "", // Agregar campo de longitude
   });
 
   const handleChange = (e) => {
@@ -29,11 +31,13 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Verifica que price y stock sean válidos números
+    // Verifica que price, stock, latitude y longitude sean válidos números
     const updatedProduct = {
       ...formData,
       price: parseFloat(formData.price) || 0, // Convierte price a número, default 0
       stock: parseInt(formData.stock) || 0, // Convierte stock a número entero, default 0
+      latitude: parseFloat(formData.latitude) || 0, // Convierte latitude a número, default 0
+      longitude: parseFloat(formData.longitude) || 0, // Convierte longitude a número, default 0
       categories: formData.categories
         ? formData.categories
             .toString()
@@ -51,6 +55,16 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
 
     if (isNaN(updatedProduct.stock)) {
       alert("El stock debe ser un número válido.");
+      return;
+    }
+
+    if (isNaN(updatedProduct.latitude)) {
+      alert("La latitud debe ser un número válido.");
+      return;
+    }
+
+    if (isNaN(updatedProduct.longitude)) {
+      alert("La longitud debe ser un número válido.");
       return;
     }
 
@@ -199,6 +213,30 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               type="text"
               name="categories"
               value={formData.categories}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          {/* Latitud */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Latitud</label>
+            <input
+              type="number"
+              step="any"
+              name="latitude"
+              value={formData.latitude}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          {/* Longitud */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Longitud</label>
+            <input
+              type="number"
+              step="any"
+              name="longitude"
+              value={formData.longitude}
               onChange={handleChange}
               className="w-full border p-2 rounded-md"
             />
