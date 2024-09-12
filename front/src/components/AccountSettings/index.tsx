@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { IUserResponse } from "@/types";
-import { updateUser, deleteUser } from "@/lib/fetchUser"; // Asegúrate de importar deleteUser
+import { updateUser, deleteUser } from "@/lib/fetchUser";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 
@@ -9,7 +9,7 @@ interface AccountSettingsProps {
 }
 
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
-  const { user: loggedInUser } = useContext(UserContext);
+  const { user: loggedInUser, logout } = useContext(UserContext); // Import logout function
 
   const [username, setUsername] = useState(loggedInUser?.user?.username || "");
   const [email, setEmail] = useState(loggedInUser?.user?.email || "");
@@ -28,21 +28,17 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       return;
     }
 
-    // Mensaje de consola para verificar los valores del formulario
     console.log("Valores del formulario:", { username, password });
 
     try {
-      // Construye el objeto de datos de actualización
       const updatedUserData = {
         username:
           username !== loggedInUser?.user.username ? username : undefined,
         password: password || undefined,
       };
 
-      // Actualiza el usuario utilizando la función updateUser
       const response = await updateUser(loggedInUser.user.id, updatedUserData);
 
-      // Mensaje de consola para verificar la respuesta
       console.log("Respuesta de updateUser:", response);
 
       Swal.fire({
@@ -53,7 +49,6 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
         confirmButtonColor: "#FF6B00", // Color naranja
       });
     } catch (error) {
-      // Manejo de errores
       console.error("Error al actualizar el usuario:", error);
 
       Swal.fire({
@@ -76,7 +71,6 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       return;
     }
 
-    // Confirmar eliminación del usuario
     Swal.fire({
       icon: "warning",
       title: "¿Estás seguro?",
@@ -97,6 +91,9 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
             confirmButtonText: "OK",
             confirmButtonColor: "#FF6B00", // Color naranja
           });
+
+          // Logout after successful deletion
+          logout(); // Call logout to remove user from local storage
         } catch (error) {
           Swal.fire({
             icon: "error",
