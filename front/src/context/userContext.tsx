@@ -1,7 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-
 import { getUserOrders, postSignin, postSignup } from "@/lib/fetchUser";
 import {
 	ILoginUser,
@@ -27,41 +25,35 @@ export const UserContext = createContext<IUsercontextType>({
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-	const { data: session, status } = useSession();
 	const [user, setUser] = useState<Partial<IUserResponse> | null>(null);
 	const [isLogged, setIsLogged] = useState(false);
 	const [orders, setOrders] = useState<IOrderResponse[]>([]);
 
-	useEffect(() => {
-		console.log("Session data:", session);
-		if (status === "authenticated" && session?.user) {
-			const userResponse: Partial<IUserResponse> = {
-				user: session.user,
-				login: true,
-				token: session.accessToken as string,
-			};
-			setUser(userResponse);
-			setIsLogged(true);
-		} else {
-			setUser(null);
-			setIsLogged(false);
-		}
-	}, [session, status]);
-
 	const signUp = async (user: Omit<IUser, "id">): Promise<SignUpResponse> => {
 		try {
+			// Envía la solicitud para crear el usuario
 			const data = await postSignup(user);
+			console.log("Response from postSignup:", data); // Log para verificar data
+
+			// Asegúrate de que estás accediendo a data.user.id
 			if (data.user && data.user.id) {
+				console.log("User created successfully:", data.user); // Log para ver el usuario completo
+
+				console.log("User created, attempting to sign in...");
 				await signIn({ email: user.email, password: user.password });
+
+				// Devuelve un objeto de respuesta que indica éxito y el usuario creado
 				return {
 					success: true,
 					message: "Account created successfully!",
 					user: data.user,
 				};
 			} else {
+				console.error("User creation failed, no ID returned");
 				return { success: false, message: "Failed to create account." };
 			}
 		} catch (error) {
+			console.error("Error during sign-up process:", error);
 			return {
 				success: false,
 				message: error.message || "An error occurred. Please try again.",
@@ -72,6 +64,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const signIn = async (credentials: ILoginUser): Promise<SignInResponse> => {
 		try {
 			const response = await postSignin(credentials);
+			console.log("Response from postSignin:", response);
 			if (response.token) {
 				setUser(response);
 				localStorage.setItem("user", JSON.stringify(response));
@@ -94,6 +87,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 			const data = await getUserOrders(token);
 			setOrders(data);
 		} catch (error) {
+			console.error(error);
 			return [];
 		}
 	};
