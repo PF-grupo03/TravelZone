@@ -1,12 +1,14 @@
 "use client";
 import React, { useEffect, useState, useCallback, useContext } from "react";
+import { useSearchParams } from "next/navigation"; // Cambia el import
 import Filters from "@/components/Filters";
 import TourList from "@/components/TourList";
 import { addProduct, fetchProducts } from "@/lib/fetchProduct";
-import { UserContext } from "@/context/userContext"; // Importar UserContext
+import { UserContext } from "@/context/userContext"; // Import UserContext
 import { debounce } from "@mui/material";
 
 const App = () => {
+  const searchParams = useSearchParams(); // Usa useSearchParams
   const [filters, setFilters] = useState({
     continents: [],
     countries: [],
@@ -16,10 +18,10 @@ const App = () => {
   });
 
   const [tours, setTours] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // Estado para el loader
-  const { user } = useContext(UserContext); // Obtener el usuario desde el contexto
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+  const { user } = useContext(UserContext); // Get the user from the context
 
-  // Uso de useCallback para memorizar la función y evitar renderizados innecesarios
+  // Use useCallback to memoize the filter query construction
   const buildFilterQuery = useCallback(() => {
     const filterParams = new URLSearchParams();
     const { name, ...otherFilters } = filters;
@@ -41,9 +43,27 @@ const App = () => {
     return queryString;
   }, [filters]);
 
+  // Set filters based on URL query on initial load
+  useEffect(() => {
+    const continents = searchParams.get("continents");
+    const countries = searchParams.get("countries");
+    const activities = searchParams.get("activities");
+    const medicalServices = searchParams.get("medicalServices");
+    const name = searchParams.get("name");
+
+    const initialFilters = {
+      continents: continents ? [continents] : [],
+      countries: countries ? [countries] : [],
+      activities: activities ? [activities] : [],
+      medicalServices: medicalServices ? [medicalServices] : [],
+      name: name || "",
+    };
+    setFilters(initialFilters);
+  }, [searchParams]);
+
   useEffect(() => {
     const loadProducts = debounce(async () => {
-      setIsLoading(true); // Mostrar loader
+      setIsLoading(true); // Show loader
       try {
         const filterQuery = buildFilterQuery();
         console.log("Final filter query URL:", filterQuery);
@@ -55,12 +75,12 @@ const App = () => {
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setIsLoading(false); // Ocultar loader
+        setIsLoading(false); // Hide loader
       }
     }, 500); // 500ms debounce
 
     loadProducts();
-  }, [filters]);
+  }, [filters, buildFilterQuery]);
 
   const handleAddProduct = async (product) => {
     try {
