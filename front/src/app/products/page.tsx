@@ -5,7 +5,6 @@ import TourList from "@/components/TourList";
 import { addProduct, fetchProducts } from "@/lib/fetchProduct";
 import { UserContext } from "@/context/userContext"; // Importar UserContext
 import { debounce } from "@mui/material";
-import { FaSpinner } from "react-icons/fa"; // Importar el ícono del spinner
 
 const App = () => {
   const [filters, setFilters] = useState({
@@ -13,7 +12,6 @@ const App = () => {
     countries: [],
     activities: [],
     medicalServices: [],
-    rentals: [],
     name: "",
   });
 
@@ -31,7 +29,6 @@ const App = () => {
       ...filters.countries,
       ...filters.activities,
       ...filters.medicalServices,
-      ...filters.rentals,
     ];
 
     allFilters.forEach((filter) => {
@@ -63,7 +60,7 @@ const App = () => {
     }, 500); // 500ms debounce
 
     loadProducts();
-  }, [filters, buildFilterQuery]);
+  }, [filters]);
 
   const handleAddProduct = async (product) => {
     try {
@@ -73,6 +70,7 @@ const App = () => {
       console.error("Error adding product:", error);
     }
   };
+
   return (
     <div className="mx-[110px]">
       <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
@@ -89,11 +87,8 @@ const App = () => {
             ¡Personaliza Tu Aventura!
           </h1>
 
-          {isLoading ? ( // Mostrar spinner mientras se cargan los productos
-            <div className="flex justify-center items-center h-screen">
-              <FaSpinner className="animate-spin text-4xl text-blue-500" />
-              <span className="ml-2 text-xl">Cargando productos...</span>
-            </div>
+          {isLoading ? ( // Mostrar loader mientras se cargan los productos
+            <div className="text-center">Cargando productos...</div>
           ) : (
             <TourList tours={tours} />
           )}
