@@ -65,9 +65,10 @@ const App = () => {
     [buildFilterQuery]
   );
 
-  useEffect(() => {
-    loadProducts(); // Llamar a la función debounced
-  }, [filters, loadProducts]);
+
+    loadProducts();
+  }, [filters, buildFilterQuery]);
+
 
   const handleAddProduct = async (product) => {
     try {
@@ -77,7 +78,6 @@ const App = () => {
       console.error("Error adding product:", error);
     }
   };
-
   return (
     <div className="mx-[110px]">
       <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
