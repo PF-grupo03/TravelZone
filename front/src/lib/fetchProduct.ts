@@ -52,16 +52,15 @@ export async function addProduct(product: FormData): Promise<IProduct> {
     }
   );
 
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(
-			`Failed to add product: ${response.status} - ${errorMessage}`
-		);
-	}
-
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(
+      `Failed to add product: ${response.status} - ${errorMessage}`
+    );
+  }
 
   return response.json();
+}
 
 
 export async function updateProduct(
