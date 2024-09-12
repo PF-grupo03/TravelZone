@@ -44,9 +44,8 @@ const App = () => {
     return queryString;
   }, [filters]);
 
-  // Usar debounce en la función de carga de productos
-  const loadProducts = useCallback(
-    debounce(async () => {
+  useEffect(() => {
+    const loadProducts = debounce(async () => {
       setIsLoading(true); // Mostrar loader
       try {
         const filterQuery = buildFilterQuery();
@@ -61,13 +60,10 @@ const App = () => {
       } finally {
         setIsLoading(false); // Ocultar loader
       }
-    }, 500), // 500ms debounce
-    [buildFilterQuery]
-  );
+    }, 500); // 500ms debounce
 
-  useEffect(() => {
-    loadProducts(); // Llamar a la función debounced
-  }, [filters, loadProducts]);
+    loadProducts();
+  }, [filters, buildFilterQuery]);
 
   const handleAddProduct = async (product) => {
     try {
@@ -77,7 +73,6 @@ const App = () => {
       console.error("Error adding product:", error);
     }
   };
-
   return (
     <div className="mx-[110px]">
       <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
