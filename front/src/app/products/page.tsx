@@ -44,8 +44,9 @@ const App = () => {
     return queryString;
   }, [filters]);
 
-  useEffect(() => {
-    const loadProducts = debounce(async () => {
+  // Usar debounce en la función de carga de productos
+  const loadProducts = useCallback(
+    debounce(async () => {
       setIsLoading(true); // Mostrar loader
       try {
         const filterQuery = buildFilterQuery();
@@ -60,10 +61,14 @@ const App = () => {
       } finally {
         setIsLoading(false); // Ocultar loader
       }
-    }, 500); // 500ms debounce
+    }, 500), // 500ms debounce
+    [buildFilterQuery]
+  );
+
 
     loadProducts();
   }, [filters, buildFilterQuery]);
+
 
   const handleAddProduct = async (product) => {
     try {

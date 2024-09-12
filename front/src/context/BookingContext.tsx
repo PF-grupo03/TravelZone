@@ -14,7 +14,8 @@ const BookingContext = createContext<BookingContextType | undefined>(undefined);
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	const [adults, setAdults] = useState<number>(1);
 	const [kids, setKids] = useState<number>(0);
-	const [date, setDate] = useState<string>(""); // Nuevo estado para la fecha de departure
+	const [date, setDate] = useState<string>("");
+	const [dateError, setDateError] = useState<string | null>(null); // Nuevo estado para la fecha de departure
 	const [medicalInsurance, setMedicalInsurance] = useState<boolean>(false);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
 	const [selectedProductId, setSelectedProductId] = useState<string>("");
@@ -41,8 +42,10 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const sendBookingData = async (): Promise<void> => {
+		const token = localStorage.getItem("token"); // Obtén el token del localStorage
 		const iva = totalPrice < 200.0 ? 0 : totalPrice * 0.13;
 		const totalConIva = totalPrice + iva;
+
 		const bookingData = {
 			userId: user.user.id,
 			products: [
@@ -64,6 +67,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`, // Agrega el token en los headers
 					},
 					body: JSON.stringify(bookingData),
 				}
@@ -96,7 +100,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
 				setParticipants,
 				updateParticipants,
 				date,
-				setDate, // Proveedor de la nueva función setDate
+				setDate,
+				dateError,
+				setDateError, // Proveedor de la nueva función setDate
 				medicalInsurance,
 				setMedicalInsurance,
 				totalPrice,
