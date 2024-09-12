@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import AddProductPopup from "../AddProductPopup";
+import Swal from "sweetalert2";
 
 const Filters = ({ setFilters, products, user, onAddProduct }) => {
   const router = useRouter();
@@ -14,9 +15,38 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
 
   const handleSaveProduct = async (product) => {
     try {
-      await onAddProduct(product); // Call the fetch function to add the product
+      const result = await onAddProduct(product); // Llamada a la función para añadir el producto
+
+      // Verifica si la respuesta es exitosa
+      if (result.success) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Producto añadido!",
+          text: "El producto se ha añadido correctamente.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#FF6B00", // Color naranja
+        });
+      } else {
+        // Si no es exitoso, muestra un mensaje de error
+        Swal.fire({
+          icon: "error",
+          title: "Error al añadir el producto",
+          text:
+            result.message ||
+            "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+          confirmButtonText: "OK",
+        });
+      }
     } catch (error) {
       console.error("Error saving product:", error);
+
+      // Muestra una alerta en caso de error en la solicitud
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar el producto",
+        text: "Ocurrió un error al guardar el producto. Por favor, intenta de nuevo.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -60,18 +90,19 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
 
     filterUpdateTimeout.current = setTimeout(() => {
       const queryParams = new URLSearchParams(window.location.search);
-      queryParams.delete("categories");
 
+      // Recorre los nuevos filtros para actualizar los parámetros de la URL
       Object.entries(newFilters).forEach(([key, filterArray]) => {
-        if (Array.isArray(filterArray)) {
+        queryParams.delete(key); // Elimina el filtro actual antes de agregar el actualizado
+
+        if (Array.isArray(filterArray) && filterArray.length > 0) {
           filterArray.forEach((filterValue) => {
-            if (typeof filterValue === "string") {
-              queryParams.append(key, filterValue.toLowerCase());
-            }
+            queryParams.append(key, filterValue.toLowerCase());
           });
         }
       });
 
+      // Actualiza la URL con los nuevos parámetros
       router.push(`?${queryParams.toString()}`);
     }, 500); // Debounce 500ms
   };
@@ -79,14 +110,17 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
   const handleFilterChange = (category, value) => {
     const updatedFilters = { ...selectedFilters };
 
+    // Si ya está seleccionado, lo elimina
     if (updatedFilters[category].includes(value)) {
       updatedFilters[category] = updatedFilters[category].filter(
         (item) => item !== value
       );
     } else {
+      // Si no está seleccionado, lo añade
       updatedFilters[category].push(value);
     }
 
+    // Actualiza el estado y los parámetros de la URL
     setSelectedFilters(updatedFilters);
     setFilters(updatedFilters);
     updateQueryParams(updatedFilters);

@@ -1,17 +1,17 @@
 import React from "react";
 
 const ImagePrincipal = () => {
-	return (
-		<div className="h-[100vh] bg-cover bg-center bg-[url('https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547903/Home/h5mlztmutgevgis4ume5.png')] rounded-2xl flex-col items-center justify-around flex w-full relative overflow-x-hidden">
-			<div className="flex flex-col items-center mt-44 max-sm:mt-24">
-				<h1 className="text-6xl text-white font-jua max-sm:text-3xl">
-					¡Todo el turismo, está aquí!
-				</h1>
-				<h2 className="text-3xl text-gray-300 text-opacity-80 font-jua max-sm:text-2xl">
-					explora sin límites, vive cada destino
-				</h2>
-			</div>
-			<div className="bg-slate-50 w-[650px] h-24 rounded-2xl flex items-center justify-center max-sm:w-[20rem] max-sm:h-14 max-sm:text-sm">
+  return (
+    <div className="h-[100vh] bg-cover bg-center bg-[url('https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547903/Home/h5mlztmutgevgis4ume5.png')] rounded-2xl flex-col items-center justify-around flex w-full relative overflow-x-hidden">
+      <div className="flex flex-col items-center mt-44 max-sm:mt-24 mb-36">
+        <h1 className="text-6xl text-white font-jua max-sm:text-3xl">
+          ¡Todo el turismo, está aquí!
+        </h1>
+        <h2 className="text-3xl text-gray-300 text-opacity-80 font-jua max-sm:text-2xl">
+          explora sin límites, vive cada destino
+        </h2>
+      </div>
+      {/*			<div className="bg-slate-50 w-[650px] h-24 rounded-2xl flex items-center justify-center max-sm:w-[20rem] max-sm:h-14 max-sm:text-sm">
 				<div className="flex items-center">
 					<img src="/Symbol.png" alt="" />
 					<input
@@ -23,9 +23,9 @@ const ImagePrincipal = () => {
 						Buscar
 					</button>
 				</div>
-			</div>
-		</div>
-	);
+	</div>*/}
+    </div>
+  );
 };
 
 export default ImagePrincipal;

@@ -1,6 +1,7 @@
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { addProduct } from "@/lib/fetchProduct";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 
 const AddProductPopup = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
         .map((cat) => cat.trim());
       productData.append("categories", JSON.stringify(categoriesArray));
 
-      // Usa forEach en lugar de for...of
+      // Logging de datos enviados
       productData.forEach((value, key) => {
         console.log(`${key}: ${value}`);
       });
@@ -60,9 +61,26 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
       const addedProduct = await addProduct(productData);
       console.log("Producto añadido:", addedProduct);
 
+      // Mostrar alerta de éxito
+      Swal.fire({
+        icon: "success",
+        title: "¡Producto añadido!",
+        text: "El producto se ha añadido exitosamente.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#FF6B00", // Color naranja
+      });
+
       onClose();
     } catch (error) {
       console.error("Error al añadir el producto:", error);
+
+      // Mostrar alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "¡Error!",
+        text: "Hubo un error al añadir el producto. Inténtalo de nuevo.",
+        confirmButtonText: "OK",
+      });
     }
   };
 

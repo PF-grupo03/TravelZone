@@ -43,15 +43,17 @@ export async function getOrdersByUserId(id: string): Promise<IOrderResponse[]> {
 }
 
 export async function addProduct(product: FormData): Promise<IProduct> {
-  const token = localStorage.getItem("token"); // Obtén el token del localStorage
+  const token = localStorage.getItem("token");
+  console.log(localStorage.getItem("token"));
+
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/products`,
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`, // Añade el token al encabezado
+        Authorization: `Bearer ${token}`,
       },
-      body: product, // FormData maneja las imágenes y los datos del producto
+      body: product,
     }
   );
 
