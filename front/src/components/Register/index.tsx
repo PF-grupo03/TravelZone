@@ -246,7 +246,7 @@ function Register() {
 
       <div className=" mt-6 sm:mt-0 max-lg:hidden">
         <img
-          src="/register.jpg"
+          src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726111410/SingIn-SingUp/xt3x2xxmvgxkhdsxoupk.jpg"
           alt="Register"
           className="rounded-lg sm:rounded-r-lg"
         />

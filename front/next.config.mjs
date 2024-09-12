@@ -28,6 +28,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "media.kasperskydaily.com",
 			},
+			{
+				protocol: "https", 
+				hostname: 'asset.cloudinary.com', 
+			}
 		],
 	},
 };

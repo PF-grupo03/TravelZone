@@ -15,24 +15,22 @@ function PulpoDesktop() {
 		<div className="min-h-screen flex justify-center bg-white mb-40">
 			<div className="relative w-full max-w-4xl">
 				<div className="absolute inset-0 flex items-center justify-center">
-					<Image
-						src="/Imagenes Pulpo/Logo.png"
+					<img
+						src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104809/Logo_nhy6eh.png"
 						alt="Travel Agency Logo"
 						width={300}
 						height={300}
 						className="w-80 h-80"
 					/>
 				</div>
-
-				{/* Resto del código del primer Pulpo con posicionamiento absoluto */}
 				<div
 					className={`absolute transition-all duration-300 ${
 						hovered ? "opacity-100" : "opacity-0"
 					} top-[60%] left-[72%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-						<Image
-							src="/Imagenes Pulpo/Pesca.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104815/Pesca_lu4npb.jpg"
 							alt="Pesca Deportiva"
 							width={1200}
 							height={800}
@@ -50,8 +48,8 @@ function PulpoDesktop() {
 					} top-[30%] left-[70%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-						<Image
-							src="/Imagenes Pulpo/Aves.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104782/Aves_gaaej0.jpg"
 							alt="Avistamiento de Aves"
 							width={1200}
 							height={800}
@@ -70,8 +68,8 @@ function PulpoDesktop() {
 				>
 					<Link href="/paquetes">
 						<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-							<Image
-								src="/Imagenes Pulpo/Vuelo.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726110337/p9ujsgut3oomp4lu3qaz.jpg"
 								alt="Vuelos"
 								width={1200}
 								height={800}
@@ -88,8 +86,8 @@ function PulpoDesktop() {
 					} top-[85%] left-[38%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full hover:scale-110 duration-300 hover:bg-orange-400 ">
-						<Image
-							src="/Imagenes Pulpo/Alojamiento.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726099531/Alojamiento_gw7ju2.jpg"
 							alt="Alojamientos"
 							width={1200}
 							height={800}
@@ -107,8 +105,8 @@ function PulpoDesktop() {
 					} top-[60%] left-[3%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full -ml-10  hover:scale-110 duration-300 hover:bg-orange-400  ">
-						<Image
-							src="/Imagenes Pulpo/Diseño2.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104783/Dise%C3%B1o2_gxupmt.jpg"
 							alt="Diseño Sonrisa"
 							width={1200}
 							height={800}
@@ -126,8 +124,8 @@ function PulpoDesktop() {
 					} top-[30%] left-[3%] transform -translate-x-1/2 -translate-y-1/2`}
 				>
 					<div className="flex items-center justify-center space-x-2 p-4 bg-gray-100 rounded-full -ml-10 hover:scale-110 duration-300 hover:bg-orange-400 ">
-						<Image
-							src="/Imagenes Pulpo/Renta.jpg"
+						<img
+							src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104823/Renta_ua945p.jpg"
 							alt="Renta de Carros"
 							width={1200}
 							height={800}
@@ -148,8 +146,8 @@ function PulpoMobile() {
 		<div className="flex flex-col items-center bg-white mb-40 lg:flex-row lg:my-10 lg:min-h-full">
 			<div className="w-full">
 				<div className="flex justify-center mb-8 lg:mb-0 max-lg:w-2/3 max-lg:justify-end">
-					<Image
-						src="/Imagenes Pulpo/Logo.jpeg"
+					<img
+						src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104809/Logo_nhy6eh.png"
 						alt="Travel Agency Logo"
 						width={300}
 						height={300}
@@ -161,8 +159,8 @@ function PulpoMobile() {
 				<div className="flex flex-col space-y-4">
 					<div className="flex justify-center items-center">
 						<div className="flex items-center justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Pesca.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104815/Pesca_lu4npb.jpg"
 								alt="Pesca Deportiva"
 								width={300}
 								height={300}
@@ -176,8 +174,8 @@ function PulpoMobile() {
 
 					<div className="flex justify-center items-center">
 						<div className="flex items-center justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Aves.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104782/Aves_gaaej0.jpg"
 								alt="Avistamiento de Aves"
 								width={1200}
 								height={800}
@@ -191,8 +189,8 @@ function PulpoMobile() {
 
 					<div className="flex justify-center items-center ">
 						<div className="flex items-center justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Vuelo.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726110337/p9ujsgut3oomp4lu3qaz.jpg"
 								alt="Pesca Deportiva"
 								width={300}
 								height={300}
@@ -206,8 +204,8 @@ function PulpoMobile() {
 
 					<div className="flex justify-center items-center">
 						<div className="flex items-center justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Alojamiento.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726099531/Alojamiento_gw7ju2.jpg"
 								alt="Alojamientos"
 								width={1200}
 								height={800}
@@ -221,8 +219,8 @@ function PulpoMobile() {
 
 					<div className="flex justify-center items-center">
 						<div className="flex items-center justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Diseño2.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104783/Dise%C3%B1o2_gxupmt.jpg"
 								alt="Diseño Sonrisa"
 								width={1200}
 								height={800}
@@ -236,8 +234,8 @@ function PulpoMobile() {
 
 					<div className="flex justify-center items-center">
 						<div className="flex items-center  justify-center space-x-2 p-4 w-1/4 bg-gray-100 rounded-full hover:scale-105 duration-300 hover:bg-orange-400 max-lg:w-2/3">
-							<Image
-								src="/Imagenes Pulpo/Renta.jpg"
+							<img
+								src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104823/Renta_ua945p.jpg"
 								alt="Renta de Carros"
 								width={1200}
 								height={800}

@@ -21,7 +21,7 @@ const Navbar = () => {
     <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 max-sm:w-screen">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="/Logo.png" className="h-12" alt="Turobelix Logo" />
+          <img src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726111289/liupdky5x3x9i8kcovtt.png" className="h-12" alt="Turobelix Logo" />
         </a>
         <div className="md:hidden flex items-center">
           <button

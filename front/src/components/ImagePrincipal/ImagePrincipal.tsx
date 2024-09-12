@@ -2,7 +2,7 @@ import React from "react";
 
 const ImagePrincipal = () => {
 	return (
-		<div className="h-[100vh] bg-cover bg-center bg-[url('/Principal.png')] rounded-2xl flex-col items-center justify-around flex w-full relative overflow-x-hidden">
+		<div className="h-[100vh] bg-cover bg-center bg-[url('https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547903/Home/h5mlztmutgevgis4ume5.png')] rounded-2xl flex-col items-center justify-around flex w-full relative overflow-x-hidden">
 			<div className="flex flex-col items-center mt-44 max-sm:mt-24">
 				<h1 className="text-6xl text-white font-jua max-sm:text-3xl">
 					¡Todo el turismo, está aquí!

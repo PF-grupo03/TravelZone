@@ -151,7 +151,7 @@ const Login = () => {
 
       <div className="w-full md:w-96 mt-6 sm:mt-0 max-md:hidden">
         <img
-          src="/AvionLogin.jpg"
+          src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1725552322/SingIn-SingUp/sozouj4oqnznhqhombo2.jpg"
           alt="Resort"
           className="w-full rounded-lg sm:rounded-r-lg"
         />
