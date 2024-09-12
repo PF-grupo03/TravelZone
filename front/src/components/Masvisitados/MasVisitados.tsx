@@ -19,7 +19,7 @@ const MasVisitados = () => {
 			alt: "Roma",
 		},
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071635/travel_zone_cloudinary/Mas%20visitados/xd8af4ubadwchi07jl3b.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547927/Destinos%20mas%20visitados/yitaq3nlompvgvjipip2.png",
 			alt: "Sudáfrica",
 		},
 		{
