@@ -17,7 +17,7 @@ function PulpoDesktop() {
 				<div className="absolute inset-0 flex items-center justify-center">
 					<img
 						src="https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104809/Logo_nhy6eh.png"
-						alt="Travel Agency Logo"
+            alt="Travel Agency Logo"
 						width={300}
 						height={300}
 						className="w-80 h-80"

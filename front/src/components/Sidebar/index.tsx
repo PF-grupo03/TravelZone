@@ -1,35 +1,49 @@
+// profile/Sidebar.tsx
 import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
 const Sidebar = () => {
-  const { user } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
-  // Verificación para asegurar que user?.user esté definido
-  if (!user?.user) {
-    return null; // O un componente de loading, si prefieres
-  }
+	if (!user?.user) {
+		return null;
+	}
 
-  return (
-    <div className="mt-10">
-      <div className="w-64 bg-white shadow-lg">
-        <ul className="p-4">
-          <li className="mb-4">
-            <Link href="/dashboard/profile">Ajuste de cuenta</Link>
-          </li>
-          <li className="mb-4">
-            <Link href="/dashboard/orders">Tus órdenes de compra</Link>
-          </li>
-          {/* Solo mostrar el control de usuarios si el usuario tiene el rol de "admin" */}
-          {user.user.isAdmin && (
-            <li className="mb-4">
-              <Link href="/dashboard/admin">Control de usuarios</Link>
-            </li>
-          )}
-        </ul>
-      </div>
-    </div>
-  );
+	return (
+		<div className="w-64 h-screen bg-white shadow-lg">
+			<div className="p-4 mt-20">
+				<ul>
+					<li className="mb-4">
+						<Link
+							href="/dashboard/"
+							className="text-gray-700 hover:text-blue-600"
+						>
+							Ajuste de cuenta
+						</Link>
+					</li>
+					<li className="mb-4">
+						<Link
+							href="/dashboard/orders"
+							className="text-gray-700 hover:text-blue-600"
+						>
+							Tus órdenes de compra
+						</Link>
+					</li>
+					{user.user.isAdmin && (
+						<li className="mb-4">
+							<Link
+								href="/dashboard/admin"
+								className="text-gray-700 hover:text-blue-600"
+							>
+								Control de usuarios
+							</Link>
+						</li>
+					)}
+				</ul>
+			</div>
+		</div>
+	);
 };
 
 export default Sidebar;

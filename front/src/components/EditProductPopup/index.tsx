@@ -12,14 +12,18 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
     location: tour.location,
     duration: tour.duration,
     stock: tour.stock || "", // Asegúrate de que sea string inicialmente
-    categories: tour.categories
-      ? tour.categories.map((cat) => cat.name).join(", ")
-      : "",
+    categories: tour.categories ? tour.categories.join(", ") : "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Handle category input specifically
+    if (name === "categories") {
+      const categoriesArray = value.split(",").map((cat) => cat.trim()); // Split, trim, and convert to array
+      setFormData((prev) => ({ ...prev, [name]: categoriesArray }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -31,10 +35,14 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
       price: parseFloat(formData.price) || 0, // Convierte price a número, default 0
       stock: parseInt(formData.stock) || 0, // Convierte stock a número entero, default 0
       categories: formData.categories
-        ? formData.categories.split(",").map((cat) => cat.trim()) // Convierte a array de strings
+        ? formData.categories
+            .toString()
+            .split(",")
+            .map((cat) => cat.trim()) // Convierte a array de strings
         : [], // Envía array vacío si no hay categorías
     };
 
+    console.log("Data sent to API:", updatedProduct);
     // Validación adicional si lo necesitas
     if (isNaN(updatedProduct.price)) {
       alert("El precio debe ser un número válido.");
@@ -184,7 +192,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
           </div>
           {/* Categorías */}
           <div className="mb-4">
-            <label className="block text-sm font-medium">Categorías</label>
+            <label className="block text-sm font-medium">
+              Categorías (ejemplo: argentina,américa)
+            </label>
             <input
               type="text"
               name="categories"
