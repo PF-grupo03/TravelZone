@@ -3,19 +3,19 @@ import { IUserResponse } from "@/types";
 import { updateUser, deleteUser, changePassword } from "@/lib/fetchUser";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
+import { HiEye, HiEyeOff } from "react-icons/hi"; // Importa los íconos de ojo
 
 interface AccountSettingsProps {
   user: Partial<IUserResponse> | null;
 }
 
 const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
-  const { user: loggedInUser, logout } = useContext(UserContext); // Import logout function
+  const { user: loggedInUser, logout } = useContext(UserContext);
 
   const [username, setUsername] = useState(loggedInUser?.user?.username || "");
   const [email, setEmail] = useState(loggedInUser?.user?.email || "");
   const [password, setPassword] = useState("");
-
-  console.log("Datos iniciales del usuario:", loggedInUser);
+  const [showPassword, setShowPassword] = useState(false); // Controla la visibilidad de la contraseña
 
   const handleSubmit = async () => {
     if (!loggedInUser?.user?.id) {
@@ -29,12 +29,10 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     }
 
     try {
-      // Actualizar solo el nombre de usuario si ha cambiado
       if (username !== loggedInUser.user.username) {
         await updateUser(loggedInUser.user.id, { username });
       }
 
-      // Solo cambiar la contraseña si el campo de contraseña no está vacío
       if (password.trim()) {
         await changePassword(loggedInUser.user.id, password);
       }
@@ -44,7 +42,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
         title: "¡Actualización exitosa!",
         text: "La información del usuario ha sido actualizada exitosamente.",
         confirmButtonText: "OK",
-        confirmButtonColor: "#FF6B00", // Color naranja
+        confirmButtonColor: "#FF6B00",
       });
     } catch (error) {
       Swal.fire({
@@ -74,7 +72,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#FF6B00", // Color naranja
+      confirmButtonColor: "#FF6B00",
       cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -85,11 +83,9 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
             title: "¡Cuenta eliminada!",
             text: "Tu cuenta ha sido eliminada permanentemente.",
             confirmButtonText: "OK",
-            confirmButtonColor: "#FF6B00", // Color naranja
+            confirmButtonColor: "#FF6B00",
           });
-
-          // Logout after successful deletion
-          logout(); // Call logout to remove user from local storage
+          logout();
         } catch (error) {
           Swal.fire({
             icon: "error",
@@ -130,15 +126,22 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       <div className="flex items-center">
         <label htmlFor="login-password" className="w-full">
           <span className="text-sm text-gray-500">Nueva contraseña</span>
-          <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
+          <div className="relative flex items-center overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="login-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
               placeholder="***********"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600"
+            >
+              {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
+            </button>
           </div>
         </label>
       </div>
