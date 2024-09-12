@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { IUserResponse } from "@/types";
-import { updateUser, deleteUser } from "@/lib/fetchUser";
+import { updateUser, deleteUser, changePassword } from "@/lib/fetchUser";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 
@@ -28,33 +28,29 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       return;
     }
 
-    console.log("Valores del formulario:", { username, password });
-
     try {
-      const updatedUserData = {
-        username:
-          username !== loggedInUser?.user.username ? username : undefined,
-        password: password || undefined,
-      };
+      // Actualizar solo el nombre de usuario si ha cambiado
+      if (username !== loggedInUser.user.username) {
+        await updateUser(loggedInUser.user.id, { username });
+      }
 
-      const response = await updateUser(loggedInUser.user.id, updatedUserData);
-
-      console.log("Respuesta de updateUser:", response);
+      // Solo cambiar la contraseña si el campo de contraseña no está vacío
+      if (password.trim()) {
+        await changePassword(loggedInUser.user.id, password);
+      }
 
       Swal.fire({
         icon: "success",
         title: "¡Actualización exitosa!",
-        text: "Información del usuario actualizada exitosamente.",
+        text: "La información del usuario ha sido actualizada exitosamente.",
         confirmButtonText: "OK",
         confirmButtonColor: "#FF6B00", // Color naranja
       });
     } catch (error) {
-      console.error("Error al actualizar el usuario:", error);
-
       Swal.fire({
         icon: "error",
         title: "¡Error al actualizar!",
-        text: "Error al actualizar la información del usuario. Inténtalo nuevamente.",
+        text: "Hubo un error al actualizar la información. Por favor, inténtalo nuevamente.",
         confirmButtonText: "OK",
       });
     }
