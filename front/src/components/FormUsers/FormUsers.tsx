@@ -1,15 +1,21 @@
 "use client";
 import BookingContext from "@/context/BookingContext";
 import { Participant } from "@/types";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 const FormUsers = () => {
 	const { participants, setParticipants, adults, kids } =
 		useContext(BookingContext);
 
-	const [newParticipants, setNewParticipants] =
-		useState<Participant[]>(participants);
-	const [isFormValid, setIsFormValid] = useState<boolean>(true);
+	const [newParticipants, setNewParticipants] = useState<Participant[]>(
+		participants.length > 0 ? participants : [{} as Participant]
+	);
+
+	useEffect(() => {
+		if (newParticipants.length === 0) {
+			setNewParticipants([{} as Participant]);
+		}
+	}, [newParticipants]);
 
 	const handleParticipantChange = (
 		index: number,
@@ -37,7 +43,7 @@ const FormUsers = () => {
 				<ol className="items-center flex w-full max-w-2xl text-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-base">
 					<li className="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
 						<span className="mt-10 flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden">
-							Information
+							Informacion
 						</span>
 					</li>
 				</ol>
@@ -46,7 +52,7 @@ const FormUsers = () => {
 					<div className="min-w-0 flex-1 space-y-8">
 						<div className="space-y-4">
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								Participant Details
+							Datos del participante
 							</h3>
 
 							<div className=" d mt-4 ">
@@ -65,7 +71,7 @@ const FormUsers = () => {
 														htmlFor={`participant_name_${index}`}
 														className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 													>
-														Name
+														Nombre
 													</label>
 													<input
 														type="text"
@@ -101,7 +107,7 @@ const FormUsers = () => {
 														htmlFor={`participant_cellphone_${index}`}
 														className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 													>
-														Cellphone
+														Numero de Telefono
 													</label>
 													<input
 														type="text"

@@ -7,15 +7,15 @@ const MasVisitados = () => {
 
 	const images = [
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071635/travel_zone_cloudinary/Mas%20visitados/cukrwmdol5fxy7ignkrw.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547922/Destinos%20mas%20visitados/je04jfl4vnjon5sbnfej.png",
 			alt: "París",
 		},
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071636/travel_zone_cloudinary/Mas%20visitados/hvsfdpn7do3gzrmgp0rd.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547922/Destinos%20mas%20visitados/fs3001cpmtw02lmv9edk.png",
 			alt: "Argentina",
 		},
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071636/travel_zone_cloudinary/Mas%20visitados/kemyiysg0kiwi7fqj1b0.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547926/Destinos%20mas%20visitados/nxzdlzaj2ezbxrf4uxod.png",
 			alt: "Roma",
 		},
 		{
@@ -23,11 +23,11 @@ const MasVisitados = () => {
 			alt: "Sudáfrica",
 		},
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071638/travel_zone_cloudinary/Mas%20visitados/yr5aqoo3eipkirjfiqyh.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547926/Destinos%20mas%20visitados/jl7zubfy13bucvlxk7yo.png",
 			alt: "Japón",
 		},
 		{
-			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725071636/travel_zone_cloudinary/Mas%20visitados/bembp8uvazxo6m8jyuez.png",
+			src: "https://res.cloudinary.com/dfaej4bi8/image/upload/v1725547923/Destinos%20mas%20visitados/jzgmxyw0ieqnfbjykeqe.png",
 			alt: "España",
 		},
 	];

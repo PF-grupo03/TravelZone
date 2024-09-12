@@ -8,7 +8,7 @@ import BookingContext from "@/context/BookingContext";
 
 interface BookingCardProps {
 	price: number;
-	productId: string; // Nueva propiedad para el ID del producto
+	productId: string;
 }
 
 const BookingCard = ({ price, productId }: BookingCardProps) => {
@@ -16,6 +16,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 		adults,
 		setAdults,
 		kids,
+		date,
 		setKids,
 		medicalInsurance,
 		setMedicalInsurance,
@@ -32,6 +33,12 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 	}, [adults, kids, medicalInsurance, price]);
 
 	const handleBookNow = () => {
+		if (!date) {
+			alert(
+				"Por favor, selecciona una fecha antes de proceder con la reserva."
+			);
+			return;
+		}
 		setTotalPrice(localTotal);
 		setSelectedProductId(productId); // Establecer el ID del producto en el contexto
 	};
@@ -64,7 +71,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 
 				<div className="mt-4 flex justify-center">
 					<button className="text-lg font-semibold border-b-2 border-teal-500 pb-1 mr-4">
-						Booking Form
+					    Formulario de reserva
 					</button>
 				</div>
 
@@ -126,14 +133,14 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 								checked={medicalInsurance}
 								onChange={() => handleMedicalInsuranceChange()}
 							/>
-							Medical Insurance ($45)
+							Seguro médico ($45)
 						</label>
 					</div>
 				</div>
 
 				<Link href="/checkout" onClick={handleBookNow}>
 					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-						BOOK NOW FOR ${localTotal}
+					    RESERVA AHORA PARA ${localTotal}
 					</button>
 				</Link>
 			</div>
