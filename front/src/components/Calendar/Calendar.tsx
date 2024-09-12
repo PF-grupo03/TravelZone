@@ -8,17 +8,16 @@ import { useContext } from "react";
 import BookingContext from "../../context/BookingContext";
 
 export default function DatePickerValue() {
-	const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-	const { setDate } = useContext(BookingContext);
-	const [error, setError] = React.useState<string | null>(null); // Para manejar errores
+	const [value, setValue] = React.useState<Dayjs | null>(null); // Inicializa como null para forzar la selección de fecha
+	const { setDate, dateError, setDateError } = useContext(BookingContext);
 
 	const handleDepartureDateChange = (newValue: Dayjs | null) => {
 		setValue(newValue);
 		if (newValue) {
 			setDate(newValue.format("YYYY-MM-DD"));
-			setError(null); // Resetea el error si la fecha es válida
+			setDateError(null); // Resetea el error si la fecha es válida
 		} else {
-			setError("Por favor, selecciona una fecha válida.");
+			setDateError("Por favor, selecciona una fecha válida.");
 		}
 	};
 
@@ -28,7 +27,7 @@ export default function DatePickerValue() {
 				<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
 					<DatePicker
 						label="Departure date"
-						value={null}
+						value={value} // Usa value del estado para reflejar la fecha seleccionada
 						onChange={handleDepartureDateChange}
 						minDate={dayjs()}
 						slotProps={{
@@ -53,10 +52,9 @@ export default function DatePickerValue() {
 											borderWidth: "2px", // Ajustar grosor
 										},
 									},
-									// Eliminar el borde azul adicional del input
 									"& .MuiInputBase-input": {
-										boxShadow: "none !important", // Deshabilitar cualquier sombra adicional
-										outline: "none !important", // Eliminar el outline azul extra
+										boxShadow: "none !important", // Deshabilitar sombras adicionales
+										outline: "none !important", // Eliminar outline extra
 									},
 									"& input": {
 										padding: "10px", // Ajustar padding del input
@@ -66,10 +64,8 @@ export default function DatePickerValue() {
 						}}
 					/>
 
-					{error && (
-						<span style={{ color: "red", fontSize: "12px" }}>
-							{error} {/* Mensaje de error si aplica */}
-						</span>
+					{dateError && (
+						<span style={{ color: "red", fontSize: "12px" }}>{dateError}</span>
 					)}
 				</div>
 			</LocalizationProvider>
