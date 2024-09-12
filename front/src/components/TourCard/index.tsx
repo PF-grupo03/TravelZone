@@ -65,10 +65,10 @@ const TourCard = ({ tour }) => {
           ) : (
             <>
               <span className="text-xs text-orange-500 font-semibold">
-              Mejor precio garantizado
+                Mejor precio garantizado
               </span>
               <span className="text-xs text-orange-500 font-semibold">
-              Cancelación gratuita
+                Cancelación gratuita
               </span>
             </>
           )}
@@ -83,11 +83,11 @@ const TourCard = ({ tour }) => {
             </span>
           )}
           <span className="text-lg font-semibold text-red-600 ml-2">
-          De {tour.price} USD
+            De {tour.price} USD
           </span>
         </div>
         <button className="bg-[#EB662B] text-white mt-4 py-2 px-6 rounded text-sm hover:bg-orange-600 transition duration-200 ">
-          <a href={`/products/${tour.id}`}>View Details</a>
+          <a href={`/products/${tour.id}`}>Ver Detalles</a>
         </button>
       </div>
       {showEditPopup && (
