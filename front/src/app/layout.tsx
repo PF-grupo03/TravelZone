@@ -5,6 +5,7 @@ import "./globals.css";
 import Head from "./head";
 import { BookingProvider } from "@/context/BookingContext";
 import DatePickerValue from "@/components/Calendar/Calendar";
+import ClientSessionProvider from "@/components/ClientSessionProvider/ClientSessionProvider"; // Ajusta la ruta según donde lo coloques
 
 export const metadata = {
 	title: "Travel Zone",
@@ -23,13 +24,15 @@ export default function RootLayout({
 				<Head />
 			</head>
 			<body className="flex flex-col min-h-screen">
-				<UserProvider>
-					<BookingProvider>
-						<Navbar />
-						<main className="flex-grow">{children}</main>
-						<Footer />
-					</BookingProvider>
-				</UserProvider>
+				<ClientSessionProvider>
+					<UserProvider>
+						<BookingProvider>
+							<Navbar />
+							<main className="flex-grow">{children}</main>
+							<Footer />
+						</BookingProvider>
+					</UserProvider>
+				</ClientSessionProvider>
 			</body>
 		</html>
 	);
