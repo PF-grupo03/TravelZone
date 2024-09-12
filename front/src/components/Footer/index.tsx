@@ -6,7 +6,7 @@ export default function Footer() {
 		<div
 			className="bg-cover bg-center h-64 flex flex-col sm:flex-row w-full p-4"
 			style={{
-				backgroundImage: 'url("/Imagenes Pulpo/Fondo3.jpeg")',
+				backgroundImage: 'url("https://res.cloudinary.com/dfaej4bi8/image/upload/v1726104791/Fondo3_nooybf.jpg")',
 				// marginLeft: "calc(-110px + var(--margin-adjust))",
 				// marginRight: "calc(-110px + var(--margin-adjust))",
 				// paddingLeft: "calc(110px - var(--margin-adjust))",
