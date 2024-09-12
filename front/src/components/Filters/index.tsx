@@ -19,7 +19,7 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
       console.error("Error saving product:", error);
     }
   };
-  //comentario
+
   const [isContinentOpen, setIsContinentOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
@@ -28,18 +28,15 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
 
   const filterUpdateTimeout = useRef(null);
 
-  const [priceRange, setPriceRange] = useState([0, 5000]);
-
   const [selectedFilters, setSelectedFilters] = useState({
     continents: [],
     countries: [],
     activities: [],
     medicalServices: [],
     rentals: [],
-    priceRange: [0, 5000],
   });
 
-  // Leer los parámetros de la URL y actualizar los filtros
+  // Leer los parámetros de la URL y actualizar los filtros (sin precio)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
@@ -49,17 +46,13 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
       activities: params.getAll("activities"),
       medicalServices: params.getAll("medicalServices"),
       rentals: params.getAll("rentals"),
-      priceRange: params.get("maxPrice")
-        ? [0, parseInt(params.get("maxPrice"), 10)]
-        : [0, 5000],
     };
 
     setSelectedFilters(filtersFromURL);
-    setPriceRange(filtersFromURL.priceRange);
     setFilters(filtersFromURL); // Actualiza los filtros en el componente padre
   }, [setFilters]);
 
-  // Debounced query update
+  // Debounced query update (sin precio)
   const updateQueryParams = (newFilters) => {
     if (filterUpdateTimeout.current) {
       clearTimeout(filterUpdateTimeout.current);
@@ -68,11 +61,6 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
     filterUpdateTimeout.current = setTimeout(() => {
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.delete("categories");
-      queryParams.delete("maxPrice");
-
-      if (newFilters.priceRange) {
-        queryParams.set("maxPrice", newFilters.priceRange[1]);
-      }
 
       Object.entries(newFilters).forEach(([key, filterArray]) => {
         if (Array.isArray(filterArray)) {
@@ -91,16 +79,12 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
   const handleFilterChange = (category, value) => {
     const updatedFilters = { ...selectedFilters };
 
-    if (category === "priceRange") {
-      updatedFilters[category] = value;
+    if (updatedFilters[category].includes(value)) {
+      updatedFilters[category] = updatedFilters[category].filter(
+        (item) => item !== value
+      );
     } else {
-      if (updatedFilters[category].includes(value)) {
-        updatedFilters[category] = updatedFilters[category].filter(
-          (item) => item !== value
-        );
-      } else {
-        updatedFilters[category].push(value);
-      }
+      updatedFilters[category].push(value);
     }
 
     setSelectedFilters(updatedFilters);
@@ -134,18 +118,6 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
     `transition-transform transform ${
       isOpen ? "rotate-180" : "rotate-0"
     } w-2.5 h-2.5 ms-3`;
-
-  const handlePriceChange = (value) => {
-    setPriceRange([0, value]);
-
-    if (filterUpdateTimeout.current) {
-      clearTimeout(filterUpdateTimeout.current);
-    }
-
-    filterUpdateTimeout.current = setTimeout(() => {
-      handleFilterChange("priceRange", [0, value]);
-    }, 500);
-  };
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
@@ -401,23 +373,6 @@ const Filters = ({ setFilters, products, user, onAddProduct }) => {
               ))}
             </ul>
           )}
-        </div>
-
-        {/* Price Range Filter */}
-        <div>
-          <h3 className="text-md font-semibold mb-2">Rango de Precio</h3>
-          <input
-            type="range"
-            min="0"
-            max="5000"
-            value={priceRange[1]}
-            onChange={(e) => handlePriceChange(Number(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
-          <div className="flex justify-between">
-            <span>${priceRange[0]}</span>
-            <span>${priceRange[1]}</span>
-          </div>
         </div>
 
         {user?.user?.isAdmin && (

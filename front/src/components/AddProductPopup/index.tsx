@@ -4,9 +4,9 @@ import { addProduct } from "@/lib/fetchProduct";
 
 const AddProductPopup = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    image: "",
-    image2: "",
-    image3: "",
+    image: null,
+    image2: null,
+    image3: null,
     title: "",
     description: "",
     description2: "",
@@ -18,39 +18,61 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+
+    if (files) {
+      setFormData((prev) => ({ ...prev, [name]: files[0] })); // Para archivos, usa files[0]
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const productData = {
-        ...formData,
-        categories: formData.categories.split(",").map((cat) => cat.trim()), // Convertimos la string de categorías a array
-      };
+      const productData = new FormData();
 
-      const addedProduct = await addProduct(productData); // Llamada al fetch
+      // Añadir las imágenes
+      if (formData.image) productData.append("image", formData.image);
+      if (formData.image2) productData.append("image2", formData.image2);
+      if (formData.image3) productData.append("image3", formData.image3);
+
+      // Añadir los demás datos
+      productData.append("title", formData.title);
+      productData.append("description", formData.description);
+      productData.append("description2", formData.description2);
+      productData.append("price", formData.price.toString());
+      productData.append("stock", formData.stock.toString());
+      productData.append("location", formData.location);
+      productData.append("duration", formData.duration);
+
+      // Convertir las categorías a array de strings
+      const categoriesArray = formData.categories
+        .split(",")
+        .map((cat) => cat.trim());
+      productData.append("categories", JSON.stringify(categoriesArray));
+
+      // Usa forEach en lugar de for...of
+      productData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+
+      const addedProduct = await addProduct(productData);
       console.log("Producto añadido:", addedProduct);
 
-      onClose(); // Cerrar el modal después de guardar
+      onClose();
     } catch (error) {
       console.error("Error al añadir el producto:", error);
-      // Aquí puedes mostrar un mensaje de error al usuario si es necesario
     }
   };
 
   return (
     <>
-      <Modal
-        show={isOpen}
-        size="4xl" // Ajustar el tamaño del modal
-        onClose={onClose}
-        dismissible={true}
-      >
+      <Modal show={isOpen} size="4xl" onClose={onClose} dismissible={true}>
         <Modal.Header></Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Campos para subir imágenes */}
             <div>
               <label className="block text-sm font-medium">
                 Imagen principal
@@ -63,8 +85,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
-            {/* Agregar campos para image2 e image3 */}
             <div>
               <label className="block text-sm font-medium">Imagen 2</label>
               <input
@@ -75,7 +95,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium">Imagen 3</label>
               <input
@@ -87,7 +106,7 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
               />
             </div>
 
-            {/* Otros campos: descripción, precio, etc. */}
+            {/* Otros campos */}
             <div>
               <label className="block text-sm font-medium">
                 Título del producto
@@ -120,8 +139,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
-            {/* Campos adicionales */}
             <div>
               <label className="block text-sm font-medium">Precio</label>
               <input
@@ -132,7 +149,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium">Ubicación</label>
               <input
@@ -143,7 +159,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium">Duración</label>
               <input
@@ -154,7 +169,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium">Stock</label>
               <input
@@ -165,7 +179,6 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
                 className="w-full border p-2 rounded-md"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium">
                 Categorías (separadas por comas)

@@ -23,17 +23,12 @@ export async function fetchProductById(id: string): Promise<IProduct> {
   return product;
 }
 
-export async function addProduct(
-  product: Omit<IProduct, "id">
-): Promise<IProduct> {
+export async function addProduct(product: FormData): Promise<IProduct> {
   const response = await fetch(
     `https://pf-grupo03-back.onrender.com/products`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
+      body: product, // FormData maneja las imágenes y los datos del producto
     }
   );
 
@@ -44,8 +39,7 @@ export async function addProduct(
     );
   }
 
-  const newProduct = await response.json();
-  return newProduct;
+  return response.json();
 }
 
 export async function updateProduct(
