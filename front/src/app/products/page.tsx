@@ -6,6 +6,7 @@ import TourList from "@/components/TourList";
 import { addProduct, fetchProducts } from "@/lib/fetchProduct";
 import { UserContext } from "@/context/userContext"; // Import UserContext
 import { debounce } from "@mui/material";
+import { FaSpinner } from "react-icons/fa"; // Importar FaSpinner para el loader
 
 const App = () => {
   const searchParams = useSearchParams(); // Usa useSearchParams
@@ -77,7 +78,7 @@ const App = () => {
       } finally {
         setIsLoading(false); // Hide loader
       }
-    }, 500); // 500ms debounce
+    });
 
     loadProducts();
   }, [filters, buildFilterQuery]);
@@ -108,7 +109,10 @@ const App = () => {
           </h1>
 
           {isLoading ? ( // Mostrar loader mientras se cargan los productos
-            <div className="text-center">Cargando productos...</div>
+            <div className="flex justify-center items-center h-screen">
+              <FaSpinner className="animate-spin text-4xl text-blue-500" />
+              <span className="ml-2 text-xl">Cargando productos...</span>
+            </div>
           ) : (
             <TourList tours={tours} />
           )}
