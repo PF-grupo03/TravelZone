@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect, useState, useCallback, useContext } from "react";
+import { useSearchParams } from "next/navigation"; // Cambia el import
 import Filters from "@/components/Filters";
 import TourList from "@/components/TourList";
 import { addProduct, fetchProducts } from "@/lib/fetchProduct";
-import { UserContext } from "@/context/userContext"; // Importar UserContext
+import { UserContext } from "@/context/userContext"; // Import UserContext
 import { debounce } from "@mui/material";
-import { FaSpinner } from "react-icons/fa"; // Importar el ícono del spinner
+import { FaSpinner } from "react-icons/fa"; // Importar FaSpinner para el loader
 
 const App = () => {
+
 	const [filters, setFilters] = useState({
 		continents: [],
 		countries: [],
@@ -34,6 +36,7 @@ const App = () => {
 			...filters.rentals,
 		];
 
+
 		allFilters.forEach((filter) => {
 			filterParams.append("categories", filter.toLowerCase());
 		});
@@ -52,8 +55,10 @@ const App = () => {
 				const filterQuery = buildFilterQuery();
 				console.log("Final filter query URL:", filterQuery);
 
+
 				const products = await fetchProducts(filterQuery);
 				console.log("Fetched products:", products);
+
 
 				setTours(products);
 			} catch (error) {
@@ -64,6 +69,7 @@ const App = () => {
 		}, 500), // 500ms debounce
 		[buildFilterQuery]
 	);
+
 
 	useEffect(() => {
 		loadProducts();
@@ -105,6 +111,7 @@ const App = () => {
 			</div>
 		</div>
 	);
+
 };
 
 export default App;

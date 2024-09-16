@@ -1,4 +1,3 @@
-import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { addProduct } from "@/lib/fetchProduct";
 import Swal from "sweetalert2"; // Importa SweetAlert2
@@ -84,144 +83,171 @@ const AddProductPopup = ({ isOpen, onClose, onSave }) => {
     }
   };
 
+  // Verifica si el modal debe estar abierto
+  if (!isOpen) return null;
+
   return (
-    <>
-      <Modal show={isOpen} size="4xl" onClose={onClose} dismissible={true}>
-        <Modal.Header></Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Campos para subir imágenes */}
-            <div>
-              <label className="block text-sm font-medium">
-                Imagen principal
-              </label>
-              <input
-                type="file"
-                name="image"
-                accept="image/png, image/jpeg"
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Imagen 2</label>
-              <input
-                type="file"
-                name="image2"
-                accept="image/png, image/jpeg"
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Imagen 3</label>
-              <input
-                type="file"
-                name="image3"
-                accept="image/png, image/jpeg"
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 max-h-[90vh] overflow-auto">
+        <button
+          type="button"
+          className="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          onClick={onClose}
+        >
+          <svg
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </button>
 
-            {/* Otros campos */}
-            <div>
-              <label className="block text-sm font-medium">
-                Título del producto
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">
-                Descripción principal
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Descripción 2</label>
-              <textarea
-                name="description2"
-                value={formData.description2}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Precio</label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Ubicación</label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Duración</label>
-              <input
-                type="text"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Stock</label>
-              <input
-                type="number"
-                name="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">
-                Categorías (separadas por comas)
-              </label>
-              <input
-                type="text"
-                name="categories"
-                value={formData.categories}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md"
-              />
-            </div>
+        <h3 className="text-lg font-semibold mb-4">Añadir Producto</h3>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Campos para subir imágenes */}
+          <div>
+            <label className="block text-sm font-medium">
+              Imagen principal
+            </label>
+            <input
+              type="file"
+              name="image"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Imagen 2</label>
+            <input
+              type="file"
+              name="image2"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Imagen 3</label>
+            <input
+              type="file"
+              name="image3"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
 
-            <div className="flex justify-end space-x-2">
-              <Button type="submit" className="bg-green-500">
-                Añadir Producto
-              </Button>
-              <Button color="gray" onClick={onClose}>
-                Cancelar
-              </Button>
-            </div>
-          </form>
-        </Modal.Body>
-      </Modal>
-    </>
+          {/* Otros campos */}
+          <div>
+            <label className="block text-sm font-medium">
+              Título del producto
+            </label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              Descripción principal
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Descripción 2</label>
+            <textarea
+              name="description2"
+              value={formData.description2}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Precio</label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Ubicación</label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Duración</label>
+            <input
+              type="text"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Stock</label>
+            <input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              Categorías (separadas por comas)
+            </label>
+            <input
+              type="text"
+              name="categories"
+              value={formData.categories}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+
+          <div className="flex justify-end space-x-2">
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-4 rounded-lg"
+            >
+              Añadir Producto
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-500 text-white py-2 px-4 rounded-lg"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
