@@ -1,8 +1,7 @@
-// components/BookingCard.tsx
 "use client";
 
 import React, { useContext, useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation"; // Usar el hook useRouter
 import DatePickerValue from "../Calendar/Calendar";
 import BookingContext from "@/context/BookingContext";
 
@@ -12,11 +11,13 @@ interface BookingCardProps {
 }
 
 const BookingCard = ({ price, productId }: BookingCardProps) => {
+	const router = useRouter(); // Obtener el router
 	const {
 		adults,
 		setAdults,
 		kids,
 		date,
+		dateError,
 		setKids,
 		medicalInsurance,
 		setMedicalInsurance,
@@ -30,17 +31,19 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 
 	useEffect(() => {
 		setLocalTotal(calculateTotal(price));
-	}, [adults, kids, medicalInsurance, price]);
+	}, [adults, kids, price, calculateTotal]);
 
 	const handleBookNow = () => {
-		if (!date) {
+		if (!date || dateError) {
 			alert(
-				"Por favor, selecciona una fecha antes de proceder con la reserva."
+				dateError ||
+					"Por favor, selecciona una fecha antes de proceder con la reserva."
 			);
 			return;
 		}
 		setTotalPrice(localTotal);
-		setSelectedProductId(productId); // Establecer el ID del producto en el contexto
+		setSelectedProductId(productId);
+		router.push("/checkout"); // Redirigir programáticamente
 	};
 
 	const handleAdultChange = (increment: number) => {
@@ -54,6 +57,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 		setKids(newKids);
 		updateParticipants(adults, newKids);
 	};
+
 	const handleMedicalInsuranceChange = () => {
 		setMedicalInsurance((prev: boolean) => !prev);
 	};
@@ -71,7 +75,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 
 				<div className="mt-4 flex justify-center">
 					<button className="text-lg font-semibold border-b-2 border-teal-500 pb-1 mr-4">
-					    Formulario de reserva
+						Formulario de reserva
 					</button>
 				</div>
 
@@ -86,6 +90,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 							<button
 								onClick={() => handleAdultChange(-1)}
 								className="bg-gray-200 px-2"
+								aria-label="Decrement adults"
 							>
 								-
 							</button>
@@ -93,6 +98,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 							<button
 								onClick={() => handleAdultChange(1)}
 								className="bg-gray-200 px-2"
+								aria-label="Increment adults"
 							>
 								+
 							</button>
@@ -108,6 +114,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 							<button
 								onClick={() => handleKidsChange(-1)}
 								className="bg-gray-200 px-2"
+								aria-label="Decrement kids"
 							>
 								-
 							</button>
@@ -115,6 +122,7 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 							<button
 								onClick={() => handleKidsChange(1)}
 								className="bg-gray-200 px-2"
+								aria-label="Increment kids"
 							>
 								+
 							</button>
@@ -131,18 +139,20 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 								type="checkbox"
 								className="mr-2"
 								checked={medicalInsurance}
-								onChange={() => handleMedicalInsuranceChange()}
+								onChange={handleMedicalInsuranceChange}
+								aria-label="Toggle medical insurance"
 							/>
 							Seguro médico ($45)
 						</label>
 					</div>
 				</div>
 
-				<Link href="/checkout" onClick={handleBookNow}>
-					<button className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold">
-					    RESERVA AHORA PARA ${localTotal}
-					</button>
-				</Link>
+				<button
+					className="w-full mt-6 bg-orange-500 text-white py-2 rounded-lg font-semibold"
+					onClick={handleBookNow}
+				>
+					RESERVA AHORA PARA ${localTotal}
+				</button>
 			</div>
 		</div>
 	);

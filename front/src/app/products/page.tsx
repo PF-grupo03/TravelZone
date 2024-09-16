@@ -9,117 +9,109 @@ import { debounce } from "@mui/material";
 import { FaSpinner } from "react-icons/fa"; // Importar FaSpinner para el loader
 
 const App = () => {
-  const searchParams = useSearchParams(); // Usa useSearchParams
-  const [filters, setFilters] = useState({
-    continents: [],
-    countries: [],
-    activities: [],
-    medicalServices: [],
-    name: "",
-  });
 
-  const [tours, setTours] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // Loader state
-  const { user } = useContext(UserContext); // Get the user from the context
+	const [filters, setFilters] = useState({
+		continents: [],
+		countries: [],
+		activities: [],
+		medicalServices: [],
+		rentals: [],
+		name: "",
+	});
 
-  // Use useCallback to memoize the filter query construction
-  const buildFilterQuery = useCallback(() => {
-    const filterParams = new URLSearchParams();
-    const { name, ...otherFilters } = filters;
+	const [tours, setTours] = useState([]);
+	const [isLoading, setIsLoading] = useState(false); // Estado para el loader
+	const { user } = useContext(UserContext); // Obtener el usuario desde el contexto
 
-    const allFilters = [
-      ...filters.continents,
-      ...filters.countries,
-      ...filters.activities,
-      ...filters.medicalServices,
-    ];
+	// Uso de useCallback para memorizar la función y evitar renderizados innecesarios
+	const buildFilterQuery = useCallback(() => {
+		const filterParams = new URLSearchParams();
+		const { name, ...otherFilters } = filters;
 
-    allFilters.forEach((filter) => {
-      filterParams.append("categories", filter.toLowerCase());
-    });
+		const allFilters = [
+			...filters.continents,
+			...filters.countries,
+			...filters.activities,
+			...filters.medicalServices,
+			...filters.rentals,
+		];
 
-    filterParams.set("name", name ? name.toLowerCase() : "");
 
-    const queryString = `?${filterParams.toString()}`;
-    return queryString;
-  }, [filters]);
+		allFilters.forEach((filter) => {
+			filterParams.append("categories", filter.toLowerCase());
+		});
 
-  // Set filters based on URL query on initial load
-  useEffect(() => {
-    const continents = searchParams.get("continents");
-    const countries = searchParams.get("countries");
-    const activities = searchParams.get("activities");
-    const medicalServices = searchParams.get("medicalServices");
-    const name = searchParams.get("name");
+		filterParams.set("name", name ? name.toLowerCase() : "");
 
-    const initialFilters = {
-      continents: continents ? [continents] : [],
-      countries: countries ? [countries] : [],
-      activities: activities ? [activities] : [],
-      medicalServices: medicalServices ? [medicalServices] : [],
-      name: name || "",
-    };
-    setFilters(initialFilters);
-  }, [searchParams]);
+		const queryString = `?${filterParams.toString()}`;
+		return queryString;
+	}, [filters]);
 
-  useEffect(() => {
-    const loadProducts = debounce(async () => {
-      setIsLoading(true); // Show loader
-      try {
-        const filterQuery = buildFilterQuery();
-        console.log("Final filter query URL:", filterQuery);
+	// Usar debounce en la función de carga de productos
+	const loadProducts = useCallback(
+		debounce(async () => {
+			setIsLoading(true); // Mostrar loader
+			try {
+				const filterQuery = buildFilterQuery();
+				console.log("Final filter query URL:", filterQuery);
 
-        const products = await fetchProducts(filterQuery);
-        console.log("Fetched products:", products);
 
-        setTours(products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setIsLoading(false); // Hide loader
-      }
-    });
+				const products = await fetchProducts(filterQuery);
+				console.log("Fetched products:", products);
 
-    loadProducts();
-  }, [filters, buildFilterQuery]);
 
-  const handleAddProduct = async (product) => {
-    try {
-      await addProduct(product);
-      console.log("Product added successfully");
-    } catch (error) {
-      console.error("Error adding product:", error);
-    }
-  };
+				setTours(products);
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			} finally {
+				setIsLoading(false); // Ocultar loader
+			}
+		}, 500), // 500ms debounce
+		[buildFilterQuery]
+	);
 
-  return (
-    <div className="mx-[110px]">
-      <div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
-        <aside className="w-full xl:w-1/4 xl:mr-6 mb-4 xl:mb-0">
-          <Filters
-            setFilters={setFilters}
-            products={tours}
-            user={user} // Pasar user a Filters
-            onAddProduct={handleAddProduct} // Manejar agregar producto
-          />
-        </aside>
-        <main className="w-full xl:w-3/4">
-          <h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
-            ¡Personaliza Tu Aventura!
-          </h1>
 
-          {isLoading ? ( // Mostrar loader mientras se cargan los productos
-            <div className="flex justify-center items-center h-screen">
-              <FaSpinner className="animate-spin text-4xl text-blue-500" />
-              <span className="ml-2 text-xl">Cargando productos...</span>
-            </div>
-          ) : (
-            <TourList tours={tours} />
-          )}
-        </main>
-      </div>
-    </div>
-  );
+	useEffect(() => {
+		loadProducts();
+	}, [filters, buildFilterQuery]);
+
+	const handleAddProduct = async (product) => {
+		try {
+			await addProduct(product);
+			console.log("Product added successfully");
+		} catch (error) {
+			console.error("Error adding product:", error);
+		}
+	};
+	return (
+		<div className="mx-[110px]">
+			<div className="flex flex-col xl:flex-row justify-center p-4 md:p-8 bg-white mt-8 md:mt-16">
+				<aside className="w-full xl:w-1/4 xl:mr-6 mb-4 xl:mb-0">
+					<Filters
+						setFilters={setFilters}
+						products={tours}
+						user={user} // Pasar user a Filters
+						onAddProduct={handleAddProduct} // Manejar agregar producto
+					/>
+				</aside>
+				<main className="w-full xl:w-3/4">
+					<h1 className="text-2xl font-bold mb-4 xl:mb-6 text-center xl:text-left">
+						¡Personaliza Tu Aventura!
+					</h1>
+
+					{isLoading ? ( // Mostrar spinner mientras se cargan los productos
+						<div className="flex justify-center items-center h-screen">
+							<FaSpinner className="animate-spin text-4xl text-blue-500" />
+							<span className="ml-2 text-xl">Cargando productos...</span>
+						</div>
+					) : (
+						<TourList tours={tours} />
+					)}
+				</main>
+			</div>
+		</div>
+	);
+
 };
 
 export default App;

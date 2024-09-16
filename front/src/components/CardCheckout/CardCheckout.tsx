@@ -12,7 +12,7 @@ const CardCheckout = () => {
 	const totalConIva = totalPrice + iva;
 
 	return (
-		<div className="w-full space-y-6 lg:mt-0 lg:max-w-xs xl:max-w-md">
+		<div className="w-full space-y-6 lg:mt-0 lg:max-w-xs xl:max-w-md mx-4 p-10">
 			<div className="flow-root">
 				<div className="mt-40 divide-y divide-gray-200 dark:divide-gray-800">
 					<dl className="flex items-center justify-between gap-4 py-3">
@@ -75,7 +75,7 @@ const CardCheckout = () => {
 				<ProceedToPaymentButton />
 
 				<p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-				Uno o más artículos en su carrito requieren una cuenta.{" "}
+					Uno o más artículos en su carrito requieren una cuenta.{" "}
 					<a
 						href="#"
 						title="Sign in or create an account now"
