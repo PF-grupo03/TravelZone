@@ -3,6 +3,7 @@ import Carousel from "@/components/Carrousel";
 import ImagePrincipal from "@/components/ImagePrincipal/ImagePrincipal";
 import MasVisitados from "@/components/Masvisitados/MasVisitados";
 import Pulpo from "@/components/pulpo";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <MasVisitados />
       <Carousel />
       <CardGrid />
+      <WhatsAppButton />
     </>
   );
 }

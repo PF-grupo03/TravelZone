@@ -72,7 +72,7 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-lg max-h-screen overflow-auto p-6">
+      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 max-h-[90vh] overflow-auto">
         <button
           type="button"
           className="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -92,11 +92,51 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
           </svg>
         </button>
 
-        <h3 className="text-lg font-semibold mb-4">Editar Producto</h3>
-        <form onSubmit={handleSubmit}>
+        <h3 className="text-lg font-semibold mb-4">Añadir Producto</h3>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Imagen principal */}
+          <div>
+            <label className="block text-sm font-medium">
+              Imagen principal
+            </label>
+            <input
+              type="file"
+              name="image"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+
+          {/* Imagen 2 */}
+          <div>
+            <label className="block text-sm font-medium">Imagen 2</label>
+            <input
+              type="file"
+              name="image2"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+
+          {/* Imagen 3 */}
+          <div>
+            <label className="block text-sm font-medium">Imagen 3</label>
+            <input
+              type="file"
+              name="image3"
+              accept="image/png, image/jpeg"
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md"
+            />
+          </div>
+
           {/* Título */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Título</label>
+          <div>
+            <label className="block text-sm font-medium">
+              Título del producto
+            </label>
             <input
               type="text"
               name="title"
@@ -105,9 +145,12 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
-          {/* Descripción */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Descripción</label>
+
+          {/* Descripción 1 */}
+          <div>
+            <label className="block text-sm font-medium">
+              Descripción principal
+            </label>
             <textarea
               name="description"
               value={formData.description}
@@ -115,9 +158,12 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
-          {/* Descripción adicional */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Descripción 2</label>
+
+          {/* Descripción 2 */}
+          <div>
+            <label className="block text-sm font-medium">
+              Descripción secundaria
+            </label>
             <textarea
               name="description2"
               value={formData.description2}
@@ -125,41 +171,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
-          {/* Imagen */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Imagen</label>
-            <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-          </div>
-          {/* Imagen 2 */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Imagen 2</label>
-            <input
-              type="text"
-              name="image2"
-              value={formData.image2}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-          </div>
-          {/* Imagen 3 */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Imagen 3</label>
-            <input
-              type="text"
-              name="image3"
-              value={formData.image3}
-              onChange={handleChange}
-              className="w-full border p-2 rounded-md"
-            />
-          </div>
+
           {/* Precio */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Precio</label>
             <input
               type="number"
@@ -169,8 +183,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Ubicación */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Ubicación</label>
             <input
               type="text"
@@ -180,8 +195,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Duración */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Duración</label>
             <input
               type="text"
@@ -191,8 +207,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Stock */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Stock</label>
             <input
               type="number"
@@ -202,10 +219,11 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Categorías */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">
-              Categorías (ejemplo: argentina,américa)
+              Categorías (separadas por comas)
             </label>
             <input
               type="text"
@@ -215,8 +233,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Latitud */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Latitud</label>
             <input
               type="number"
@@ -227,8 +246,9 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Longitud */}
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium">Longitud</label>
             <input
               type="number"
@@ -239,20 +259,23 @@ const EditProductPopup = ({ tour, onClose, onSave }) => {
               className="w-full border p-2 rounded-md"
             />
           </div>
+
           {/* Botones */}
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg"
-          >
-            Guardar
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-gray-500 text-white py-2 px-4 rounded-lg ml-2"
-          >
-            Cancelar
-          </button>
+          <div className="flex justify-end space-x-2">
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-4 rounded-lg"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-500 text-white py-2 px-4 rounded-lg"
+            >
+              Cancelar
+            </button>
+          </div>
         </form>
       </div>
     </div>
