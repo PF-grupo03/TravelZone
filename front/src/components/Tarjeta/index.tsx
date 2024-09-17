@@ -4,6 +4,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Usar el hook useRouter
 import DatePickerValue from "../Calendar/Calendar";
 import BookingContext from "@/context/BookingContext";
+import Swal from "sweetalert2";
 
 interface BookingCardProps {
 	price: number;
@@ -35,10 +36,12 @@ const BookingCard = ({ price, productId }: BookingCardProps) => {
 
 	const handleBookNow = () => {
 		if (!date || dateError) {
-			alert(
-				dateError ||
-					"Por favor, selecciona una fecha antes de proceder con la reserva."
-			);
+			Swal.fire({
+				icon: "error",
+				title: "¡Errores en el calendario!",
+				text: "Por favor, ingresa una fecha",
+				confirmButtonText: "OK",
+			});
 			return;
 		}
 		setTotalPrice(localTotal);
